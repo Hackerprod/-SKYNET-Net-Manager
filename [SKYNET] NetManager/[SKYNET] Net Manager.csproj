@@ -1,0 +1,540 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C39D0748-08CE-4128-9B7C-5DEBC8828270}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SKYNET</RootNamespace>
+    <AssemblyName>[SKYNET] Net Manager</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>1 %28111%29.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Control.Draggable">
+      <HintPath>..\..\..\..\..\Regueros\Compartido\drag\DragControlsDemo-master\packages\Control.Draggable.1.0.5049.269\Control.Draggable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class\BlurExtentions.cs" />
+    <Compile Include="Class\ControlMover.cs" />
+    <Compile Include="Class\DwmApi.cs" />
+    <Compile Include="Class\Host.cs" />
+    <Compile Include="Class\HostPinger\AsyncHostNameResolver.cs" />
+    <Compile Include="Class\HostPinger\HostPinger.cs" />
+    <Compile Include="Class\HostPinger\HostStatus.cs" />
+    <Compile Include="Class\HostPinger\IPingLogger.cs" />
+    <Compile Include="Class\HostPinger\Delegates.cs" />
+    <Compile Include="Class\HostPinger\IPScanHostState.cs" />
+    <Compile Include="Class\HostPinger\IPScanner.cs" />
+    <Compile Include="Class\HostPinger\IPScanRange.cs" />
+    <Compile Include="Class\HostPinger\PingResultsBuffer.cs" />
+    <Compile Include="Class\ImageHelper.cs" />
+    <Compile Include="Class\ImageManager.cs" />
+    <Compile Include="Class\MathHelper.cs" />
+    <Compile Include="Class\Media.cs" />
+    <Compile Include="Class\PortScanner.cs" />
+    <Compile Include="Class\ThreadManager.cs" />
+    <Compile Include="Class\websocket-sharp\ByteOrder.cs" />
+    <Compile Include="Class\websocket-sharp\CloseEventArgs.cs" />
+    <Compile Include="Class\websocket-sharp\CloseStatusCode.cs" />
+    <Compile Include="Class\websocket-sharp\CompressionMethod.cs" />
+    <Compile Include="Class\websocket-sharp\ErrorEventArgs.cs" />
+    <Compile Include="Class\websocket-sharp\Ext.cs" />
+    <Compile Include="Class\websocket-sharp\Fin.cs" />
+    <Compile Include="Class\websocket-sharp\Helper.cs" />
+    <Compile Include="Class\websocket-sharp\HttpBase.cs" />
+    <Compile Include="Class\websocket-sharp\HttpRequest.cs" />
+    <Compile Include="Class\websocket-sharp\HttpResponse.cs" />
+    <Compile Include="Class\websocket-sharp\LogData.cs" />
+    <Compile Include="Class\websocket-sharp\Logger.cs" />
+    <Compile Include="Class\websocket-sharp\LogLevel.cs" />
+    <Compile Include="Class\websocket-sharp\Mask.cs" />
+    <Compile Include="Class\websocket-sharp\MessageEventArgs.cs" />
+    <Compile Include="Class\websocket-sharp\Net\AuthenticationBase.cs" />
+    <Compile Include="Class\websocket-sharp\Net\AuthenticationChallenge.cs" />
+    <Compile Include="Class\websocket-sharp\Net\AuthenticationResponse.cs" />
+    <Compile Include="Class\websocket-sharp\Net\AuthenticationSchemes.cs" />
+    <Compile Include="Class\websocket-sharp\Net\Chunk.cs" />
+    <Compile Include="Class\websocket-sharp\Net\ChunkedRequestStream.cs" />
+    <Compile Include="Class\websocket-sharp\Net\ChunkStream.cs" />
+    <Compile Include="Class\websocket-sharp\Net\ClientSslConfiguration.cs" />
+    <Compile Include="Class\websocket-sharp\Net\Cookie.cs" />
+    <Compile Include="Class\websocket-sharp\Net\CookieCollection.cs" />
+    <Compile Include="Class\websocket-sharp\Net\CookieException.cs" />
+    <Compile Include="Class\websocket-sharp\Net\EndPointListener.cs" />
+    <Compile Include="Class\websocket-sharp\Net\EndPointManager.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpBasicIdentity.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpConnection.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpDigestIdentity.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpHeaderInfo.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpHeaderType.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpListener.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpListenerAsyncResult.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpListenerContext.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpListenerException.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpListenerPrefix.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpListenerPrefixCollection.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpListenerRequest.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpListenerResponse.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpRequestHeader.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpResponseHeader.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpStatusCode.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpStreamAsyncResult.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpUtility.cs" />
+    <Compile Include="Class\websocket-sharp\Net\HttpVersion.cs" />
+    <Compile Include="Class\websocket-sharp\Net\InputChunkState.cs" />
+    <Compile Include="Class\websocket-sharp\Net\InputState.cs" />
+    <Compile Include="Class\websocket-sharp\Net\LineState.cs" />
+    <Compile Include="Class\websocket-sharp\Net\NetworkCredential.cs" />
+    <Compile Include="Class\websocket-sharp\Net\QueryStringCollection.cs" />
+    <Compile Include="Class\websocket-sharp\Net\ReadBufferState.cs" />
+    <Compile Include="Class\websocket-sharp\Net\RequestStream.cs" />
+    <Compile Include="Class\websocket-sharp\Net\ResponseStream.cs" />
+    <Compile Include="Class\websocket-sharp\Net\ServerSslConfiguration.cs" />
+    <Compile Include="Class\websocket-sharp\Net\WebHeaderCollection.cs" />
+    <Compile Include="Class\websocket-sharp\Net\WebSockets\HttpListenerWebSocketContext.cs" />
+    <Compile Include="Class\websocket-sharp\Net\WebSockets\TcpListenerWebSocketContext.cs" />
+    <Compile Include="Class\websocket-sharp\Net\WebSockets\WebSocketContext.cs" />
+    <Compile Include="Class\websocket-sharp\Opcode.cs" />
+    <Compile Include="Class\websocket-sharp\PayloadData.cs" />
+    <Compile Include="Class\websocket-sharp\Rsv.cs" />
+    <Compile Include="Class\websocket-sharp\Server\HttpRequestEventArgs.cs" />
+    <Compile Include="Class\websocket-sharp\Server\HttpServer.cs" />
+    <Compile Include="Class\websocket-sharp\Server\IWebSocketSession.cs" />
+    <Compile Include="Class\websocket-sharp\Server\ServerState.cs" />
+    <Compile Include="Class\websocket-sharp\Server\WebSocketBehavior.cs" />
+    <Compile Include="Class\websocket-sharp\Server\WebSocketServer.cs" />
+    <Compile Include="Class\websocket-sharp\Server\WebSocketServiceHost.cs" />
+    <Compile Include="Class\websocket-sharp\Server\WebSocketServiceHost`1.cs" />
+    <Compile Include="Class\websocket-sharp\Server\WebSocketServiceManager.cs" />
+    <Compile Include="Class\websocket-sharp\Server\WebSocketSessionManager.cs" />
+    <Compile Include="Class\websocket-sharp\WebSocket.cs" />
+    <Compile Include="Class\websocket-sharp\WebSocketException.cs" />
+    <Compile Include="Class\websocket-sharp\WebSocketFrame.cs" />
+    <Compile Include="Class\websocket-sharp\WebSocketState.cs" />
+    <Compile Include="Class\WinMod.cs" />
+    <Compile Include="Class\TcpClient.cs" />
+    <Compile Include="Class\ConnectionStatus.cs" />
+    <Compile Include="Class\ControlSorter.cs" />
+    <Compile Include="ControlExtension.cs" />
+    <Compile Include="GUI\Controls\Metro\ListViewColumnSorter.cs" />
+    <Compile Include="GUI\Controls\Metro\MetroPaintEventArgs.cs" />
+    <Compile Include="GUI\Controls\Metro\MetroPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\Metro\MetroScrollBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\WinApi.cs" />
+    <Compile Include="GUI\Controls\SKYNET_ContextMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_ShadowBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_ShadowBox.designer.cs">
+      <DependentUpon>SKYNET_ShadowBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_Button.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_Check.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_Check.designer.cs">
+      <DependentUpon>SKYNET_Check.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_ProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_TextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_TextBox.designer.cs">
+      <DependentUpon>SKYNET_TextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Device.cs" />
+    <Compile Include="DeviceHistory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DeviceHistory.designer.cs">
+      <DependentUpon>DeviceHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DeviceManager.cs" />
+    <Compile Include="DragHelper\DragableControl.cs" />
+    <Compile Include="DragHelper\DragHelper.cs" />
+    <Compile Include="GUI\frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmAbout.designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmSendMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmSendMessage.designer.cs">
+      <DependentUpon>frmSendMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmSearch.designer.cs">
+      <DependentUpon>frmSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmDeviceInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmDeviceInfo.designer.cs">
+      <DependentUpon>frmDeviceInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmProfile.designer.cs">
+      <DependentUpon>frmProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmAlert.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmAlert.designer.cs">
+      <DependentUpon>frmAlert.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmConsole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmConsole.designer.cs">
+      <DependentUpon>frmConsole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmManager.designer.cs">
+      <DependentUpon>frmManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmMessage.designer.cs">
+      <DependentUpon>frmMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmPortScan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmPortScan.designer.cs">
+      <DependentUpon>frmPortScan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmAddProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmAddProfile.designer.cs">
+      <DependentUpon>frmAddProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmSettings.designer.cs">
+      <DependentUpon>frmSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmKey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmKey.Designer.cs">
+      <DependentUpon>frmKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\ImageCropControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ImageCropControl.designer.cs">
+      <DependentUpon>ImageCropControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\IPScanForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBack.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBack.Designer.cs">
+      <DependentUpon>frmBack.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmCropEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmCropEditor.designer.cs">
+      <DependentUpon>frmCropEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Class\Hook.cs" />
+    <Compile Include="GUI\frmSplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmSplashScreen.Designer.cs">
+      <DependentUpon>frmSplashScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="KeyboardHook\KeyboardHook.cs" />
+    <Compile Include="KeyboardHook\MouseHook.cs" />
+    <Compile Include="MessageProcessor.cs" />
+    <Compile Include="modCommon.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Class\RegistrySettings.cs" />
+    <Compile Include="GUI\Controls\FlatComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Class\WakeOnLanAction.cs" />
+    <Compile Include="DeviceBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DeviceBox.Designer.cs">
+      <DependentUpon>DeviceBox.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="GUI\Controls\SKYNET_ShadowBox.resx">
+      <DependentUpon>SKYNET_ShadowBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\SKYNET_Check.resx">
+      <DependentUpon>SKYNET_Check.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\SKYNET_TextBox.resx">
+      <DependentUpon>SKYNET_TextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeviceHistory.resx">
+      <DependentUpon>DeviceHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmAbout.resx">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmSendMessage.resx">
+      <DependentUpon>frmSendMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmSearch.resx">
+      <DependentUpon>frmSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmDeviceInfo.resx">
+      <DependentUpon>frmDeviceInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmProfile.resx">
+      <DependentUpon>frmProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmAlert.resx">
+      <DependentUpon>frmAlert.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmConsole.resx">
+      <DependentUpon>frmConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmManager.resx">
+      <DependentUpon>frmManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmMessage.resx">
+      <DependentUpon>frmMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmPortScan.resx">
+      <DependentUpon>frmPortScan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmAddProfile.resx">
+      <DependentUpon>frmAddProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmSettings.resx">
+      <DependentUpon>frmSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmKey.resx">
+      <DependentUpon>frmKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\IPScanForm.resx">
+      <DependentUpon>IPScanForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBack.resx">
+      <DependentUpon>frmBack.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmCropEditor.resx">
+      <DependentUpon>frmCropEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmSplashScreen.resx">
+      <DependentUpon>frmSplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="DeviceBox.resx">
+      <DependentUpon>DeviceBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dota2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dota2Red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Luz.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\min_new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_sel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_unsel.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Icon_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\online.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\idlechat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings_sel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings_unsel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlienWare3 _1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\com_facebook_profile_picture_blank_square.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\statusbar_mobile_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1 %28111%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OfflinePC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NeutralPC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OnlinePC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="1 %28111%29.ico" />
+    <Content Include="Positions.txt" />
+    <None Include="Resources\Online.wav" />
+    <None Include="Resources\Offline.wav" />
+    <None Include="Resources\minimise.png" />
+    <None Include="Resources\close.png" />
+    <None Include="Resources\b_On.png" />
+    <None Include="Resources\b_Off.png" />
+    <None Include="Resources\D_Online.png" />
+    <None Include="Resources\D_Offline.png" />
+    <None Include="Resources\Offline.png" />
+    <None Include="Resources\Logo.png" />
+    <None Include="Resources\SkynetManager.png" />
+    <None Include="Resources\pingtools.png" />
+    <None Include="Resources\flixster.png" />
+    <None Include="Resources\1 %28154%29.png" />
+    <None Include="Resources\SearchPing.png" />
+    <None Include="Resources\Search.png" />
+    <None Include="Resources\settings_2.png" />
+    <None Include="Resources\spareroom.png" />
+    <None Include="Resources\squarespace_blog.png" />
+    <None Include="Resources\tiny_tunes.png" />
+    <None Include="Resources\wifi_manager.png" />
+    <None Include="Resources\xfinity_my_account.png" />
+    <None Include="Resources\blackboard.png" />
+    <None Include="Resources\blackberry_notes.png" />
+    <None Include="Resources\blackberry_contacts.png" />
+    <None Include="Resources\alcatel_notes.png" />
+    <None Include="Resources\2.png" />
+    <None Include="Resources\1 %2812%29.png" />
+    <None Include="Resources\My Computer lime copia.png" />
+    <None Include="Resources\cinemadisplay.png" />
+    <None Include="Resources\glob_v2.png" />
+    <None Include="Resources\globe_48.png" />
+    <None Include="Resources\Icon003.jpg" />
+    <None Include="Resources\keyhole_icon_png.png" />
+    <None Include="Resources\sound-start-record.wav" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

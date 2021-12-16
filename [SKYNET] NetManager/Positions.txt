@@ -1,0 +1,8 @@
+Items Size: 155; 42
+
+Item1 Loc.					Item2 Loc.
+3; 5						163; 5
+
+
+Item3 Loc.					Item4 Loc.
+3; 52						163; 52
