@@ -1,20 +1,15 @@
-﻿using SKYNET.Properties;
+﻿using SKYNET.GUI;
+using SKYNET.Properties;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SKYNET
 {
-    public partial class frmSplashScreen : Form
+    public partial class frmSplashScreen : frmBase
     {
         private System.Windows.Forms.Timer timerAnimation;
         private Bitmap _logoBitmap;
@@ -24,8 +19,7 @@ namespace SKYNET
         public frmSplashScreen()
         {
             InitializeComponent();
-            modCommon.SplashScreen = this;
-            //DisplayHelper.Scale(this);
+            Common.SplashScreen = this;
         }
 
         private void FrmSplashScreen_Load(object sender, EventArgs e)
@@ -96,7 +90,7 @@ namespace SKYNET
             if (_ticks == 40)
             {
                 timerAnimation.Enabled = false;
-                modCommon.ShowMain = true;
+                Common.ShowMain = true;
             }
         }
         private static Bitmap ChangeOpacity(Image img, float opacityvalue)

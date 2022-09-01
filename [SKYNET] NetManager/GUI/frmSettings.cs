@@ -1,15 +1,14 @@
-﻿using System;
+﻿using SKYNET.GUI;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
 
 namespace SKYNET
 {
-    public partial class frmSettings : Form
+    public partial class frmSettings : frmBase
     {
         public static frmSettings frm;
-        private bool mouseDown;     //Mover ventana
-        private Point lastLocation; //Mover ventana
         public bool Ready = false;
         public DeviceBox menuBOX;
 
@@ -17,11 +16,11 @@ namespace SKYNET
         public frmSettings()
         {
             InitializeComponent();
+            base.SetMouseMove(PN_Top);
 
             TopMost = true;
-            CheckForIllegalCrossThreadCalls = false;  //Para permitir acceso a los subprocesos
+            CheckForIllegalCrossThreadCalls = false;  
             frm = this;
-
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -68,29 +67,6 @@ namespace SKYNET
             OpacityBar.Maximum = maximum;
             OpacityBar.Value = value;
         }
-
-        private void frmMain_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-            Opacity = 100;
-        }
-
-        private void frmMain_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDown = true;
-            lastLocation = e.Location;
-        }
-
-        private void frmMain_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
-            {
-                Location = new Point((Location.X - lastLocation.X) + e.X, (Location.Y - lastLocation.Y) + e.Y);
-                Update();
-                Opacity = 0.93;
-            }
-        }
-
 
         private void panelClose_MouseMove(object sender, MouseEventArgs e)
         {
@@ -187,35 +163,12 @@ namespace SKYNET
 
         private void ShowTopPanel_Click(object sender, EventArgs e)
         {
-            modCommon.ShowBars(ShowTopPanel.Checked);
+            Common.ShowBars(ShowTopPanel.Checked);
         }
         private void CustomSound_MouseClick(object sender, MouseEventArgs e)
         {
             CustomSoundPatch.Visible = CustomSound.Checked;
             SearhSound.Visible = CustomSound.Checked;
-        }
-
-        private void Event_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
-            {
-                base.Location = new Point((base.Location.X - lastLocation.X) + e.X, (base.Location.Y - lastLocation.Y) + e.Y);
-                Update();
-                Opacity = 0.93;
-            }
-        }
-
-        private void Event_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDown = true;
-            lastLocation = e.Location;
-
-        }
-
-        private void Event_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-            Opacity = 100;
         }
 
         private void ShowInLeft_MouseClick(object sender, MouseEventArgs e)

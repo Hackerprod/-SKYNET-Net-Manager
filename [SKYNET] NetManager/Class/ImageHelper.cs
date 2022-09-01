@@ -10,7 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace SKYNET.Common
+namespace SKYNET
 {
     public delegate Bitmap ImageFilter(Bitmap bitmap);
 

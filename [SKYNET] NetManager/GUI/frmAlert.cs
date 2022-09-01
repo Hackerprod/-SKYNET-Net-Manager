@@ -1,42 +1,26 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.Data;
-using System.Linq;
-using System.ComponentModel;
-using Microsoft.Win32;
-using System.Threading;
-using System.Security.Principal;
-using System.IO;                    // Para Stream
-using System.Text;                  // Para Encoatagring
-using System.Net;                   // Para Dns, IPAddress
-using System.Net.Sockets;           // Para NetworkStream    []   |||   &&
-using System.Security.Permissions;
-using System.Threading.Tasks;
-using System.Runtime.Remoting.Channels;
+using System.IO;                    
 using System.Runtime.InteropServices;
 using SKYNET.Properties;
-using System.Drawing.Drawing2D;
-using System.Net.NetworkInformation;
 using System.Media;
+using SKYNET.GUI;
 
 namespace SKYNET
 {
-    public partial class frmAlert : Form
+    public partial class frmAlert : frmBase
     {
         public static frmAlert frm;
-        private bool mouseDown;     //Mover ventana
-        private Point lastLocation; //Mover ventana
 
         public static string Win32;
         public bool Ready = false;
         public frmAlert(DeviceBox BOX)
         {
             InitializeComponent();
-            MoveToTopMost(this.Handle);
+            base.SetMouseMove(this);
             TopMost = true;
-            CheckForIllegalCrossThreadCalls = false;  //Para permitir acceso a los subprocesos
+            CheckForIllegalCrossThreadCalls = false;  
             frm = this;
 
 
@@ -135,41 +119,14 @@ namespace SKYNET
             {
                 Avatar.Image = BOX.Avatar.Image;
             }
+
+            Common.MoveToTopMost(base.Handle);
+            base.TopMost = true;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
 
-        }
-        [DllImport("user32.dll")]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
-        public static readonly IntPtr HWND_TOPMOST = (IntPtr)(-1);
-        public static readonly IntPtr HWND_BOTTOM = (IntPtr)1;
-
-        private void MoveToTopMost(IntPtr handle)
-        {
-            SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, 1043u);
-        }
-        private void frmMain_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-            Opacity = 100;
-        }
-
-        private void frmMain_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDown = true;
-            lastLocation = e.Location;
-        }
-
-        private void frmMain_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
-            {
-                Location = new Point((Location.X - lastLocation.X) + e.X, (Location.Y - lastLocation.Y) + e.Y);
-                Update();
-                Opacity = 0.93;
-            }
         }
 
         private void panelClose_MouseMove(object sender, MouseEventArgs e)

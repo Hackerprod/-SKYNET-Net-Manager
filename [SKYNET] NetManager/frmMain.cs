@@ -2,30 +2,22 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Data;
 using System.Linq;
-using System.ComponentModel;
 using Microsoft.Win32;
-using System.Threading;
-using System.Security.Principal;
 using System.IO;                   
 using System.Net.NetworkInformation;
 using System.Collections.Generic;
-using XNova_Utils;
 using GlobalLowLevelHooks;
-using Microsoft.VisualBasic.CompilerServices;
-using WakeOnLanAction;
 using SKYNET.Properties;
 using System.Timers;
 using System.Web.Script.Serialization;
-using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Net;
-using SKYNET.DragHelper;
+using SKYNET.GUI;
 
 namespace SKYNET
 {
-    public partial class frmMain : Form
+    public partial class frmMain : frmBase
     {
         public static bool MinimizeWhenClose { get; set; } = false;
         public static bool LaunchWindowsStart { get; set; } = false;
@@ -44,8 +36,6 @@ namespace SKYNET
         public frmBack frmBack;
 
         public static frmMain frm;
-        private bool mouseDown;     //Mover ventana
-        private Point lastLocation; //Mover ventana
         public bool Ready = false;
         public DeviceBox menuBOX { get; set; }
 
@@ -69,28 +59,28 @@ namespace SKYNET
         {
             InitializeComponent();
 
-            CheckForIllegalCrossThreadCalls = false;  //Para permitir acceso a los subprocesos
+            CheckForIllegalCrossThreadCalls = false;  
             frm = this;
 
             PrepareButtomPanel();
 
             frmBack = back;
 
-            if (!Directory.Exists(modCommon.CurrentDirectory + "/Data"))
+            if (!Directory.Exists(Common.CurrentDirectory + "/Data"))
             {
-                Directory.CreateDirectory(modCommon.CurrentDirectory + "/Data");
-                File.WriteAllText(modCommon.CurrentDirectory + "/Data/Device.json", "");
+                Directory.CreateDirectory(Common.CurrentDirectory + "/Data");
+                File.WriteAllText(Common.CurrentDirectory + "/Data/Device.json", "");
 
-                if (!File.Exists(modCommon.CurrentDirectory + "/Data/Device.json"))
+                if (!File.Exists(Common.CurrentDirectory + "/Data/Device.json"))
                 {
-                    using (FileStream fileStream = new FileStream(modCommon.CurrentDirectory + "/Data/Device.json", FileMode.OpenOrCreate)) { }
+                    using (FileStream fileStream = new FileStream(Common.CurrentDirectory + "/Data/Device.json", FileMode.OpenOrCreate)) { }
                 }
 
                 Empty = true;
             }
-            else if (!File.Exists(modCommon.CurrentDirectory + "/Data/Device.json"))
+            else if (!File.Exists(Common.CurrentDirectory + "/Data/Device.json"))
             {
-                using (FileStream fileStream = new FileStream(modCommon.CurrentDirectory + "/Data/Device.json", FileMode.OpenOrCreate)) { }
+                using (FileStream fileStream = new FileStream(Common.CurrentDirectory + "/Data/Device.json", FileMode.OpenOrCreate)) { }
                 Empty = true;
 
             }
@@ -114,13 +104,7 @@ namespace SKYNET
             _timer.Interval = 100;
             _timer.Start();
 
-            MessageProcessor processor = new MessageProcessor();
-            bool apiStarted = processor.Start();
-
-            if (!apiStarted)
-            {
-                modCommon.Show("Ups");
-            }
+            ChatManager.Initialize();
 
             shadow.EnableBlur();
         }
@@ -167,15 +151,15 @@ namespace SKYNET
 
             string json = "";
 
-            if (!File.Exists(modCommon.CurrentDirectory + "/Data/" + currentSection + ".json"))
+            if (!File.Exists(Common.CurrentDirectory + "/Data/" + currentSection + ".json"))
             {
-                if (File.Exists(modCommon.CurrentDirectory + "/Data/Device.json"))
+                if (File.Exists(Common.CurrentDirectory + "/Data/Device.json"))
                 {
-                    json = File.ReadAllText(modCommon.CurrentDirectory + "/Data/Device.json");
+                    json = File.ReadAllText(Common.CurrentDirectory + "/Data/Device.json");
                 }
             }
             else
-                json = File.ReadAllText(modCommon.CurrentDirectory + "/Data/" + currentSection + ".json");
+                json = File.ReadAllText(Common.CurrentDirectory + "/Data/" + currentSection + ".json");
 
             List<Device> Devices = null;
             try
@@ -191,7 +175,7 @@ namespace SKYNET
             {
                 Opacity = 100;
                 frmBack.Opacity = OpacityForm;
-                modCommon.CloseSplash = true;
+                Common.CloseSplash = true;
                 return;
             }
             Devices.Sort((d1, d2) => d1.Orden.CompareTo(d2.Orden));
@@ -203,7 +187,7 @@ namespace SKYNET
             ProfileSelected.Text = "Perfil actual: " + currentSection;
             Opacity = 100;
             frmBack.Opacity = OpacityForm;
-            modCommon.CloseSplash = true;
+            Common.CloseSplash = true;
             //modCommon.SplashScreen.Opacity = 0;
         }
         public void AddBox(Device device)
@@ -262,7 +246,7 @@ namespace SKYNET
                 }
             }
             string json = new JavaScriptSerializer().Serialize(Devices);
-            File.WriteAllText(modCommon.CurrentDirectory + "/Data/" + CurrentSection + ".json", json);
+            File.WriteAllText(Common.CurrentDirectory + "/Data/" + CurrentSection + ".json", json);
         }
         private void keyboardHook_KeyDown(KeyboardHook.VKeys key)
         {
@@ -289,28 +273,6 @@ namespace SKYNET
                 }
                 keyboardHook.Uninstall();
                 keyboardHook.Install();
-            }
-        }
-
-        private void frmMain_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-            Opacity = 100;
-        }
-
-        private void frmMain_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDown = true;
-            lastLocation = e.Location;
-        }
-
-        private void frmMain_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
-            {
-                Location = new Point((Location.X - lastLocation.X) + e.X, (Location.Y - lastLocation.Y) + e.Y);
-                Update();
-                Opacity = 0.93;
             }
         }
 
@@ -519,61 +481,6 @@ namespace SKYNET
 
         private void label1_Click(object sender, EventArgs e)
         {
-            if (Environment.UserName == "Hackerprod")
-            {
-                //label1.Location = new Point(label1.Location.X + 5, label1.Location.Y + 5);
-
-                var list = new List<Control>();
-                for (int i = 0; i < frm.DeviceContainer.Controls.Count; i++)
-                {
-                    if (DeviceContainer.Controls[i] is DeviceBox)
-                    {
-                        DeviceBox box = (DeviceBox)DeviceContainer.Controls[i];
-                        list.Add(box);
-                    }
-                }
-               
-                list.Sort((d1, d2) => (d1.Location.X + d1.Location.Y).CompareTo((d2.Location.X + d2.Location.Y)));
-                foreach (var item in list)
-                {
-                    //modCommon.Show(item.BoxName);
-                }
-
-                List<Control> sortedList = ControlSorter.SortControls(frm.DeviceContainer);
-                CleanBoxControls();
-                x = 5;
-                y = 5;
-                last_x = 5;
-                last_y = 5;
-                foreach (var item in sortedList)
-                {
-                    if (item is DeviceBox)
-                    {
-                        DeviceBox box = ((DeviceBox)item);
-                        //modCommon.Show(((DeviceBox)item).BoxName);
-                        AddBox(box.Device);
-                    }
-                }
-            }
-        }
-
-
-
-        private void Box_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            try
-            {
-                Control control = sender as Control;
-                DeviceBox box = (DeviceBox)control;
-                if (box.Status == ConnectionStatus.Online)
-                {
-                    if (!box.isWeb)
-                        Process.Start(@"\\" + box.IpName);
-                    else
-                        Process.Start("https://" + box.IpName);
-                }
-            }
-            catch { }
         }
 
         private void CloseBoxMenuItem_Click(object sender, EventArgs e)
@@ -584,9 +491,9 @@ namespace SKYNET
             {
                 try
                 {
-                    if (File.Exists(modCommon.CurrentDirectory + "/Data/Images/" + CurrentSection + "_" + menuBOX.Name + ".png"))
+                    if (File.Exists(Common.CurrentDirectory + "/Data/Images/" + CurrentSection + "_" + menuBOX.Name + ".png"))
                     {
-                        File.Delete(modCommon.CurrentDirectory + "/Data/Images/" + CurrentSection + "_" + menuBOX.Name + ".png");
+                        File.Delete(Common.CurrentDirectory + "/Data/Images/" + CurrentSection + "_" + menuBOX.Name + ".png");
                     }
                 }
                 catch { }
@@ -835,14 +742,14 @@ namespace SKYNET
 
             NetworkInterface interfaces = NetworkInterface.GetAllNetworkInterfaces()[0];
 
-            Sent.Text = modCommon.LongToMbytes(interfaces.GetIPv4Statistics().BytesSent);
-            Received.Text = modCommon.LongToMbytes(interfaces.GetIPv4Statistics().BytesReceived);
+            Sent.Text = Common.LongToMbytes(interfaces.GetIPv4Statistics().BytesSent);
+            Received.Text = Common.LongToMbytes(interfaces.GetIPv4Statistics().BytesReceived);
 
             SentxSecond = interfaces.GetIPv4Statistics().BytesSent - BytesSent;
             ReceivedxSecond = interfaces.GetIPv4Statistics().BytesReceived - BytesReceived;
 
-            SentPerSecond.Text = modCommon.LongToMbytes(SentxSecond) + "/Segundos";
-            ReceivedPerSecond.Text = modCommon.LongToMbytes(ReceivedxSecond) + "/Segundos";
+            SentPerSecond.Text = Common.LongToMbytes(SentxSecond) + "/Segundos";
+            ReceivedPerSecond.Text = Common.LongToMbytes(ReceivedxSecond) + "/Segundos";
 
             BytesSent = interfaces.GetIPv4Statistics().BytesSent;
             BytesReceived = interfaces.GetIPv4Statistics().BytesReceived;
@@ -915,14 +822,14 @@ namespace SKYNET
             DwmApi.MARGINS marInset = mARGINS;
             DwmApi.DwmExtendFrameIntoClientArea(base.Handle, ref marInset);
 
-            modCommon.ShowShadow = false;
+            Common.ShowShadow = false;
             shadow.Dock = DockStyle.None;
         }
         protected override void OnDeactivate(EventArgs e)
         {
             base.OnActivated(e);
 
-            if (modCommon.ShowShadow)
+            if (Common.ShowShadow)
             {
                 shadow.Dock = DockStyle.Fill;
             }
@@ -966,7 +873,14 @@ namespace SKYNET
 
         private void EnviarMensajeMenuItem_Click(object sender, EventArgs e)
         {
-            new frmSendMessage(menuBOX).ShowDialog();
+            var chat = new frmPrivateChat(menuBOX);
+            ChatManager.RegisterChat(menuBOX.RemoteAddress, chat);
+            if (ChatManager.GetChatHistory(menuBOX.RemoteAddress, out var chatHistory))
+            {
+                chat.FillHistory(chatHistory);
+            }
+            chat.TopMost = true;
+            chat.Show();
         }
     }
 }

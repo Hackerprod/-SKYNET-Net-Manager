@@ -35,7 +35,7 @@ namespace SKYNET
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCropEditor));
-            this.panelTop = new System.Windows.Forms.Panel();
+            this.PN_Top = new System.Windows.Forms.Panel();
             this.CloseBox = new System.Windows.Forms.Panel();
             this.ClosePic = new System.Windows.Forms.PictureBox();
             this.acceptBtn = new System.Windows.Forms.Button();
@@ -46,9 +46,9 @@ namespace SKYNET
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel16 = new System.Windows.Forms.Panel();
             this.Rotate_L = new SKYNET_Button();
-            this.Redondear = new SKYNET_Check();
+            this.Redondear = new SKYNET.Controls.SKYNET_Check();
             this._circled = new System.Windows.Forms.Label();
-            this.ShowLine = new SKYNET_Check();
+            this.ShowLine = new SKYNET.Controls.SKYNET_Check();
             this._showlines = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.p_Preview = new System.Windows.Forms.PictureBox();
@@ -57,7 +57,7 @@ namespace SKYNET
             this.label6 = new System.Windows.Forms.Label();
             this.panelLogo = new System.Windows.Forms.Panel();
             this.Logo = new System.Windows.Forms.PictureBox();
-            this.panelTop.SuspendLayout();
+            this.PN_Top.SuspendLayout();
             this.CloseBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ClosePic)).BeginInit();
             this.panelBody.SuspendLayout();
@@ -68,19 +68,16 @@ namespace SKYNET
             ((System.ComponentModel.ISupportInitialize)(this.Logo)).BeginInit();
             this.SuspendLayout();
             // 
-            // panelTop
+            // PN_Top
             // 
-            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(60)))));
-            this.panelTop.Controls.Add(this.CloseBox);
-            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTop.ForeColor = System.Drawing.Color.White;
-            this.panelTop.Location = new System.Drawing.Point(0, 0);
-            this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(725, 26);
-            this.panelTop.TabIndex = 5;
-            this.panelTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.panelTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.panelTop.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
+            this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(60)))));
+            this.PN_Top.Controls.Add(this.CloseBox);
+            this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PN_Top.ForeColor = System.Drawing.Color.White;
+            this.PN_Top.Location = new System.Drawing.Point(0, 0);
+            this.PN_Top.Name = "PN_Top";
+            this.PN_Top.Size = new System.Drawing.Size(725, 26);
+            this.PN_Top.TabIndex = 5;
             // 
             // CloseBox
             // 
@@ -146,7 +143,6 @@ namespace SKYNET
             this.panelBody.Padding = new System.Windows.Forms.Padding(8);
             this.panelBody.Size = new System.Drawing.Size(725, 361);
             this.panelBody.TabIndex = 34;
-            this.panelBody.Click += new System.EventHandler(this.PanelBody_Click);
             // 
             // panel3
             // 
@@ -197,6 +193,7 @@ namespace SKYNET
             this.Rotate_L.ImageAlignment = SKYNET_Button._ImgAlign.Left;
             this.Rotate_L.ImageIcon = null;
             this.Rotate_L.Location = new System.Drawing.Point(560, 294);
+            this.Rotate_L.MenuMode = false;
             this.Rotate_L.Name = "Rotate_L";
             this.Rotate_L.Rounded = true;
             this.Rotate_L.Size = new System.Drawing.Size(145, 25);
@@ -281,6 +278,7 @@ namespace SKYNET
             this.btn_Apply.ImageAlignment = SKYNET_Button._ImgAlign.Left;
             this.btn_Apply.ImageIcon = null;
             this.btn_Apply.Location = new System.Drawing.Point(560, 325);
+            this.btn_Apply.MenuMode = false;
             this.btn_Apply.Name = "btn_Apply";
             this.btn_Apply.Rounded = true;
             this.btn_Apply.Size = new System.Drawing.Size(145, 25);
@@ -334,7 +332,6 @@ namespace SKYNET
             this.Logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Logo.TabIndex = 1;
             this.Logo.TabStop = false;
-            this.Logo.Click += new System.EventHandler(this.Logo_Click);
             // 
             // frmCropEditor
             // 
@@ -346,19 +343,18 @@ namespace SKYNET
             this.Controls.Add(this.panelLogo);
             this.Controls.Add(this.Browser);
             this.Controls.Add(this.acceptBtn);
-            this.Controls.Add(this.panelTop);
+            this.Controls.Add(this.PN_Top);
             this.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(17)))), ((int)(((byte)(22)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmCropEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "[SKYNET] Dota2 GCS";
-            this.Deactivate += new System.EventHandler(this.FrmProfileEdit_Deactivate);
-            this.Load += new System.EventHandler(this.frmMain_Load);
             this.Shown += new System.EventHandler(this.FrmMain_Shown);
-            this.panelTop.ResumeLayout(false);
+            this.PN_Top.ResumeLayout(false);
             this.CloseBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ClosePic)).EndInit();
             this.panelBody.ResumeLayout(false);
@@ -375,7 +371,7 @@ namespace SKYNET
         }
 
         #endregion
-        private System.Windows.Forms.Panel panelTop;
+        private System.Windows.Forms.Panel PN_Top;
         private System.Windows.Forms.Button acceptBtn;
         private System.Windows.Forms.WebBrowser Browser;
         private System.Windows.Forms.Panel panelBody;

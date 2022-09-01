@@ -2,44 +2,20 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace XNova_Utils
+namespace SKYNET.GUI
 {
-    public partial class frmAbout : Form
+    public partial class frmAbout : frmBase
     {
-        private bool mouseDown;     //Mover ventana
-        private Point lastLocation; //Mover ventana
         public TypeMessage typeMessage;
         public frmAbout()
         {
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;  //Para permitir acceso a los subprocesos
+            CheckForIllegalCrossThreadCalls = false;
+            base.SetMouseMove(PN_Top);
             textBox1.Focus();
 
             VersionInfo.Text = "v1.5";
         }
-        private void Event_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
-            {
-                Location = new Point((Location.X - lastLocation.X) + e.X, (Location.Y - lastLocation.Y) + e.Y);
-                Update();
-                Opacity = 0.93;
-            }
-        }
-
-        private void Event_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDown = true;
-            lastLocation = e.Location;
-
-        }
-
-        private void Event_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-            Opacity = 100;
-        }
-
 
         public enum TypeMessage
         {

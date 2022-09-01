@@ -34,7 +34,7 @@ namespace SKYNET
             }
             else
             {
-                modCommon.InitialiceApplication();
+                Common.InitialiceApplication();
             }
         }
 

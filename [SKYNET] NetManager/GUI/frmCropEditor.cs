@@ -4,44 +4,30 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.VisualBasic.CompilerServices;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.IO;
-using System.Net;
-using System.Net.Sockets;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
-using System.Threading;
-using System.Timers;
 using System.Drawing.Drawing2D;
-using SKYNET;
-using SKYNET.Common;
+using SKYNET.GUI;
 
 namespace SKYNET
 {
     [ComVisibleAttribute(true)]
-    public partial class frmCropEditor : Form
+    public partial class frmCropEditor : frmBase
     {
-        private bool mouseDown;     //Mover ventana
-        private Point lastLocation; //Mover ventana
-        private readonly Dictionary<string, string> UsersAndIds = new Dictionary<string, string>();
         public static frmCropEditor frm;
-        Rectangle rScreen;
-        public byte[] ImageBytes { get; set; }
-        Bitmap bitmap;
-        public float AspectRatio { get; set; }
+        public byte[] ImageBytes;
         public Button DialogResult;
 
-        string SectionName { get; set; }
+        private Rectangle rScreen;
+        private Bitmap bitmap;
+        private float AspectRatio;
+        private string SectionName;
 
         public frmCropEditor(string filepatch, string sectionName)
         {
             InitializeComponent();
-            //this.Logo.Size = new Size(0, 0);
+            base.SetMouseMove(PN_Top);
             frm = this;
             CheckForIllegalCrossThreadCalls = false;
 
@@ -79,7 +65,7 @@ namespace SKYNET
             //Width
             Control parent = label.Parent;
             int W_Control = parent.Width / 2;
-            int AnchoTexto = Convert.ToInt32(modCommon.GetTextSize(label.Text.ToString(), label.Font).Width) / 2;
+            int AnchoTexto = Convert.ToInt32(Common.GetTextSize(label.Text.ToString(), label.Font).Width) / 2;
             int WidthText = W_Control - AnchoTexto;
 
             //Heigth
@@ -113,56 +99,6 @@ namespace SKYNET
 
         }
 
-
-
-        private void frmMain_Load(object sender, EventArgs e)
-        {
-        }
-
-        private void Event_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
-            {
-                Location = new Point((Location.X - lastLocation.X) + e.X, (Location.Y - lastLocation.Y) + e.Y);
-                Update();
-            }
-        }
-
-        private void Event_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDown = true;
-            lastLocation = e.Location;
-        }
-
-        private void Event_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-        }
-
-
-
-
-
-
-        //[DllImport("steam_api.dll")]
-        //private static extern void ReceibeCallBack();
-
-        private void Logo_Click(object sender, EventArgs e)
-        {
-
-
-        }
-
-
-
-        private void FrmProfileEdit_Deactivate(object sender, EventArgs e)
-        {
-
-        }
-        
-        private void PanelBody_Click(object sender, EventArgs e)
-        {
-        }
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
@@ -260,16 +196,16 @@ namespace SKYNET
 
         private void Btn_Apply_Click(object sender, EventArgs e)
         {
-            if (!Directory.Exists(modCommon.CurrentDirectory + "/Data/Images/"))
+            if (!Directory.Exists(Common.CurrentDirectory + "/Data/Images/"))
             {
-                Directory.CreateDirectory(modCommon.CurrentDirectory + "/Data/Images/");
+                Directory.CreateDirectory(Common.CurrentDirectory + "/Data/Images/");
             }
 
             Image img = ImageCrop.PreviewBitmap();
             Bitmap image = ImageHelper.ImageResizer.ResizeBitmap((Bitmap)img, 1000, 1000, ImageFormat.Png);
 
-            string destPath = Path.Combine(modCommon.CurrentDirectory, "Data", "Images", frmMain.CurrentSection + "_" + SectionName + ".png");
-            modCommon.Resize((Bitmap)image, 1000, 1000, destPath);
+            string destPath = Path.Combine(Common.CurrentDirectory, "Data", "Images", frmMain.CurrentSection + "_" + SectionName + ".png");
+            Common.Resize((Bitmap)image, 1000, 1000, destPath);
             Close();
 
 

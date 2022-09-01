@@ -47,13 +47,13 @@ namespace SKYNET
             this.textBox = new System.Windows.Forms.TextBox();
             this.txtConsole = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.PN_Top = new System.Windows.Forms.Panel();
             this.panelMin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.minBtn)).BeginInit();
             this.panelClose.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).BeginInit();
             this.PanelPing.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.PN_Top.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMin
@@ -165,24 +165,18 @@ namespace SKYNET
             this.label1.Size = new System.Drawing.Size(57, 15);
             this.label1.TabIndex = 247;
             this.label1.Text = "Consola";
-            this.label1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseDown);
-            this.label1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseMove);
-            this.label1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseUp);
             // 
-            // panel1
+            // PN_Top
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.panelMin);
-            this.panel1.Controls.Add(this.panelClose);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(526, 26);
-            this.panel1.TabIndex = 26;
-            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseDown);
-            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseMove);
-            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseUp);
+            this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.PN_Top.Controls.Add(this.label1);
+            this.PN_Top.Controls.Add(this.panelMin);
+            this.PN_Top.Controls.Add(this.panelClose);
+            this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PN_Top.Location = new System.Drawing.Point(0, 0);
+            this.PN_Top.Name = "PN_Top";
+            this.PN_Top.Size = new System.Drawing.Size(526, 26);
+            this.PN_Top.TabIndex = 26;
             // 
             // frmConsole
             // 
@@ -190,7 +184,7 @@ namespace SKYNET
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(526, 325);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.PN_Top);
             this.Controls.Add(this.PanelPing);
             this.Controls.Add(this.pnlButtom);
             this.Controls.Add(this.status);
@@ -198,22 +192,20 @@ namespace SKYNET
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmConsole";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SkyNet Manager";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseUp);
             this.panelMin.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.minBtn)).EndInit();
             this.panelClose.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).EndInit();
             this.PanelPing.ResumeLayout(false);
             this.PanelPing.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.PN_Top.ResumeLayout(false);
+            this.PN_Top.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -230,6 +222,6 @@ namespace SKYNET
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox txtConsole;
         private System.Windows.Forms.TextBox textBox;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel PN_Top;
     }
 }

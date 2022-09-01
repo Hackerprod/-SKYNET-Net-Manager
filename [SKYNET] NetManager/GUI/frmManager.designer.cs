@@ -32,7 +32,7 @@ namespace SKYNET
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmManager));
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.PN_Top = new System.Windows.Forms.Panel();
             this.panelClose = new System.Windows.Forms.Panel();
             this.closeBtn = new System.Windows.Forms.PictureBox();
             this.acceptBtn = new System.Windows.Forms.Button();
@@ -46,11 +46,11 @@ namespace SKYNET
             this.Interval = new SKYNET.Controls.SKYNET_TextBox();
             this.PanelDeviceIp = new System.Windows.Forms.Panel();
             this.DeviceIp = new SKYNET.Controls.SKYNET_TextBox();
-            this.Save = new SKYNET.Controls.SKYNET_Button();
+            this.Save = new SKYNET_Button();
             this.OpcionalLocation = new SKYNET.Controls.SKYNET_TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.SearchPorts = new SKYNET.Controls.SKYNET_Button();
+            this.SearchPorts = new SKYNET_Button();
             this.DeviceName = new SKYNET.Controls.SKYNET_TextBox();
             this.MAC = new SKYNET.Controls.SKYNET_TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -59,7 +59,7 @@ namespace SKYNET
             this.DeviceWeb = new SKYNET.Controls.SKYNET_Check();
             this.Avatar = new System.Windows.Forms.PictureBox();
             this.Browser = new System.Windows.Forms.WebBrowser();
-            this.panel1.SuspendLayout();
+            this.PN_Top.SuspendLayout();
             this.panelClose.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).BeginInit();
             this.Container.SuspendLayout();
@@ -69,19 +69,16 @@ namespace SKYNET
             ((System.ComponentModel.ISupportInitialize)(this.Avatar)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel1
+            // PN_Top
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panel1.Controls.Add(this.panelClose);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.ForeColor = System.Drawing.Color.White;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(470, 26);
-            this.panel1.TabIndex = 5;
-            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
+            this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.PN_Top.Controls.Add(this.panelClose);
+            this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PN_Top.ForeColor = System.Drawing.Color.White;
+            this.PN_Top.Location = new System.Drawing.Point(0, 0);
+            this.PN_Top.Name = "PN_Top";
+            this.PN_Top.Size = new System.Drawing.Size(470, 26);
+            this.PN_Top.TabIndex = 5;
             // 
             // panelClose
             // 
@@ -123,7 +120,7 @@ namespace SKYNET
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label10.ForeColor = System.Drawing.Color.White;
             this.label10.Location = new System.Drawing.Point(181, 18);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(87, 16);
@@ -134,7 +131,7 @@ namespace SKYNET
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(181, 56);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(68, 16);
@@ -174,7 +171,7 @@ namespace SKYNET
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(12, 195);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(71, 16);
@@ -185,7 +182,7 @@ namespace SKYNET
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(12, 168);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(91, 16);
@@ -220,17 +217,17 @@ namespace SKYNET
             this.Interval.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.Interval.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.Interval.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Interval.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Interval.ForeColor = System.Drawing.Color.White;
             this.Interval.IsPassword = false;
             this.Interval.Location = new System.Drawing.Point(0, 0);
             this.Interval.Logo = null;
             this.Interval.LogoCursor = System.Windows.Forms.Cursors.Default;
             this.Interval.Name = "Interval";
-            this.Interval.OnlyNumber = false;
+            this.Interval.OnlyNumbers = false;
             this.Interval.ShowLogo = false;
             this.Interval.Size = new System.Drawing.Size(153, 26);
             this.Interval.TabIndex = 261;
-            this.Interval.TopSeparator = 2;
+            this.Interval.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.Interval.TextChanged += new System.EventHandler(this.Interval_TextChanged);
             // 
             // PanelDeviceIp
@@ -248,17 +245,17 @@ namespace SKYNET
             this.DeviceIp.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.DeviceIp.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.DeviceIp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DeviceIp.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.DeviceIp.ForeColor = System.Drawing.Color.White;
             this.DeviceIp.IsPassword = false;
             this.DeviceIp.Location = new System.Drawing.Point(0, 0);
             this.DeviceIp.Logo = null;
             this.DeviceIp.LogoCursor = System.Windows.Forms.Cursors.Default;
             this.DeviceIp.Name = "DeviceIp";
-            this.DeviceIp.OnlyNumber = false;
+            this.DeviceIp.OnlyNumbers = false;
             this.DeviceIp.ShowLogo = false;
             this.DeviceIp.Size = new System.Drawing.Size(153, 26);
             this.DeviceIp.TabIndex = 259;
-            this.DeviceIp.TopSeparator = 2;
+            this.DeviceIp.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.DeviceIp.TextChanged += new System.EventHandler(this.DeviceIp_TextChanged);
             // 
             // Save
@@ -269,14 +266,14 @@ namespace SKYNET
             this.Save.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Save.ForeColor = System.Drawing.Color.White;
             this.Save.ForeColorMouseOver = System.Drawing.Color.Empty;
-            this.Save.ImageAlignment = SKYNET.Controls.SKYNET_Button._ImgAlign.Left;
+            this.Save.ImageAlignment = SKYNET_Button._ImgAlign.Left;
             this.Save.ImageIcon = null;
             this.Save.Location = new System.Drawing.Point(338, 256);
             this.Save.MenuMode = false;
             this.Save.Name = "Save";
             this.Save.Rounded = false;
             this.Save.Size = new System.Drawing.Size(112, 29);
-            this.Save.Style = SKYNET.Controls.SKYNET_Button._Style.TextOnly;
+            this.Save.Style = SKYNET_Button._Style.TextOnly;
             this.Save.TabIndex = 21;
             this.Save.Text = "Save";
             this.Save.Click += new System.EventHandler(this.Save_Click);
@@ -286,24 +283,24 @@ namespace SKYNET
             this.OpcionalLocation.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.OpcionalLocation.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.OpcionalLocation.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.OpcionalLocation.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.OpcionalLocation.ForeColor = System.Drawing.Color.White;
             this.OpcionalLocation.IsPassword = false;
             this.OpcionalLocation.Location = new System.Drawing.Point(297, 166);
             this.OpcionalLocation.Logo = null;
             this.OpcionalLocation.LogoCursor = System.Windows.Forms.Cursors.Default;
             this.OpcionalLocation.Name = "OpcionalLocation";
-            this.OpcionalLocation.OnlyNumber = false;
+            this.OpcionalLocation.OnlyNumbers = false;
             this.OpcionalLocation.ShowLogo = false;
             this.OpcionalLocation.Size = new System.Drawing.Size(153, 26);
             this.OpcionalLocation.TabIndex = 263;
-            this.OpcionalLocation.TopSeparator = 2;
+            this.OpcionalLocation.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.OpcionalLocation.DoubleClick += new System.EventHandler(this.OpcionalLocation_DoubleClick);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(181, 169);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(67, 16);
@@ -314,7 +311,7 @@ namespace SKYNET
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(181, 131);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 16);
@@ -329,14 +326,14 @@ namespace SKYNET
             this.SearchPorts.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.SearchPorts.ForeColor = System.Drawing.Color.White;
             this.SearchPorts.ForeColorMouseOver = System.Drawing.Color.Empty;
-            this.SearchPorts.ImageAlignment = SKYNET.Controls.SKYNET_Button._ImgAlign.Left;
+            this.SearchPorts.ImageAlignment = SKYNET_Button._ImgAlign.Left;
             this.SearchPorts.ImageIcon = null;
             this.SearchPorts.Location = new System.Drawing.Point(12, 256);
             this.SearchPorts.MenuMode = false;
             this.SearchPorts.Name = "SearchPorts";
             this.SearchPorts.Rounded = false;
             this.SearchPorts.Size = new System.Drawing.Size(148, 29);
-            this.SearchPorts.Style = SKYNET.Controls.SKYNET_Button._Style.TextOnly;
+            this.SearchPorts.Style = SKYNET_Button._Style.TextOnly;
             this.SearchPorts.TabIndex = 254;
             this.SearchPorts.Text = "Search ports";
             this.SearchPorts.Click += new System.EventHandler(this.SearchPorts_Click);
@@ -346,41 +343,41 @@ namespace SKYNET
             this.DeviceName.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.DeviceName.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.DeviceName.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.DeviceName.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.DeviceName.ForeColor = System.Drawing.Color.White;
             this.DeviceName.IsPassword = false;
             this.DeviceName.Location = new System.Drawing.Point(297, 15);
             this.DeviceName.Logo = null;
             this.DeviceName.LogoCursor = System.Windows.Forms.Cursors.Default;
             this.DeviceName.Name = "DeviceName";
-            this.DeviceName.OnlyNumber = false;
+            this.DeviceName.OnlyNumbers = false;
             this.DeviceName.ShowLogo = false;
             this.DeviceName.Size = new System.Drawing.Size(153, 26);
             this.DeviceName.TabIndex = 258;
-            this.DeviceName.TopSeparator = 2;
+            this.DeviceName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
             // MAC
             // 
             this.MAC.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.MAC.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.MAC.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.MAC.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.MAC.ForeColor = System.Drawing.Color.White;
             this.MAC.IsPassword = false;
             this.MAC.Location = new System.Drawing.Point(297, 91);
             this.MAC.Logo = null;
             this.MAC.LogoCursor = System.Windows.Forms.Cursors.Default;
             this.MAC.Name = "MAC";
-            this.MAC.OnlyNumber = false;
+            this.MAC.OnlyNumbers = false;
             this.MAC.ShowLogo = false;
             this.MAC.Size = new System.Drawing.Size(153, 26);
             this.MAC.TabIndex = 257;
-            this.MAC.TopSeparator = 2;
+            this.MAC.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.MAC.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MAC_KeyDown);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(181, 94);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 16);
@@ -392,17 +389,17 @@ namespace SKYNET
             this.Port.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.Port.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.Port.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.Port.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Port.ForeColor = System.Drawing.Color.White;
             this.Port.IsPassword = false;
             this.Port.Location = new System.Drawing.Point(12, 222);
             this.Port.Logo = null;
             this.Port.LogoCursor = System.Windows.Forms.Cursors.Default;
             this.Port.Name = "Port";
-            this.Port.OnlyNumber = false;
+            this.Port.OnlyNumbers = false;
             this.Port.ShowLogo = false;
             this.Port.Size = new System.Drawing.Size(148, 26);
             this.Port.TabIndex = 24;
-            this.Port.TopSeparator = 2;
+            this.Port.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.Port.Visible = false;
             // 
             // DeleteAvatar
@@ -457,16 +454,17 @@ namespace SKYNET
             this.Controls.Add(this.Browser);
             this.Controls.Add(this.acceptBtn);
             this.Controls.Add(this.Container);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.PN_Top);
             this.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmManager";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SkyNet Manager";
             this.Load += new System.EventHandler(this.FrmManager_Load);
-            this.panel1.ResumeLayout(false);
+            this.PN_Top.ResumeLayout(false);
             this.panelClose.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).EndInit();
             this.Container.ResumeLayout(false);
@@ -480,7 +478,7 @@ namespace SKYNET
         }
 
         #endregion
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel PN_Top;
         private System.Windows.Forms.Button acceptBtn;
         private System.Windows.Forms.WebBrowser Browser;
         private SKYNET_Button Save;

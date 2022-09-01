@@ -2,20 +2,16 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Data;
 using System.Linq;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using SKYNET.GUI;
 
 namespace SKYNET
 {
-    public partial class frmConsole : Form
+    public partial class frmConsole : frmBase
     {
         public static frmConsole frm;
-        private bool mouseDown;     //Mover ventana
-        private Point lastLocation; //Mover ventana
-        //public static string TINclientIP = "10.30.127.11";
-        //public static string AHBclientIP = "10.30.127.10";
         public static string Win32;
         public bool Ready = false;
         public DeviceBox BOXmenu;
@@ -29,7 +25,8 @@ namespace SKYNET
         {
             InitializeComponent();
             TopMost = true;
-            CheckForIllegalCrossThreadCalls = false;  //Para permitir acceso a los subprocesos
+            CheckForIllegalCrossThreadCalls = false;
+            base.SetMouseMove(PN_Top);
             frm = this;
             BOXmenu = menuBOX;
             if (constante)
@@ -62,27 +59,6 @@ namespace SKYNET
                     txtConsole.Text += line + Environment.NewLine;
                 }
             });
-        }
-        private void frmMain_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-            Opacity = 100;
-        }
-
-        private void frmMain_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDown = true;
-            lastLocation = e.Location;
-        }
-
-        private void frmMain_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
-            {
-                Location = new Point((Location.X - lastLocation.X) + e.X, (Location.Y - lastLocation.Y) + e.Y);
-                Update();
-                Opacity = 0.93;
-            }
         }
 
         private void panelMin_MouseMove(object sender, MouseEventArgs e)

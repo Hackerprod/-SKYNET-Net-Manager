@@ -1,4 +1,4 @@
-﻿namespace XNova_Utils
+﻿namespace SKYNET.GUI
 {
     partial class frmAbout
     {
@@ -40,7 +40,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.PN_Top = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -76,15 +76,12 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Controls.Add(this.PN_Top);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(1, 1);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(372, 158);
             this.panel1.TabIndex = 25;
-            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
             // 
             // textBox1
             // 
@@ -105,9 +102,6 @@
             this.label6.Size = new System.Drawing.Size(70, 16);
             this.label6.TabIndex = 31;
             this.label6.Text = "Hackerprod";
-            this.label6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.label6.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.label6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
             // 
             // VersionInfo
             // 
@@ -120,9 +114,6 @@
             this.VersionInfo.Size = new System.Drawing.Size(29, 16);
             this.VersionInfo.TabIndex = 30;
             this.VersionInfo.Text = "v1.6";
-            this.VersionInfo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.VersionInfo.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.VersionInfo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
             // 
             // YearInfo
             // 
@@ -135,9 +126,6 @@
             this.YearInfo.Size = new System.Drawing.Size(107, 16);
             this.YearInfo.TabIndex = 29;
             this.YearInfo.Text = "Copyright © 2021";
-            this.YearInfo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.YearInfo.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.YearInfo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
             // 
             // label3
             // 
@@ -150,9 +138,6 @@
             this.label3.Size = new System.Drawing.Size(48, 16);
             this.label3.TabIndex = 28;
             this.label3.Text = "Author:";
-            this.label3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.label3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.label3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
             // 
             // label2
             // 
@@ -165,9 +150,6 @@
             this.label2.Size = new System.Drawing.Size(50, 16);
             this.label2.TabIndex = 27;
             this.label2.Text = "Version:";
-            this.label2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.label2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.label2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
             // 
             // label1
             // 
@@ -180,9 +162,6 @@
             this.label1.Size = new System.Drawing.Size(226, 26);
             this.label1.TabIndex = 26;
             this.label1.Text = "[SKYNET] Net Manager";
-            this.label1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.label1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.label1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
             // 
             // pictureBox1
             // 
@@ -193,22 +172,16 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 25;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
             // 
-            // panel2
+            // PN_Top
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.ForeColor = System.Drawing.Color.White;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(372, 26);
-            this.panel2.TabIndex = 24;
-            this.panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
+            this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PN_Top.ForeColor = System.Drawing.Color.White;
+            this.PN_Top.Location = new System.Drawing.Point(0, 0);
+            this.PN_Top.Name = "PN_Top";
+            this.PN_Top.Size = new System.Drawing.Size(372, 26);
+            this.PN_Top.TabIndex = 24;
             // 
             // frmAbout
             // 
@@ -223,6 +196,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmAbout";
             this.Padding = new System.Windows.Forms.Padding(1);
             this.ShowIcon = false;
@@ -242,7 +216,7 @@
         private System.Windows.Forms.Button acceptBtn;
         private System.Windows.Forms.Button ok;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel PN_Top;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;

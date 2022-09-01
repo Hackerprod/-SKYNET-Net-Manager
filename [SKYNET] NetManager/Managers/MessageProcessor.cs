@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using WebSocketSharp.Net;
@@ -12,6 +13,7 @@ namespace SKYNET
     public class MessageProcessor
     {
         private HttpServer server;
+        public EventHandler<MessageReceived> OnMessageReceived;
 
         public MessageProcessor()
         {
@@ -30,20 +32,19 @@ namespace SKYNET
                         byte[] body = GetBody(e.Request.InputStream);
                         var Remote = e.Request.RemoteEndPoint;
 
-                        e.Response.StatusCode = (int)HttpStatusCode.OK;
+                        e.Response.StatusCode = (int)WebSocketSharp.Net.HttpStatusCode.OK;
                         e.Response.Close();
 
                         string Message = Encoding.Default.GetString(body);
 
                         Device box = DeviceManager.GetDeviceFromIP((Remote).Address);
-                        if (box == null)
+
+                        OnMessageReceived?.Invoke(this, new MessageReceived()
                         {
-                            modCommon.Show(Message, frmMessage.TypeMessage.UserMessage, "Message received from " + (Remote).Address.ToString(), (Remote).Address);
-                        }
-                        else
-                        {
-                            modCommon.Show(Message, frmMessage.TypeMessage.UserMessage, "Message received from " + box.Name, (Remote).Address);
-                        }
+                            Device = box,
+                            Message = Message,
+                            Address = (Remote).Address
+                        });
                     }
                     break;
                 case "/onPing":
@@ -55,6 +56,7 @@ namespace SKYNET
                     break;
             }
         }
+
         private byte[] GetBody(Stream inputStream)
         {
             MemoryStream bodyStream = new MemoryStream();
@@ -76,6 +78,13 @@ namespace SKYNET
             {
             }
             return false;
+        }
+
+        public class MessageReceived
+        {
+            public Device Device { get; set; }
+            public string Message { get; set; }
+            public IPAddress Address { get; set; }
         }
     }
 }

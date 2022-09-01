@@ -1,4 +1,5 @@
 using NetUtils;
+using SKYNET.GUI;
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -8,7 +9,7 @@ using System.Windows.Forms;
 
 namespace NetPinger
 {
-	public class IPScanForm : Form
+	public class IPScanForm : frmBase
 	{
 		private class HostSorterByIP : IComparer
 		{

@@ -30,7 +30,7 @@ namespace SKYNET
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPortScan));
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.PN_Top = new System.Windows.Forms.Panel();
             this.CloseBox = new System.Windows.Forms.Panel();
             this.ClosePic = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -40,7 +40,7 @@ namespace SKYNET
             this.label7 = new System.Windows.Forms.Label();
             this.RemoteHost = new SKYNET.Controls.SKYNET_TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.launchBtn = new SKYNET.Controls.SKYNET_Button();
+            this.launchBtn = new SKYNET_Button();
             this.FBox = new SKYNET.Controls.SKYNET_TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.SBox = new SKYNET.Controls.SKYNET_TextBox();
@@ -52,7 +52,7 @@ namespace SKYNET
             this.Info = new System.Windows.Forms.Label();
             this.PortWorker = new System.ComponentModel.BackgroundWorker();
             this.progressBarCheck = new SKYNET.Controls.SKYNET_ProgressBar();
-            this.panel1.SuspendLayout();
+            this.PN_Top.SuspendLayout();
             this.CloseBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ClosePic)).BeginInit();
             this.panel3.SuspendLayout();
@@ -60,20 +60,17 @@ namespace SKYNET
             this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // PN_Top
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panel1.Controls.Add(this.CloseBox);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.ForeColor = System.Drawing.Color.White;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(616, 26);
-            this.panel1.TabIndex = 5;
-            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
+            this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.PN_Top.Controls.Add(this.CloseBox);
+            this.PN_Top.Controls.Add(this.label3);
+            this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PN_Top.ForeColor = System.Drawing.Color.White;
+            this.PN_Top.Location = new System.Drawing.Point(0, 0);
+            this.PN_Top.Name = "PN_Top";
+            this.PN_Top.Size = new System.Drawing.Size(616, 26);
+            this.PN_Top.TabIndex = 5;
             // 
             // CloseBox
             // 
@@ -112,9 +109,6 @@ namespace SKYNET
             this.label3.Size = new System.Drawing.Size(281, 16);
             this.label3.TabIndex = 7;
             this.label3.Text = "Detectar puertos abiertos en el Host remoto";
-            this.label3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.label3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.label3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
             // 
             // label4
             // 
@@ -151,17 +145,16 @@ namespace SKYNET
             this.timeOut.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.timeOut.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.timeOut.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.timeOut.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.timeOut.IsPassword = false;
             this.timeOut.Location = new System.Drawing.Point(410, 23);
             this.timeOut.Logo = null;
             this.timeOut.LogoCursor = System.Windows.Forms.Cursors.Default;
             this.timeOut.Name = "timeOut";
-            this.timeOut.OnlyNumber = false;
+            this.timeOut.OnlyNumbers = false;
             this.timeOut.ShowLogo = true;
             this.timeOut.Size = new System.Drawing.Size(99, 28);
             this.timeOut.TabIndex = 264;
-            this.timeOut.TopSeparator = 3;
+            this.timeOut.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
             // label7
             // 
@@ -179,17 +172,16 @@ namespace SKYNET
             this.RemoteHost.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.RemoteHost.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.RemoteHost.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.RemoteHost.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.RemoteHost.IsPassword = false;
             this.RemoteHost.Location = new System.Drawing.Point(12, 23);
             this.RemoteHost.Logo = null;
             this.RemoteHost.LogoCursor = System.Windows.Forms.Cursors.Default;
             this.RemoteHost.Name = "RemoteHost";
-            this.RemoteHost.OnlyNumber = false;
+            this.RemoteHost.OnlyNumbers = false;
             this.RemoteHost.ShowLogo = true;
             this.RemoteHost.Size = new System.Drawing.Size(146, 28);
             this.RemoteHost.TabIndex = 262;
-            this.RemoteHost.TopSeparator = 3;
+            this.RemoteHost.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
             // label6
             // 
@@ -210,14 +202,14 @@ namespace SKYNET
             this.launchBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.launchBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.launchBtn.ForeColorMouseOver = System.Drawing.Color.Empty;
-            this.launchBtn.ImageAlignment = SKYNET.Controls.SKYNET_Button._ImgAlign.Left;
+            this.launchBtn.ImageAlignment = SKYNET_Button._ImgAlign.Left;
             this.launchBtn.ImageIcon = null;
             this.launchBtn.Location = new System.Drawing.Point(516, 22);
             this.launchBtn.MenuMode = false;
             this.launchBtn.Name = "launchBtn";
             this.launchBtn.Rounded = false;
             this.launchBtn.Size = new System.Drawing.Size(93, 29);
-            this.launchBtn.Style = SKYNET.Controls.SKYNET_Button._Style.TextOnly;
+            this.launchBtn.Style = SKYNET_Button._Style.TextOnly;
             this.launchBtn.TabIndex = 21;
             this.launchBtn.Text = "Buscar";
             this.launchBtn.Click += new System.EventHandler(this.LaunchBtn_Click);
@@ -227,17 +219,16 @@ namespace SKYNET
             this.FBox.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.FBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.FBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.FBox.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.FBox.IsPassword = false;
             this.FBox.Location = new System.Drawing.Point(286, 23);
             this.FBox.Logo = null;
             this.FBox.LogoCursor = System.Windows.Forms.Cursors.Default;
             this.FBox.Name = "FBox";
-            this.FBox.OnlyNumber = false;
+            this.FBox.OnlyNumbers = false;
             this.FBox.ShowLogo = true;
             this.FBox.Size = new System.Drawing.Size(118, 28);
             this.FBox.TabIndex = 260;
-            this.FBox.TopSeparator = 3;
+            this.FBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
             // label1
             // 
@@ -255,17 +246,16 @@ namespace SKYNET
             this.SBox.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.SBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.SBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.SBox.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.SBox.IsPassword = false;
             this.SBox.Location = new System.Drawing.Point(164, 23);
             this.SBox.Logo = null;
             this.SBox.LogoCursor = System.Windows.Forms.Cursors.Default;
             this.SBox.Name = "SBox";
-            this.SBox.OnlyNumber = false;
+            this.SBox.OnlyNumbers = false;
             this.SBox.ShowLogo = true;
             this.SBox.Size = new System.Drawing.Size(116, 28);
             this.SBox.TabIndex = 258;
-            this.SBox.TopSeparator = 3;
+            this.SBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
             // panel2
             // 
@@ -372,16 +362,17 @@ namespace SKYNET
             this.Controls.Add(this.Info);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.PN_Top);
             this.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmPortScan";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SkyNet Manager";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.PN_Top.ResumeLayout(false);
+            this.PN_Top.PerformLayout();
             this.CloseBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ClosePic)).EndInit();
             this.panel3.ResumeLayout(false);
@@ -396,7 +387,7 @@ namespace SKYNET
         }
 
         #endregion
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel PN_Top;
         private System.Windows.Forms.Label label3;
         private SKYNET_Button launchBtn;
         private System.Windows.Forms.Label label4;

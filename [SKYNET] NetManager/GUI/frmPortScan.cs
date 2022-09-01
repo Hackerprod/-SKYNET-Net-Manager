@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SKYNET.GUI;
+using System;
 using System.Drawing;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -9,16 +8,15 @@ using System.Windows.Forms;
 
 namespace SKYNET
 {
-    public partial class frmPortScan : Form
+    public partial class frmPortScan : frmBase
     {
-        private bool mouseDown;     //Mover ventana
-        private Point lastLocation; //Mover ventana
         public static ManualResetEvent connectDone = new ManualResetEvent(false);
         private bool Cancel;
 
         public frmPortScan(string host, int InitPort = 20, int FinishPort = 150)
         {
             InitializeComponent();
+            base.SetMouseMove(PN_Top);
             CheckForIllegalCrossThreadCalls = false;
 
             SBox.Text = InitPort.ToString();
@@ -28,28 +26,6 @@ namespace SKYNET
         private void CloseBox_Click(object sender, EventArgs e)
         {
             Close();
-        }
-        private void Event_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
-            {
-                Location = new Point((Location.X - lastLocation.X) + e.X, (Location.Y - lastLocation.Y) + e.Y);
-                Update();
-                Opacity = 0.93;
-            }
-        }
-
-        private void Event_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDown = true;
-            lastLocation = e.Location;
-
-        }
-
-        private void Event_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-            Opacity = 100;
         }
 
         private void Control_MouseMove(object sender, MouseEventArgs e)
@@ -70,12 +46,12 @@ namespace SKYNET
 
             if (!portS || !portF)
             {
-                modCommon.Show("Asegúrace de que los puertos tienen formato correcto.");
+                Common.Show("Asegúrace de que los puertos tienen formato correcto.");
                 return;
             }
             if (PortS <= IPEndPoint.MinPort || PortS > 65534 || PortF > IPEndPoint.MaxPort || PortF < 2)
             {
-                modCommon.Show("Los puertos a buscar deben encontrarse en el rango de 1 hasta 65535");
+                Common.Show("Los puertos a buscar deben encontrarse en el rango de 1 hasta 65535");
                 return;
             }
 

@@ -38,11 +38,11 @@ namespace SKYNET
             this.panel15 = new System.Windows.Forms.Panel();
             this.txtMessage = new System.Windows.Forms.TextBox();
             this._Cancel = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.PN_Top = new System.Windows.Forms.Panel();
             this.Header = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel15.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.PN_Top.SuspendLayout();
             this.SuspendLayout();
             // 
             // ok
@@ -61,15 +61,12 @@ namespace SKYNET
             this.panel1.Controls.Add(this.btn_Accept);
             this.panel1.Controls.Add(this.btn_Cancel);
             this.panel1.Controls.Add(this.panel15);
-            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Controls.Add(this.PN_Top);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(477, 195);
             this.panel1.TabIndex = 25;
-            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
             // 
             // btn_Accept
             // 
@@ -82,6 +79,7 @@ namespace SKYNET
             this.btn_Accept.ImageAlignment = SKYNET_Button._ImgAlign.Left;
             this.btn_Accept.ImageIcon = null;
             this.btn_Accept.Location = new System.Drawing.Point(273, 152);
+            this.btn_Accept.MenuMode = false;
             this.btn_Accept.Name = "btn_Accept";
             this.btn_Accept.Rounded = false;
             this.btn_Accept.Size = new System.Drawing.Size(93, 29);
@@ -101,6 +99,7 @@ namespace SKYNET
             this.btn_Cancel.ImageAlignment = SKYNET_Button._ImgAlign.Left;
             this.btn_Cancel.ImageIcon = null;
             this.btn_Cancel.Location = new System.Drawing.Point(372, 152);
+            this.btn_Cancel.MenuMode = false;
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Rounded = false;
             this.btn_Cancel.Size = new System.Drawing.Size(93, 29);
@@ -136,29 +135,26 @@ namespace SKYNET
             this.txtMessage.TabIndex = 26;
             this.txtMessage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtMessage_KeyDown);
             // 
-            // Cancel
+            // _Cancel
             // 
             this._Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._Cancel.Location = new System.Drawing.Point(484, 90);
-            this._Cancel.Name = "Cancel";
+            this._Cancel.Name = "_Cancel";
             this._Cancel.Size = new System.Drawing.Size(16, 23);
             this._Cancel.TabIndex = 25;
             this._Cancel.Text = "cancel";
             this._Cancel.UseVisualStyleBackColor = true;
             // 
-            // panel2
+            // PN_Top
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panel2.Controls.Add(this.Header);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.ForeColor = System.Drawing.Color.White;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(477, 26);
-            this.panel2.TabIndex = 24;
-            this.panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
+            this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.PN_Top.Controls.Add(this.Header);
+            this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PN_Top.ForeColor = System.Drawing.Color.White;
+            this.PN_Top.Location = new System.Drawing.Point(0, 0);
+            this.PN_Top.Name = "PN_Top";
+            this.PN_Top.Size = new System.Drawing.Size(477, 26);
+            this.PN_Top.TabIndex = 24;
             // 
             // Header
             // 
@@ -182,14 +178,15 @@ namespace SKYNET
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmMessage";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.panel1.ResumeLayout(false);
             this.panel15.ResumeLayout(false);
             this.panel15.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.PN_Top.ResumeLayout(false);
+            this.PN_Top.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -201,7 +198,7 @@ namespace SKYNET
         private SKYNET_Button btn_Cancel;
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Button _Cancel;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel PN_Top;
         private System.Windows.Forms.Label Header;
         private System.Windows.Forms.TextBox txtMessage;
     }

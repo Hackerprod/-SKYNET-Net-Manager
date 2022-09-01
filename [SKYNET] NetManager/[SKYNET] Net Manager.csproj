@@ -35,12 +35,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>1 %28111%29.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Control.Draggable">
-      <HintPath>..\..\..\..\..\Regueros\Compartido\drag\DragControlsDemo-master\packages\Control.Draggable.1.0.5049.269\Control.Draggable.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -64,24 +62,51 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\BlurExtentions.cs" />
+    <Compile Include="Class\ConnectionStatus.cs" />
+    <Compile Include="Class\ControlExtension.cs" />
     <Compile Include="Class\ControlMover.cs" />
+    <Compile Include="Class\ControlSorter.cs" />
+    <Compile Include="Class\DragHelper\DragableControl.cs" />
+    <Compile Include="Class\DragHelper\DragHelper.cs" />
     <Compile Include="Class\DwmApi.cs" />
+    <Compile Include="Class\Hook.cs" />
     <Compile Include="Class\Host.cs" />
     <Compile Include="Class\HostPinger\AsyncHostNameResolver.cs" />
+    <Compile Include="Class\HostPinger\Delegates.cs" />
     <Compile Include="Class\HostPinger\HostPinger.cs" />
     <Compile Include="Class\HostPinger\HostStatus.cs" />
     <Compile Include="Class\HostPinger\IPingLogger.cs" />
-    <Compile Include="Class\HostPinger\Delegates.cs" />
     <Compile Include="Class\HostPinger\IPScanHostState.cs" />
     <Compile Include="Class\HostPinger\IPScanner.cs" />
     <Compile Include="Class\HostPinger\IPScanRange.cs" />
     <Compile Include="Class\HostPinger\PingResultsBuffer.cs" />
     <Compile Include="Class\ImageHelper.cs" />
     <Compile Include="Class\ImageManager.cs" />
+    <Compile Include="Class\IniParser\Exceptions\ParsingException.cs" />
+    <Compile Include="Class\IniParser\FileIniDataParser.cs" />
+    <Compile Include="Class\IniParser\Model\Configuration\ConcatenateDuplicatedKeysIniParserConfiguration.cs" />
+    <Compile Include="Class\IniParser\Model\Configuration\DefaultIniParserConfiguration.cs" />
+    <Compile Include="Class\IniParser\Model\Configuration\IniParserConfiguration.cs" />
+    <Compile Include="Class\IniParser\Model\Formatting\DefaultIniDataFormatter.cs" />
+    <Compile Include="Class\IniParser\Model\Formatting\IIniDataFormatter.cs" />
+    <Compile Include="Class\IniParser\Model\IniData.cs" />
+    <Compile Include="Class\IniParser\Model\IniDataCaseInsensitive.cs" />
+    <Compile Include="Class\IniParser\Model\KeyData.cs" />
+    <Compile Include="Class\IniParser\Model\KeyDataCollection.cs" />
+    <Compile Include="Class\IniParser\Model\SectionData.cs" />
+    <Compile Include="Class\IniParser\Model\SectionDataCollection.cs" />
+    <Compile Include="Class\IniParser\Parser\ConcatenateDuplicatedKeysIniDataParser.cs" />
+    <Compile Include="Class\IniParser\Parser\IniDataParser.cs" />
+    <Compile Include="Class\IniParser\StreamIniDataParser.cs" />
+    <Compile Include="Class\KeyboardHook\KeyboardHook.cs" />
+    <Compile Include="Class\KeyboardHook\MouseHook.cs" />
     <Compile Include="Class\MathHelper.cs" />
     <Compile Include="Class\Media.cs" />
     <Compile Include="Class\PortScanner.cs" />
+    <Compile Include="Class\RegistrySettings.cs" />
+    <Compile Include="Class\TcpClient.cs" />
     <Compile Include="Class\ThreadManager.cs" />
+    <Compile Include="Class\WakeOnLanAction.cs" />
     <Compile Include="Class\websocket-sharp\ByteOrder.cs" />
     <Compile Include="Class\websocket-sharp\CloseEventArgs.cs" />
     <Compile Include="Class\websocket-sharp\CloseStatusCode.cs" />
@@ -161,10 +186,34 @@
     <Compile Include="Class\websocket-sharp\WebSocketFrame.cs" />
     <Compile Include="Class\websocket-sharp\WebSocketState.cs" />
     <Compile Include="Class\WinMod.cs" />
-    <Compile Include="Class\TcpClient.cs" />
-    <Compile Include="Class\ConnectionStatus.cs" />
-    <Compile Include="Class\ControlSorter.cs" />
-    <Compile Include="ControlExtension.cs" />
+    <Compile Include="Common.cs" />
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\DeviceBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\DeviceBox.Designer.cs">
+      <DependentUpon>DeviceBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\DeviceHistory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\DeviceHistory.designer.cs">
+      <DependentUpon>DeviceHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\FlatComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ImageCropControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ImageCropControl.designer.cs">
+      <DependentUpon>ImageCropControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\Metro\ListViewColumnSorter.cs" />
     <Compile Include="GUI\Controls\Metro\MetroPaintEventArgs.cs" />
     <Compile Include="GUI\Controls\Metro\MetroPanel.cs">
@@ -172,16 +221,6 @@
     </Compile>
     <Compile Include="GUI\Controls\Metro\MetroScrollBar.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GUI\Controls\WinApi.cs" />
-    <Compile Include="GUI\Controls\SKYNET_ContextMenuStrip.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GUI\Controls\SKYNET_ShadowBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Controls\SKYNET_ShadowBox.designer.cs">
-      <DependentUpon>SKYNET_ShadowBox.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Controls\SKYNET_Button.cs">
       <SubType>Component</SubType>
@@ -192,8 +231,29 @@
     <Compile Include="GUI\Controls\SKYNET_Check.designer.cs">
       <DependentUpon>SKYNET_Check.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\SKYNET_CloseBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_CloseBox.designer.cs">
+      <DependentUpon>SKYNET_CloseBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_ContextMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_MinimizeBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_MinimizeBox.designer.cs">
+      <DependentUpon>SKYNET_MinimizeBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\SKYNET_ProgressBar.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_ShadowBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_ShadowBox.designer.cs">
+      <DependentUpon>SKYNET_ShadowBox.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Controls\SKYNET_TextBox.cs">
       <SubType>UserControl</SubType>
@@ -201,45 +261,18 @@
     <Compile Include="GUI\Controls\SKYNET_TextBox.designer.cs">
       <DependentUpon>SKYNET_TextBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Device.cs" />
-    <Compile Include="DeviceHistory.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DeviceHistory.designer.cs">
-      <DependentUpon>DeviceHistory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DeviceManager.cs" />
-    <Compile Include="DragHelper\DragableControl.cs" />
-    <Compile Include="DragHelper\DragHelper.cs" />
+    <Compile Include="GUI\Controls\WinApi.cs" />
     <Compile Include="GUI\frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\frmAbout.designer.cs">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\frmSendMessage.cs">
+    <Compile Include="GUI\frmAddProfile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\frmSendMessage.designer.cs">
-      <DependentUpon>frmSendMessage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\frmSearch.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmSearch.designer.cs">
-      <DependentUpon>frmSearch.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\frmDeviceInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmDeviceInfo.designer.cs">
-      <DependentUpon>frmDeviceInfo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\frmProfile.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmProfile.designer.cs">
-      <DependentUpon>frmProfile.cs</DependentUpon>
+    <Compile Include="GUI\frmAddProfile.designer.cs">
+      <DependentUpon>frmAddProfile.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmAlert.cs">
       <SubType>Form</SubType>
@@ -247,11 +280,41 @@
     <Compile Include="GUI\frmAlert.designer.cs">
       <DependentUpon>frmAlert.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmBack.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmBack.Designer.cs">
+      <DependentUpon>frmBack.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmBase.designer.cs">
+      <DependentUpon>frmBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmConsole.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\frmConsole.designer.cs">
       <DependentUpon>frmConsole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmCropEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmCropEditor.designer.cs">
+      <DependentUpon>frmCropEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmDeviceInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmDeviceInfo.designer.cs">
+      <DependentUpon>frmDeviceInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmKey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmKey.Designer.cs">
+      <DependentUpon>frmKey.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmManager.cs">
       <SubType>Form</SubType>
@@ -271,11 +334,23 @@
     <Compile Include="GUI\frmPortScan.designer.cs">
       <DependentUpon>frmPortScan.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\frmAddProfile.cs">
+    <Compile Include="GUI\frmPrivateChat.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\frmAddProfile.designer.cs">
-      <DependentUpon>frmAddProfile.cs</DependentUpon>
+    <Compile Include="GUI\frmPrivateChat.designer.cs">
+      <DependentUpon>frmPrivateChat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmProfile.designer.cs">
+      <DependentUpon>frmProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmSearch.designer.cs">
+      <DependentUpon>frmSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmSettings.cs">
       <SubType>Form</SubType>
@@ -283,95 +358,71 @@
     <Compile Include="GUI\frmSettings.designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\frmKey.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmKey.Designer.cs">
-      <DependentUpon>frmKey.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Controls\ImageCropControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Controls\ImageCropControl.designer.cs">
-      <DependentUpon>ImageCropControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\IPScanForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmBack.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmBack.Designer.cs">
-      <DependentUpon>frmBack.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\frmCropEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmCropEditor.designer.cs">
-      <DependentUpon>frmCropEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmMain.designer.cs">
-      <DependentUpon>frmMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Class\Hook.cs" />
     <Compile Include="GUI\frmSplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\frmSplashScreen.Designer.cs">
       <DependentUpon>frmSplashScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeyboardHook\KeyboardHook.cs" />
-    <Compile Include="KeyboardHook\MouseHook.cs" />
-    <Compile Include="MessageProcessor.cs" />
-    <Compile Include="modCommon.cs" />
+    <Compile Include="GUI\IPScanForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Managers\ChatManager.cs" />
+    <Compile Include="Managers\DeviceManager.cs" />
+    <Compile Include="Managers\MessageProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Class\RegistrySettings.cs" />
-    <Compile Include="GUI\Controls\FlatComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Class\WakeOnLanAction.cs" />
-    <Compile Include="DeviceBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DeviceBox.Designer.cs">
+    <Compile Include="Types\Device.cs" />
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\DeviceBox.resx">
       <DependentUpon>DeviceBox.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="GUI\Controls\SKYNET_ShadowBox.resx">
-      <DependentUpon>SKYNET_ShadowBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\DeviceHistory.resx">
+      <DependentUpon>DeviceHistory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\SKYNET_Check.resx">
       <DependentUpon>SKYNET_Check.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\SKYNET_CloseBox.resx">
+      <DependentUpon>SKYNET_CloseBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\SKYNET_MinimizeBox.resx">
+      <DependentUpon>SKYNET_MinimizeBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\SKYNET_ShadowBox.resx">
+      <DependentUpon>SKYNET_ShadowBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\SKYNET_TextBox.resx">
       <DependentUpon>SKYNET_TextBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DeviceHistory.resx">
-      <DependentUpon>DeviceHistory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmSendMessage.resx">
-      <DependentUpon>frmSendMessage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmSearch.resx">
-      <DependentUpon>frmSearch.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmDeviceInfo.resx">
-      <DependentUpon>frmDeviceInfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmProfile.resx">
-      <DependentUpon>frmProfile.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\frmAddProfile.resx">
+      <DependentUpon>frmAddProfile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmAlert.resx">
       <DependentUpon>frmAlert.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmBack.resx">
+      <DependentUpon>frmBack.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmBase.resx">
+      <DependentUpon>frmBase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmConsole.resx">
       <DependentUpon>frmConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmCropEditor.resx">
+      <DependentUpon>frmCropEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmDeviceInfo.resx">
+      <DependentUpon>frmDeviceInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmKey.resx">
+      <DependentUpon>frmKey.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmManager.resx">
       <DependentUpon>frmManager.cs</DependentUpon>
@@ -382,29 +433,23 @@
     <EmbeddedResource Include="GUI\frmPortScan.resx">
       <DependentUpon>frmPortScan.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmAddProfile.resx">
-      <DependentUpon>frmAddProfile.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\frmPrivateChat.resx">
+      <DependentUpon>frmPrivateChat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmProfile.resx">
+      <DependentUpon>frmProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmSearch.resx">
+      <DependentUpon>frmSearch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmKey.resx">
-      <DependentUpon>frmKey.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\frmSplashScreen.resx">
+      <DependentUpon>frmSplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\IPScanForm.resx">
       <DependentUpon>IPScanForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmBack.resx">
-      <DependentUpon>frmBack.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmCropEditor.resx">
-      <DependentUpon>frmCropEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmMain.resx">
-      <DependentUpon>frmMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmSplashScreen.resx">
-      <DependentUpon>frmSplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -416,9 +461,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="DeviceBox.resx">
-      <DependentUpon>DeviceBox.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -430,104 +472,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\close11.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Dota2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Dota2Red.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Luz.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\min_new.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\user_sel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\user_unsel.png" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <None Include="Resources\Icon_2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\online.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\idlechat.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\settings_sel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\settings_unsel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AlienWare3 _1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\com_facebook_profile_picture_blank_square.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\statusbar_mobile_on.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\1 %28111%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\OfflinePC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\NeutralPC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\OnlinePC.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="1 %28111%29.ico" />
-    <Content Include="Positions.txt" />
-    <None Include="Resources\Online.wav" />
-    <None Include="Resources\Offline.wav" />
-    <None Include="Resources\minimise.png" />
-    <None Include="Resources\close.png" />
-    <None Include="Resources\b_On.png" />
-    <None Include="Resources\b_Off.png" />
-    <None Include="Resources\D_Online.png" />
-    <None Include="Resources\D_Offline.png" />
-    <None Include="Resources\Offline.png" />
-    <None Include="Resources\Logo.png" />
-    <None Include="Resources\SkynetManager.png" />
-    <None Include="Resources\pingtools.png" />
-    <None Include="Resources\flixster.png" />
-    <None Include="Resources\1 %28154%29.png" />
-    <None Include="Resources\SearchPing.png" />
-    <None Include="Resources\Search.png" />
-    <None Include="Resources\settings_2.png" />
-    <None Include="Resources\spareroom.png" />
-    <None Include="Resources\squarespace_blog.png" />
-    <None Include="Resources\tiny_tunes.png" />
-    <None Include="Resources\wifi_manager.png" />
-    <None Include="Resources\xfinity_my_account.png" />
-    <None Include="Resources\blackboard.png" />
-    <None Include="Resources\blackberry_notes.png" />
-    <None Include="Resources\blackberry_contacts.png" />
-    <None Include="Resources\alcatel_notes.png" />
-    <None Include="Resources\2.png" />
-    <None Include="Resources\1 %2812%29.png" />
-    <None Include="Resources\My Computer lime copia.png" />
-    <None Include="Resources\cinemadisplay.png" />
-    <None Include="Resources\glob_v2.png" />
-    <None Include="Resources\globe_48.png" />
-    <None Include="Resources\Icon003.jpg" />
-    <None Include="Resources\keyhole_icon_png.png" />
-    <None Include="Resources\sound-start-record.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

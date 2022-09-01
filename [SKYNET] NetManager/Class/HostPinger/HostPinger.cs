@@ -647,7 +647,7 @@ namespace NetUtils
             HostName = device.IpName;
 
 
-            if (!modCommon.IsValidIp(HostName))
+            if (!Common.IsValidIp(HostName))
             {
                 return;
             }
@@ -755,7 +755,7 @@ namespace NetUtils
             IPAddress.TryParse(device.IpName, out IPAddress _HostIP);
             HostIP = _HostIP;
 
-            if (modCommon.IsCableConnected())
+            if (Common.IsCableConnected())
             {
                 int PortPing = 80;
                 int.TryParse(device.Port, out PortPing);

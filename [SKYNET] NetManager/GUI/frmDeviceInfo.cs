@@ -1,21 +1,18 @@
 ﻿using NetUtils;
+using SKYNET.GUI;
 using SKYNET.Properties;
 using System;
 using System.Drawing;
-using System.IO;
 using System.Media;
 using System.Net;
 using System.Text;
 using System.Timers;
 using System.Windows.Forms;
-using Timer = System.Windows.Forms.Timer;
 
 namespace SKYNET
 {
-    public partial class frmDeviceInfo : Form
+    public partial class frmDeviceInfo : frmBase
     {
-        private bool mouseDown;     //Mover ventana
-        private Point lastLocation; //Mover ventana
         readonly DeviceBox device;
         Image BoxImage;
 
@@ -28,7 +25,8 @@ namespace SKYNET
         public frmDeviceInfo(DeviceBox tool = null)
         {
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;  //Para permitir acceso a los subprocesos
+            base.SetMouseMove(PN_Top);
+            CheckForIllegalCrossThreadCalls = false;  
             StatusLabel.Text = "";
 
             if (tool != null)
@@ -47,7 +45,7 @@ namespace SKYNET
                     
                     if (device.CircularAvatar)
                     {
-                        Avatar.Image = modCommon.CropToCircle(BoxImage);
+                        Avatar.Image = Common.CropToCircle(BoxImage);
                     }
                     else
                         Avatar.Image = BoxImage;
@@ -139,7 +137,7 @@ namespace SKYNET
                 {
                     //Width
                     int W_Pantalla = DeviceInfo.Width / 2; //680
-                    int AnchoTexto = Convert.ToInt32(modCommon.GetTextSize(control.Text, control.Font).Width) / 2;
+                    int AnchoTexto = Convert.ToInt32(Common.GetTextSize(control.Text, control.Font).Width) / 2;
                     int WidthText = W_Pantalla - AnchoTexto;
 
                     //Heigth
@@ -148,29 +146,6 @@ namespace SKYNET
                     control.Location = new Point(WidthText, control.Location.Y);
                 }
             }
-        }
-
-        private void Event_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
-            {
-                Location = new Point((Location.X - lastLocation.X) + e.X, (Location.Y - lastLocation.Y) + e.Y);
-                Update();
-                Opacity = 0.93;
-            }
-        }
-
-        private void Event_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDown = true;
-            lastLocation = e.Location;
-
-        }
-
-        private void Event_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-            Opacity = 100;
         }
 
         private void Close_Click(object sender, EventArgs e)

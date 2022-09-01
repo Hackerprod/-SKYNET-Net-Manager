@@ -77,12 +77,12 @@ namespace SKYNET
         {
             string path = "";
 
-            if (!Directory.Exists(modCommon.CurrentDirectory + "/Data/Images/"))
+            if (!Directory.Exists(Common.CurrentDirectory + "/Data/Images/"))
             {
-                Directory.CreateDirectory(modCommon.CurrentDirectory + "/Data/Images/");
+                Directory.CreateDirectory(Common.CurrentDirectory + "/Data/Images/");
                 return "";
             }
-            string[] files = Directory.GetFiles(modCommon.CurrentDirectory + "/Data/Images/");
+            string[] files = Directory.GetFiles(Common.CurrentDirectory + "/Data/Images/");
             foreach (var picture in files)
             {
                 if (picture.Contains(frmMain.CurrentSection + "_" + name + ".png"))
@@ -120,10 +120,10 @@ namespace SKYNET
                 switch (type)
                 {
                     case ImageType.JPG:
-                        image = modCommon.ImageFromFile(ImageFile);
+                        image = Common.ImageFromFile(ImageFile);
                         break;
                     case ImageType.PNG:
-                        image = modCommon.ImageFromFile(ImageFile);
+                        image = Common.ImageFromFile(ImageFile);
                         break;
                     case ImageType.ICO:
                         try
@@ -136,10 +136,10 @@ namespace SKYNET
                         }
                         break;
                     case ImageType.GIF:
-                        image = modCommon.ImageFromFile(ImageFile);
+                        image = Common.ImageFromFile(ImageFile);
                         break;
                     default:
-                        image = modCommon.ImageFromFile(ImageFile);
+                        image = Common.ImageFromFile(ImageFile);
                         break;
                 }
             }

@@ -35,11 +35,12 @@ namespace SKYNET
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDeviceInfo));
-            this.TopPanel = new System.Windows.Forms.Panel();
+            this.PN_Top = new System.Windows.Forms.Panel();
             this.panelClose = new System.Windows.Forms.Panel();
             this.closeBtn = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.DeviceInfo = new System.Windows.Forms.Panel();
+            this.deviceHistory1 = new WindowsFormsApp.DeviceHistory();
             this.D_Status = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -106,8 +107,7 @@ namespace SKYNET
             this.panel1 = new System.Windows.Forms.Panel();
             this.label28 = new System.Windows.Forms.Label();
             this.HostName = new System.Windows.Forms.Label();
-            this.deviceHistory1 = new WindowsFormsApp.DeviceHistory();
-            this.TopPanel.SuspendLayout();
+            this.PN_Top.SuspendLayout();
             this.panelClose.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).BeginInit();
             this.DeviceInfo.SuspendLayout();
@@ -135,20 +135,17 @@ namespace SKYNET
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // TopPanel
+            // PN_Top
             // 
-            this.TopPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.TopPanel.Controls.Add(this.panelClose);
-            this.TopPanel.Controls.Add(this.label3);
-            this.TopPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TopPanel.ForeColor = System.Drawing.Color.White;
-            this.TopPanel.Location = new System.Drawing.Point(0, 0);
-            this.TopPanel.Name = "TopPanel";
-            this.TopPanel.Size = new System.Drawing.Size(520, 26);
-            this.TopPanel.TabIndex = 5;
-            this.TopPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.TopPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.TopPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
+            this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.PN_Top.Controls.Add(this.panelClose);
+            this.PN_Top.Controls.Add(this.label3);
+            this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PN_Top.ForeColor = System.Drawing.Color.White;
+            this.PN_Top.Location = new System.Drawing.Point(0, 0);
+            this.PN_Top.Name = "PN_Top";
+            this.PN_Top.Size = new System.Drawing.Size(520, 26);
+            this.PN_Top.TabIndex = 5;
             // 
             // panelClose
             // 
@@ -188,9 +185,6 @@ namespace SKYNET
             this.label3.TabIndex = 7;
             this.label3.Text = "Datos del monitoreo";
             this.label3.Click += new System.EventHandler(this.Label3_Click);
-            this.label3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.label3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.label3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
             // 
             // DeviceInfo
             // 
@@ -209,6 +203,15 @@ namespace SKYNET
             this.DeviceInfo.Name = "DeviceInfo";
             this.DeviceInfo.Size = new System.Drawing.Size(153, 425);
             this.DeviceInfo.TabIndex = 260;
+            // 
+            // deviceHistory1
+            // 
+            this.deviceHistory1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(94)))), ((int)(((byte)(108)))));
+            this.deviceHistory1.Location = new System.Drawing.Point(11, 292);
+            this.deviceHistory1.Name = "deviceHistory1";
+            this.deviceHistory1.Padding = new System.Windows.Forms.Padding(2);
+            this.deviceHistory1.Size = new System.Drawing.Size(130, 120);
+            this.deviceHistory1.TabIndex = 265;
             // 
             // D_Status
             // 
@@ -936,31 +939,23 @@ namespace SKYNET
             this.HostName.TabIndex = 10;
             this.HostName.Text = "Loading info...";
             // 
-            // deviceHistory1
-            // 
-            this.deviceHistory1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(94)))), ((int)(((byte)(108)))));
-            this.deviceHistory1.Location = new System.Drawing.Point(11, 292);
-            this.deviceHistory1.Name = "deviceHistory1";
-            this.deviceHistory1.Padding = new System.Windows.Forms.Padding(2);
-            this.deviceHistory1.Size = new System.Drawing.Size(130, 120);
-            this.deviceHistory1.TabIndex = 265;
-            // 
             // frmDeviceInfo
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(29)))), ((int)(((byte)(32)))));
             this.ClientSize = new System.Drawing.Size(520, 478);
             this.Controls.Add(this.panel3);
-            this.Controls.Add(this.TopPanel);
+            this.Controls.Add(this.PN_Top);
             this.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmDeviceInfo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SkyNet Manager";
-            this.TopPanel.ResumeLayout(false);
-            this.TopPanel.PerformLayout();
+            this.PN_Top.ResumeLayout(false);
+            this.PN_Top.PerformLayout();
             this.panelClose.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).EndInit();
             this.DeviceInfo.ResumeLayout(false);
@@ -1010,7 +1005,7 @@ namespace SKYNET
         }
 
         #endregion
-        private System.Windows.Forms.Panel TopPanel;
+        private System.Windows.Forms.Panel PN_Top;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panelClose;
         private System.Windows.Forms.PictureBox closeBtn;

@@ -17,8 +17,6 @@ namespace SKYNET
 {
     public partial class DeviceBox : UserControl
     {
-        //private bool MouseDown;     //Mover ventana
-        //private Point lastLocation; //Mover ventana
         public string HostName { get; set; }
         public bool AlertOnConnect { get; set; }
         public bool AlertOnDisconnect { get; set; }
@@ -208,7 +206,7 @@ namespace SKYNET
                 {
                     if (CustomAvatar)
                     {
-                        Avatar.Image = modCommon.CropToCircle(BoxImage);
+                        Avatar.Image = Common.CropToCircle(BoxImage);
                     }
                 }
                 else
@@ -234,7 +232,7 @@ namespace SKYNET
             IPAddress.TryParse(IpName, out IPAddress _HostIP);
             try
             {
-                if (/*modCommon.IsCableConnected() && */modCommon.IsValidIp(IpName))
+                if (/*modCommon.IsCableConnected() && */Common.IsValidIp(IpName))
                 {
                     int.TryParse(Port, out int PortPing);
                     lol = true;
@@ -374,7 +372,7 @@ namespace SKYNET
         private void IncluyeReceived(long RoundtripTime)
         {
 
-            MAC = modCommon.GetMacAddress(RemoteAddress);
+            MAC = Common.GetMacAddress(RemoteAddress);
             Ping = RoundtripTime + " ms";
             Status = ConnectionStatus.Online;
 
@@ -413,7 +411,7 @@ namespace SKYNET
 
                 if (CircularAvatar)
                 {
-                    Avatar.Image = modCommon.CropToCircle(image);
+                    Avatar.Image = Common.CropToCircle(image);
                 }
                 else
                 {
@@ -487,7 +485,7 @@ namespace SKYNET
                 SetAvatar(BoxImage, true);
             }
 
-            if (modCommon.IsCableConnected())
+            if (Common.IsCableConnected())
             {
                 string address = IpName;
                 try
@@ -496,7 +494,7 @@ namespace SKYNET
                     {
                         Thread.CurrentThread.IsBackground = true;
 
-                        if (!modCommon.IsValidIp(address))
+                        if (!Common.IsValidIp(address))
                             return;
 
                         IPAddress.TryParse(IpName, out IPAddress _HostIP);
@@ -520,7 +518,7 @@ namespace SKYNET
                                     Ping = RoundtripTime + " ms";
 
                                     RemoteAddress = ((IPEndPoint)sockets.RemoteEndPoint).Address;
-                                    MAC = modCommon.GetMacAddress(RemoteAddress);
+                                    MAC = Common.GetMacAddress(RemoteAddress);
 
                                     Status = ConnectionStatus.Online;
                                     sockets.Close();
@@ -546,7 +544,7 @@ namespace SKYNET
                                 {
                                     Ping = reply.RoundtripTime + " ms";
                                     Status = ConnectionStatus.Online;
-                                    MAC = modCommon.GetMacAddress(reply.Address);
+                                    MAC = Common.GetMacAddress(reply.Address);
                                 }
                                 else
                                 {
@@ -600,7 +598,7 @@ namespace SKYNET
 
         private void Avatar_Click(object sender, EventArgs e)
         {
-            if (modCommon.Hackerprod)
+            if (Common.Hackerprod)
             {
                 //modCommon.Show("Running: " + Running + " | status: " + Status);
             }

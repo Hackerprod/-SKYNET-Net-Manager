@@ -1,4 +1,4 @@
-﻿using SKYNET.Common;
+﻿using SKYNET.GUI;
 using SKYNET.Properties;
 using System;
 using System.Drawing;
@@ -10,19 +10,17 @@ using System.Windows.Forms;
 
 namespace SKYNET
 {
-    public partial class frmManager : Form
+    public partial class frmManager : frmBase
     {
-        private bool mouseDown;     //Mover ventana
-        private Point lastLocation; //Mover ventana
         public TypeMessage typeMessage;
         DeviceBox Box;
         string SectionName;
-        int sectionNumber;
 
         public frmManager(DeviceBox tool = null)
         {
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;  //Para permitir acceso a los subprocesos
+            CheckForIllegalCrossThreadCalls = false;
+            base.SetMouseMove(PN_Top);
 
             if (tool != null)
             {
@@ -51,7 +49,7 @@ namespace SKYNET
         public frmManager(Host host)
         {
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;  //Para permitir acceso a los subprocesos
+            CheckForIllegalCrossThreadCalls = false;  
 
             if (host != null)
             {
@@ -71,31 +69,6 @@ namespace SKYNET
                 Close();
             }
         }
-
-
-        private void Event_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
-            {
-                base.Location = new Point((base.Location.X - lastLocation.X) + e.X, (base.Location.Y - lastLocation.Y) + e.Y);
-                Update();
-                Opacity = 0.93;
-            }
-        }
-
-        private void Event_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDown = true;
-            lastLocation = e.Location;
-
-        }
-
-        private void Event_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-            Opacity = 100;
-        }
-
 
         private void cancelBtn_Click(object sender, EventArgs e)
         {
@@ -119,24 +92,24 @@ namespace SKYNET
         }
         private void Save_Click(object sender, EventArgs e)
         {
-            if (!modCommon.IsValidIp(DeviceIp.Text))
+            if (!Common.IsValidIp(DeviceIp.Text))
             {
-                modCommon.Show("El número IP no es válido... por favor verifíquelo");
+                Common.Show("El número IP no es válido... por favor verifíquelo");
                 return;
             }
             if (Interval.Text == "0")
             {
-                modCommon.Show("El intervalo debe ser al menos cada 1 segundo");
+                Common.Show("El intervalo debe ser al menos cada 1 segundo");
                 return;
             }
             if (Interval.Text.Length == 0)
             {
-                modCommon.Show("Introduzca el intervalo de monitoreo");
+                Common.Show("Introduzca el intervalo de monitoreo");
                 return;
             }
             if (DeviceName.Text.Length == 0)
             {
-                modCommon.Show("Introduzca el nombre para identificar el equipo");
+                Common.Show("Introduzca el nombre para identificar el equipo");
                 return;
             }
             if (Box != null)
@@ -239,7 +212,7 @@ namespace SKYNET
             WindowState = FormWindowState.Minimized;
             if (dialogResult == DialogResult.OK)
             {
-                string FileName = modCommon.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + SectionName + ".png";
+                string FileName = Common.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + SectionName + ".png";
                 ImageType type = DeviceManager.GetImageType(ofdPhoto.FileName);
 
                 if (type == ImageType.ICO)
@@ -260,7 +233,7 @@ namespace SKYNET
                 else
                 {
                     //pctPhoto.Tag = "1";
-                    Image image = modCommon.ImageFromFile(ofdPhoto.FileName);
+                    Image image = Common.ImageFromFile(ofdPhoto.FileName);
 
                     if (image.Width < 250)
                     {
@@ -284,7 +257,7 @@ namespace SKYNET
 
         private void LoadImage()
         {
-            Avatar.Image = modCommon.ImageFromFile(modCommon.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + SectionName + ".png");
+            Avatar.Image = Common.ImageFromFile(Common.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + SectionName + ".png");
             if (Box != null)
             {
                 Box.SetAvatar(Avatar.Image, true);
@@ -298,13 +271,13 @@ namespace SKYNET
 
         private void DeleteAvatar_Click(object sender, EventArgs e)
         {
-            Avatar.Image = modCommon.ImageFromFile(modCommon.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + SectionName + ".png");
+            Avatar.Image = Common.ImageFromFile(Common.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + SectionName + ".png");
 
             if (Box != null)
             {
-                if (File.Exists(modCommon.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + Box.Name + ".png"))
+                if (File.Exists(Common.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + Box.Name + ".png"))
                 {
-                    try { File.Delete(modCommon.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + Box.Name + ".png"); } catch { }
+                    try { File.Delete(Common.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + Box.Name + ".png"); } catch { }
 
                     Box.CustomAvatar = false;
 
@@ -346,7 +319,7 @@ namespace SKYNET
 
         private void DeviceIp_TextChanged(object sender, EventArgs e)
         {
-            if (modCommon.IsValidIp(DeviceIp.Text))
+            if (Common.IsValidIp(DeviceIp.Text))
             {
                 PanelDeviceIp.BackColor = DeviceIp.BackColor;
             }
@@ -424,7 +397,7 @@ namespace SKYNET
             {
                 if (e)
                 {
-                    Avatar.Image = modCommon.CropToCircle(Box.BoxImage);
+                    Avatar.Image = Common.CropToCircle(Box.BoxImage);
                 }
                 else
                     Avatar.Image = Box.BoxImage;

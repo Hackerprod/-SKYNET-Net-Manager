@@ -32,36 +32,33 @@ namespace SKYNET
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmProfile));
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.PN_Top = new System.Windows.Forms.Panel();
             this.panelClose = new System.Windows.Forms.Panel();
             this.closeBtn = new System.Windows.Forms.PictureBox();
             this.acceptBtn = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.DeleteProfile = new SKYNET.Controls.SKYNET_Button();
-            this.AddProfile = new SKYNET.Controls.SKYNET_Button();
-            this.SetProfile = new SKYNET.Controls.SKYNET_Button();
+            this.DeleteProfile = new SKYNET_Button();
+            this.AddProfile = new SKYNET_Button();
+            this.SetProfile = new SKYNET_Button();
             this.profileBox = new FlatComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.Browser = new System.Windows.Forms.WebBrowser();
-            this.panel1.SuspendLayout();
+            this.PN_Top.SuspendLayout();
             this.panelClose.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).BeginInit();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // PN_Top
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panel1.Controls.Add(this.panelClose);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.ForeColor = System.Drawing.Color.White;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(287, 26);
-            this.panel1.TabIndex = 5;
-            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
+            this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.PN_Top.Controls.Add(this.panelClose);
+            this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PN_Top.ForeColor = System.Drawing.Color.White;
+            this.PN_Top.Location = new System.Drawing.Point(0, 0);
+            this.PN_Top.Name = "PN_Top";
+            this.PN_Top.Size = new System.Drawing.Size(287, 26);
+            this.PN_Top.TabIndex = 5;
             // 
             // panelClose
             // 
@@ -122,14 +119,14 @@ namespace SKYNET
             this.DeleteProfile.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.DeleteProfile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(222)))));
             this.DeleteProfile.ForeColorMouseOver = System.Drawing.Color.Empty;
-            this.DeleteProfile.ImageAlignment = SKYNET.Controls.SKYNET_Button._ImgAlign.Left;
+            this.DeleteProfile.ImageAlignment = SKYNET_Button._ImgAlign.Left;
             this.DeleteProfile.ImageIcon = null;
             this.DeleteProfile.Location = new System.Drawing.Point(192, 75);
             this.DeleteProfile.MenuMode = false;
             this.DeleteProfile.Name = "DeleteProfile";
             this.DeleteProfile.Rounded = false;
             this.DeleteProfile.Size = new System.Drawing.Size(84, 24);
-            this.DeleteProfile.Style = SKYNET.Controls.SKYNET_Button._Style.TextOnly;
+            this.DeleteProfile.Style = SKYNET_Button._Style.TextOnly;
             this.DeleteProfile.TabIndex = 24;
             this.DeleteProfile.Text = "Delete";
             this.DeleteProfile.Click += new System.EventHandler(this.DeleteProfile_Click);
@@ -142,14 +139,14 @@ namespace SKYNET
             this.AddProfile.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.AddProfile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(222)))));
             this.AddProfile.ForeColorMouseOver = System.Drawing.Color.Empty;
-            this.AddProfile.ImageAlignment = SKYNET.Controls.SKYNET_Button._ImgAlign.Left;
+            this.AddProfile.ImageAlignment = SKYNET_Button._ImgAlign.Left;
             this.AddProfile.ImageIcon = null;
             this.AddProfile.Location = new System.Drawing.Point(102, 75);
             this.AddProfile.MenuMode = false;
             this.AddProfile.Name = "AddProfile";
             this.AddProfile.Rounded = false;
             this.AddProfile.Size = new System.Drawing.Size(84, 24);
-            this.AddProfile.Style = SKYNET.Controls.SKYNET_Button._Style.TextOnly;
+            this.AddProfile.Style = SKYNET_Button._Style.TextOnly;
             this.AddProfile.TabIndex = 23;
             this.AddProfile.Text = "Create";
             this.AddProfile.Click += new System.EventHandler(this.AddProfile_Click);
@@ -162,14 +159,14 @@ namespace SKYNET
             this.SetProfile.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.SetProfile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(222)))));
             this.SetProfile.ForeColorMouseOver = System.Drawing.Color.Empty;
-            this.SetProfile.ImageAlignment = SKYNET.Controls.SKYNET_Button._ImgAlign.Left;
+            this.SetProfile.ImageAlignment = SKYNET_Button._ImgAlign.Left;
             this.SetProfile.ImageIcon = null;
             this.SetProfile.Location = new System.Drawing.Point(12, 75);
             this.SetProfile.MenuMode = false;
             this.SetProfile.Name = "SetProfile";
             this.SetProfile.Rounded = false;
             this.SetProfile.Size = new System.Drawing.Size(84, 24);
-            this.SetProfile.Style = SKYNET.Controls.SKYNET_Button._Style.TextOnly;
+            this.SetProfile.Style = SKYNET_Button._Style.TextOnly;
             this.SetProfile.TabIndex = 22;
             this.SetProfile.Text = "Load";
             this.SetProfile.Click += new System.EventHandler(this.SetProfile_Click);
@@ -217,16 +214,17 @@ namespace SKYNET
             this.Controls.Add(this.Browser);
             this.Controls.Add(this.acceptBtn);
             this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.PN_Top);
             this.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmProfile";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SkyNet Manager";
             this.Load += new System.EventHandler(this.FrmManager_Load);
-            this.panel1.ResumeLayout(false);
+            this.PN_Top.ResumeLayout(false);
             this.panelClose.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).EndInit();
             this.panel3.ResumeLayout(false);
@@ -236,7 +234,7 @@ namespace SKYNET
         }
 
         #endregion
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel PN_Top;
         private System.Windows.Forms.Button acceptBtn;
         private System.Windows.Forms.WebBrowser Browser;
         private System.Windows.Forms.Panel panel3;

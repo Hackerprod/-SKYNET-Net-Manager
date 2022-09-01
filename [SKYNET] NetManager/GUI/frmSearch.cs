@@ -1,10 +1,9 @@
 ﻿using NetUtils;
-using SKYNET.Properties;
+using SKYNET.GUI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -12,7 +11,7 @@ using System.Windows.Forms;
 
 namespace SKYNET
 {
-    public partial class frmSearch : Form
+    public partial class frmSearch : frmBase
     {
         private IPScanner _scanner;
         private class HostSorterByIP : IComparer
@@ -30,8 +29,6 @@ namespace SKYNET
             }
         }
 
-        private bool mouseDown;     //Mover ventana
-        private Point lastLocation; //Mover ventana
         public TypeMessage typeMessage;
         private ImageList _ilQuality;
         System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(NetPinger.IPScanForm));
@@ -39,7 +36,9 @@ namespace SKYNET
         public frmSearch()
         {
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;  //Para permitir acceso a los subprocesos
+            base.SetMouseMove(PN_Top);
+            CheckForIllegalCrossThreadCalls = false;  
+
             _scanner = new IPScanner(64, 2, false, 1000, 32, false, 32);
             _scanner.OnAliveHostFound += _scanner_OnAliveHostFound;
             _scanner.OnStartScan += _scanner_OnStartScan;
@@ -241,28 +240,7 @@ namespace SKYNET
             }
             return null;
         }
-        private void Event_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
-            {
-                Location = new Point((Location.X - lastLocation.X) + e.X, (Location.Y - lastLocation.Y) + e.Y);
-                Update();
-                Opacity = 0.93;
-            }
-        }
 
-        private void Event_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDown = true;
-            lastLocation = e.Location;
-
-        }
-
-        private void Event_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-            Opacity = 100;
-        }
         public enum TypeMessage
         {
             Alert,
@@ -344,14 +322,14 @@ namespace SKYNET
                 string IpStart = GetStartIP(IPbox.Text);
                 string IpEnd = GetEndIP(IpStart);
 
-                if (!modCommon.IsValidIp(IpStart))
+                if (!Common.IsValidIp(IpStart))
                 {
-                    modCommon.Show("El Ip " + IpStart + " no es válido.");
+                    Common.Show("El Ip " + IpStart + " no es válido.");
                     return;
                 }
-                if (!modCommon.IsValidIp(IpEnd))
+                if (!Common.IsValidIp(IpEnd))
                 {
-                    modCommon.Show("El Ip " + IpEnd + " no es válido.");
+                    Common.Show("El Ip " + IpEnd + " no es válido.");
                     return;
                 }
 

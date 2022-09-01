@@ -1,20 +1,20 @@
-﻿using System;
+﻿using SKYNET.GUI;
+using System;
 using System.Drawing;
 using System.Net;
 using System.Windows.Forms;
 
 namespace SKYNET
 {
-    public partial class frmMessage : Form
+    public partial class frmMessage : frmBase
     {
-        private bool mouseDown;     //Mover ventana
-        private Point lastLocation; //Mover ventana
         public TypeMessage typeMessage;
         private IPAddress IPAddress;
         public frmMessage(string message, TypeMessage type, string header = "", IPAddress ipaddress = null)
         {
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;  //Para permitir acceso a los subprocesos
+            base.SetMouseMove(PN_Top);
+            CheckForIllegalCrossThreadCalls = false;  
 
             typeMessage = type;
             IPAddress = ipaddress;
@@ -49,36 +49,6 @@ namespace SKYNET
             }
         }
 
-        private void SetMouseMove(Control control)
-        {
-            control.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            control.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            control.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
-        }
-
-        private void Event_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
-            {
-                Location = new Point((Location.X - lastLocation.X) + e.X, (Location.Y - lastLocation.Y) + e.Y);
-                Update();
-                Opacity = 0.93;
-            }
-        }
-
-        private void Event_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDown = true;
-            lastLocation = e.Location;
-        }
-
-        private void Event_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-            Opacity = 100;
-        }
-
-
         private void cancelBtn_Click(object sender, EventArgs e)
         {
             _Cancel.PerformClick();
@@ -92,12 +62,12 @@ namespace SKYNET
                 var box = DeviceManager.GetBoxFromIP(IPAddress);
                 if (box != null)
                 {
-                    frmSendMessage send = new frmSendMessage(box);
+                    frmPrivateChat send = new frmPrivateChat(box);
                     send.ShowDialog();
                 }
                 else
                 {
-                    frmSendMessage send = new frmSendMessage(IPAddress);
+                    frmPrivateChat send = new frmPrivateChat(IPAddress);
                     send.ShowDialog();
                 }
             }

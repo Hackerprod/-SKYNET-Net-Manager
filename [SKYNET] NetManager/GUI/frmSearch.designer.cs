@@ -37,7 +37,7 @@ namespace SKYNET
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSearch));
-            this.TopPanel = new System.Windows.Forms.Panel();
+            this.PN_Top = new System.Windows.Forms.Panel();
             this.panelClose = new System.Windows.Forms.Panel();
             this.closeBtn = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -63,11 +63,11 @@ namespace SKYNET
             this.IP_Ranges = new FlatComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.IPbox = new SKYNET_TextBox();
+            this.IPbox = new SKYNET.Controls.SKYNET_TextBox();
             this.btnSearch = new SKYNET_Button();
             this.label10 = new System.Windows.Forms.Label();
             this.ContextMenu = new SKYNET_ContextMenuStrip();
-            this.TopPanel.SuspendLayout();
+            this.PN_Top.SuspendLayout();
             this.panelClose.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).BeginInit();
             this.panel3.SuspendLayout();
@@ -76,20 +76,17 @@ namespace SKYNET
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // TopPanel
+            // PN_Top
             // 
-            this.TopPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.TopPanel.Controls.Add(this.panelClose);
-            this.TopPanel.Controls.Add(this.label3);
-            this.TopPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TopPanel.ForeColor = System.Drawing.Color.White;
-            this.TopPanel.Location = new System.Drawing.Point(0, 0);
-            this.TopPanel.Name = "TopPanel";
-            this.TopPanel.Size = new System.Drawing.Size(533, 26);
-            this.TopPanel.TabIndex = 5;
-            this.TopPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.TopPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.TopPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
+            this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.PN_Top.Controls.Add(this.panelClose);
+            this.PN_Top.Controls.Add(this.label3);
+            this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PN_Top.ForeColor = System.Drawing.Color.White;
+            this.PN_Top.Location = new System.Drawing.Point(0, 0);
+            this.PN_Top.Name = "PN_Top";
+            this.PN_Top.Size = new System.Drawing.Size(533, 26);
+            this.PN_Top.TabIndex = 5;
             // 
             // panelClose
             // 
@@ -128,9 +125,6 @@ namespace SKYNET
             this.label3.Size = new System.Drawing.Size(181, 16);
             this.label3.TabIndex = 7;
             this.label3.Text = "Buscar equipos en un rango";
-            this.label3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Event_MouseDown);
-            this.label3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Event_MouseMove);
-            this.label3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Event_MouseUp);
             // 
             // timer1
             // 
@@ -351,13 +345,20 @@ namespace SKYNET
             // 
             // IPbox
             // 
-            this.IPbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.IPbox.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.IPbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(222)))));
+            this.IPbox.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.IPbox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.IPbox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.IPbox.ForeColor = System.Drawing.Color.White;
+            this.IPbox.IsPassword = false;
             this.IPbox.Location = new System.Drawing.Point(248, 49);
+            this.IPbox.Logo = null;
+            this.IPbox.LogoCursor = System.Windows.Forms.Cursors.Default;
             this.IPbox.Name = "IPbox";
+            this.IPbox.OnlyNumbers = false;
+            this.IPbox.ShowLogo = false;
             this.IPbox.Size = new System.Drawing.Size(161, 28);
             this.IPbox.TabIndex = 257;
+            this.IPbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
             // btnSearch
             // 
@@ -370,6 +371,7 @@ namespace SKYNET
             this.btnSearch.ImageAlignment = SKYNET_Button._ImgAlign.Left;
             this.btnSearch.ImageIcon = null;
             this.btnSearch.Location = new System.Drawing.Point(421, 49);
+            this.btnSearch.MenuMode = false;
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Rounded = false;
             this.btnSearch.Size = new System.Drawing.Size(105, 28);
@@ -404,17 +406,18 @@ namespace SKYNET
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(29)))), ((int)(((byte)(32)))));
             this.ClientSize = new System.Drawing.Size(533, 533);
             this.Controls.Add(this.panel3);
-            this.Controls.Add(this.TopPanel);
+            this.Controls.Add(this.PN_Top);
             this.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmSearch";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SkyNet Manager";
             this.Load += new System.EventHandler(this.FrmManager_Load);
-            this.TopPanel.ResumeLayout(false);
-            this.TopPanel.PerformLayout();
+            this.PN_Top.ResumeLayout(false);
+            this.PN_Top.PerformLayout();
             this.panelClose.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).EndInit();
             this.panel3.ResumeLayout(false);
@@ -429,7 +432,7 @@ namespace SKYNET
         }
 
         #endregion
-        private System.Windows.Forms.Panel TopPanel;
+        private System.Windows.Forms.Panel PN_Top;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panelClose;
         private System.Windows.Forms.PictureBox closeBtn;

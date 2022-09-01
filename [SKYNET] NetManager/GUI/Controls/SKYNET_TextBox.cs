@@ -16,25 +16,17 @@ namespace SKYNET.Controls
         private bool _OnlyNumber;
 
         [Category("SKYNET")]
+        public HorizontalAlignment TextAlign
+        {
+            get { return textBox.TextAlign; }
+            set { textBox.TextAlign = value; }
+        }
+
+        [Category("SKYNET")]
         public event EventHandler OnLogoClicked;
 
         [Category("SKYNET")]
         public EventHandler OnReturnPressed { get; internal set; }
-
-        public SKYNET_TextBox()
-        {
-            InitializeComponent();
-            textBox.BackColor = BackColor;
-
-            textBox.GotFocus += TextBox_GotFocus;
-            textBox.LostFocus += TextBox_LostFocus;
-            textBox.KeyDown += TextBox_KeyDown;
-            textBox.KeyUp += TextBox_KeyUp;
-            textBox.KeyPress += TextBox_KeyPress;
-            textBox.TextChanged += TextBox_TextChanged;
-
-            BackColor = Color;
-        }
 
         [Category("SKYNET")]
         public override string Text
@@ -50,7 +42,7 @@ namespace SKYNET.Controls
         }
 
         [Category("SKYNET")]
-        public bool OnlyNumber
+        public bool OnlyNumbers
         {
             get
             {
@@ -70,11 +62,11 @@ namespace SKYNET.Controls
             {
                 _backColor = value;
                 PN_Top.BackColor = value;
-                panel2.BackColor = value;
-                panel3.BackColor = value;
-                panel4.BackColor = value;
-                P_Container.BackColor = value;
-                textBox.BackColor = _backColor;
+                PN_Buttom.BackColor = value;
+                PN_Left.BackColor = value;
+                PN_Right.BackColor = value;
+                PN_Container.BackColor = value;
+                textBox.BackColor = value;
                 textBox.Refresh();
             }
         }
@@ -183,6 +175,20 @@ namespace SKYNET.Controls
                     textBox.UseSystemPasswordChar = false;
             }
         }
+        public SKYNET_TextBox()
+        {
+            InitializeComponent();
+            textBox.BackColor = BackColor;
+
+            textBox.GotFocus += TextBox_GotFocus;
+            textBox.LostFocus += TextBox_LostFocus;
+            textBox.KeyDown += TextBox_KeyDown;
+            textBox.KeyUp += TextBox_KeyUp;
+            textBox.KeyPress += TextBox_KeyPress;
+            textBox.TextChanged += TextBox_TextChanged;
+
+            BackColor = Color;
+        }
 
         private void OnMouseClick(object sender, MouseEventArgs e)
         {
@@ -266,13 +272,14 @@ namespace SKYNET.Controls
             base.OnPaint(e);
         }
         public override Font Font { get => textBox.Font; set => textBox.Font = value; }
-        public int TopSeparator 
-        {
-            get { return PN_Top.Height; } set { PN_Top.Height = value; } }
-
         protected override void OnTextChanged(EventArgs e)
         {
             base.OnTextChanged(e);
+        }
+
+        private void SKYNET_TextBox_SizeChanged(object sender, EventArgs e)
+        {
+            PN_Top.Height = ((Height - textBox.Height) / 2) - 1;
         }
     }
 }
