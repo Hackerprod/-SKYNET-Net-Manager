@@ -90,9 +90,7 @@ namespace SKYNET
             }
             catch
             {
-
             }
         }
-
     }
 }
