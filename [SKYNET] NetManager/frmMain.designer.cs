@@ -39,17 +39,11 @@ namespace SKYNET
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            this.panelMin = new System.Windows.Forms.Panel();
-            this.minBtn = new System.Windows.Forms.PictureBox();
-            this.panelClose = new System.Windows.Forms.Panel();
-            this.closeBtn = new System.Windows.Forms.PictureBox();
             this.status = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.ClearLabel = new System.Windows.Forms.Timer(this.components);
             this.LB_Tittle = new System.Windows.Forms.Label();
             this.TopPanel = new System.Windows.Forms.Panel();
-            this.PanelSettings = new System.Windows.Forms.Panel();
-            this.picSettings = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PanelBottom = new System.Windows.Forms.Panel();
             this.PanelTransfer = new System.Windows.Forms.Panel();
@@ -101,13 +95,11 @@ namespace SKYNET
             this.menu_Profiles = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_SearchDevice = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_Settings = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelMin.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.minBtn)).BeginInit();
-            this.panelClose.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).BeginInit();
+            this.globalChatMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
+            this.MinimizeBox = new SKYNET.Controls.SKYNET_Box();
+            this.SettingsBox = new SKYNET.Controls.SKYNET_Box();
             this.TopPanel.SuspendLayout();
-            this.PanelSettings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.PanelBottom.SuspendLayout();
             this.PanelTransfer.SuspendLayout();
@@ -121,57 +113,6 @@ namespace SKYNET
             this.TryMenu.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // panelMin
-            // 
-            this.panelMin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panelMin.Controls.Add(this.minBtn);
-            this.panelMin.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelMin.Location = new System.Drawing.Point(261, 0);
-            this.panelMin.Name = "panelMin";
-            this.panelMin.Size = new System.Drawing.Size(34, 28);
-            this.panelMin.TabIndex = 6;
-            this.panelMin.Click += new System.EventHandler(this.minBtn_Click);
-            this.panelMin.MouseLeave += new System.EventHandler(this.panelMin_MouseLeave);
-            this.panelMin.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelMin_MouseMove);
-            // 
-            // minBtn
-            // 
-            this.minBtn.Image = global::SKYNET.Properties.Resources.minimise;
-            this.minBtn.Location = new System.Drawing.Point(9, 7);
-            this.minBtn.Name = "minBtn";
-            this.minBtn.Size = new System.Drawing.Size(13, 12);
-            this.minBtn.TabIndex = 4;
-            this.minBtn.TabStop = false;
-            this.minBtn.Click += new System.EventHandler(this.minBtn_Click);
-            this.minBtn.MouseLeave += new System.EventHandler(this.panelMin_MouseLeave);
-            this.minBtn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelMin_MouseMove);
-            // 
-            // panelClose
-            // 
-            this.panelClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panelClose.Controls.Add(this.closeBtn);
-            this.panelClose.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelClose.Location = new System.Drawing.Point(295, 0);
-            this.panelClose.Name = "panelClose";
-            this.panelClose.Size = new System.Drawing.Size(34, 28);
-            this.panelClose.TabIndex = 7;
-            this.panelClose.Click += new System.EventHandler(this.closeBtn_Click);
-            this.panelClose.MouseLeave += new System.EventHandler(this.panelClose_MouseLeave);
-            this.panelClose.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelClose_MouseMove);
-            // 
-            // closeBtn
-            // 
-            this.closeBtn.Image = global::SKYNET.Properties.Resources.close;
-            this.closeBtn.Location = new System.Drawing.Point(10, 5);
-            this.closeBtn.Name = "closeBtn";
-            this.closeBtn.Size = new System.Drawing.Size(16, 16);
-            this.closeBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.closeBtn.TabIndex = 4;
-            this.closeBtn.TabStop = false;
-            this.closeBtn.Click += new System.EventHandler(this.closeBtn_Click);
-            this.closeBtn.MouseLeave += new System.EventHandler(this.panelClose_MouseLeave);
-            this.closeBtn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelClose_MouseMove);
             // 
             // status
             // 
@@ -188,7 +129,6 @@ namespace SKYNET
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(17, 23);
             this.textBox1.TabIndex = 1;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // ClearLabel
             // 
@@ -206,14 +146,13 @@ namespace SKYNET
             this.LB_Tittle.Size = new System.Drawing.Size(85, 13);
             this.LB_Tittle.TabIndex = 247;
             this.LB_Tittle.Text = "Net Manager";
-            this.LB_Tittle.Click += new System.EventHandler(this.label1_Click);
             // 
             // TopPanel
             // 
             this.TopPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.TopPanel.Controls.Add(this.PanelSettings);
-            this.TopPanel.Controls.Add(this.panelMin);
-            this.TopPanel.Controls.Add(this.panelClose);
+            this.TopPanel.Controls.Add(this.SettingsBox);
+            this.TopPanel.Controls.Add(this.MinimizeBox);
+            this.TopPanel.Controls.Add(this.CloseBox);
             this.TopPanel.Controls.Add(this.pictureBox1);
             this.TopPanel.Controls.Add(this.LB_Tittle);
             this.TopPanel.Dock = System.Windows.Forms.DockStyle.Top;
@@ -221,32 +160,6 @@ namespace SKYNET
             this.TopPanel.Name = "TopPanel";
             this.TopPanel.Size = new System.Drawing.Size(329, 28);
             this.TopPanel.TabIndex = 248;
-            // 
-            // PanelSettings
-            // 
-            this.PanelSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.PanelSettings.Controls.Add(this.picSettings);
-            this.PanelSettings.Dock = System.Windows.Forms.DockStyle.Right;
-            this.PanelSettings.Location = new System.Drawing.Point(223, 0);
-            this.PanelSettings.Name = "PanelSettings";
-            this.PanelSettings.Size = new System.Drawing.Size(38, 28);
-            this.PanelSettings.TabIndex = 248;
-            this.PanelSettings.Click += new System.EventHandler(this.PicSettings_Click);
-            this.PanelSettings.MouseLeave += new System.EventHandler(this.Settings_MouseLeave);
-            this.PanelSettings.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Settings_MouseMove);
-            // 
-            // picSettings
-            // 
-            this.picSettings.Image = global::SKYNET.Properties.Resources.settings_unsel;
-            this.picSettings.Location = new System.Drawing.Point(11, 6);
-            this.picSettings.Name = "picSettings";
-            this.picSettings.Size = new System.Drawing.Size(16, 16);
-            this.picSettings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.picSettings.TabIndex = 29;
-            this.picSettings.TabStop = false;
-            this.picSettings.Click += new System.EventHandler(this.PicSettings_Click);
-            this.picSettings.MouseLeave += new System.EventHandler(this.Settings_MouseLeave);
-            this.picSettings.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Settings_MouseMove);
             // 
             // pictureBox1
             // 
@@ -422,7 +335,7 @@ namespace SKYNET
             this.shadow.BackColor = System.Drawing.Color.Transparent;
             this.shadow.Color = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(26)))), ((int)(((byte)(37)))));
             this.shadow.Location = new System.Drawing.Point(0, 0);
-            this.shadow.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.shadow.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.shadow.Name = "shadow";
             this.shadow.Opacity = 70;
             this.shadow.Size = new System.Drawing.Size(0, 0);
@@ -651,54 +564,54 @@ namespace SKYNET
             this.CloseMenuItem});
             this.TryMenu.Name = "SKYNET_ContextMenuStrip1";
             this.TryMenu.ShowImageMargin = false;
-            this.TryMenu.Size = new System.Drawing.Size(244, 158);
+            this.TryMenu.Size = new System.Drawing.Size(243, 158);
             // 
             // MostrarMenuItem
             // 
             this.MostrarMenuItem.Name = "MostrarMenuItem";
-            this.MostrarMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.MostrarMenuItem.Size = new System.Drawing.Size(242, 22);
             this.MostrarMenuItem.Text = "Mostrar";
             this.MostrarMenuItem.Click += new System.EventHandler(this.MostrarMenuItem_Click);
             // 
             // agregarEquipoMenuItem
             // 
             this.agregarEquipoMenuItem.Name = "agregarEquipoMenuItem";
-            this.agregarEquipoMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.agregarEquipoMenuItem.Size = new System.Drawing.Size(242, 22);
             this.agregarEquipoMenuItem.Text = "Agregar equipo para monitorear";
             this.agregarEquipoMenuItem.Click += new System.EventHandler(this.AgregarEquipoMenuItem_Click);
             // 
             // buscarEquiposMenuItem
             // 
             this.buscarEquiposMenuItem.Name = "buscarEquiposMenuItem";
-            this.buscarEquiposMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.buscarEquiposMenuItem.Size = new System.Drawing.Size(242, 22);
             this.buscarEquiposMenuItem.Text = "Buscar equipos en un segmento de IP";
             this.buscarEquiposMenuItem.Click += new System.EventHandler(this.BuscarEquiposMenuItem_Click);
             // 
             // administrarPerfilesMenuItem
             // 
             this.administrarPerfilesMenuItem.Name = "administrarPerfilesMenuItem";
-            this.administrarPerfilesMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.administrarPerfilesMenuItem.Size = new System.Drawing.Size(242, 22);
             this.administrarPerfilesMenuItem.Text = "Administrar perfiles";
             this.administrarPerfilesMenuItem.Click += new System.EventHandler(this.AdministrarPerfilesMenuItem_Click);
             // 
             // PingMenuItem
             // 
             this.PingMenuItem.Name = "PingMenuItem";
-            this.PingMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.PingMenuItem.Size = new System.Drawing.Size(242, 22);
             this.PingMenuItem.Text = "Configuración";
             this.PingMenuItem.Click += new System.EventHandler(this.Settings_Click);
             // 
             // MinimizeMenuItem
             // 
             this.MinimizeMenuItem.Name = "MinimizeMenuItem";
-            this.MinimizeMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.MinimizeMenuItem.Size = new System.Drawing.Size(242, 22);
             this.MinimizeMenuItem.Text = "Minimizar";
             this.MinimizeMenuItem.Click += new System.EventHandler(this.MinimizeMenuItem_Click);
             // 
             // CloseMenuItem
             // 
             this.CloseMenuItem.Name = "CloseMenuItem";
-            this.CloseMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.CloseMenuItem.Size = new System.Drawing.Size(242, 22);
             this.CloseMenuItem.Text = "Cerrar";
             this.CloseMenuItem.Click += new System.EventHandler(this.CloseMenuItem_Click);
             // 
@@ -711,39 +624,92 @@ namespace SKYNET
             this.menu_AddDevice,
             this.menu_Profiles,
             this.menu_SearchDevice,
-            this.menu_Settings});
+            this.menu_Settings,
+            this.globalChatMenuItem});
             this.MainMenu.Name = "SKYNET_ContextMenuStrip1";
             this.MainMenu.ShowImageMargin = false;
-            this.MainMenu.Size = new System.Drawing.Size(177, 92);
+            this.MainMenu.Size = new System.Drawing.Size(176, 114);
             this.MainMenu.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.MainMenu_Closing);
             // 
             // menu_AddDevice
             // 
             this.menu_AddDevice.Name = "menu_AddDevice";
-            this.menu_AddDevice.Size = new System.Drawing.Size(176, 22);
+            this.menu_AddDevice.Size = new System.Drawing.Size(175, 22);
             this.menu_AddDevice.Text = "Añadir dispositivo";
             this.menu_AddDevice.Click += new System.EventHandler(this.menu_AddDevice_Click);
             // 
             // menu_Profiles
             // 
             this.menu_Profiles.Name = "menu_Profiles";
-            this.menu_Profiles.Size = new System.Drawing.Size(176, 22);
+            this.menu_Profiles.Size = new System.Drawing.Size(175, 22);
             this.menu_Profiles.Text = "Perfiles";
             this.menu_Profiles.Click += new System.EventHandler(this.menu_Profiles_Click);
             // 
             // menu_SearchDevice
             // 
             this.menu_SearchDevice.Name = "menu_SearchDevice";
-            this.menu_SearchDevice.Size = new System.Drawing.Size(176, 22);
+            this.menu_SearchDevice.Size = new System.Drawing.Size(175, 22);
             this.menu_SearchDevice.Text = "Buscar equipos en la red";
             this.menu_SearchDevice.Click += new System.EventHandler(this.menu_SearchDevice_Click);
             // 
             // menu_Settings
             // 
             this.menu_Settings.Name = "menu_Settings";
-            this.menu_Settings.Size = new System.Drawing.Size(176, 22);
+            this.menu_Settings.Size = new System.Drawing.Size(175, 22);
             this.menu_Settings.Text = "Configuración";
             this.menu_Settings.Click += new System.EventHandler(this.menu_Settings_Click);
+            // 
+            // globalChatMenuItem
+            // 
+            this.globalChatMenuItem.Name = "globalChatMenuItem";
+            this.globalChatMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.globalChatMenuItem.Text = "Global Chat";
+            this.globalChatMenuItem.Click += new System.EventHandler(this.GlobalChatMenuItem_Click);
+            // 
+            // CloseBox
+            // 
+            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.Location = new System.Drawing.Point(295, 0);
+            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.Name = "CloseBox";
+            this.CloseBox.Size = new System.Drawing.Size(34, 26);
+            this.CloseBox.TabIndex = 249;
+            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
+            // 
+            // MinimizeBox
+            // 
+            this.MinimizeBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.MinimizeBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.MinimizeBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.MinimizeBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.MinimizeBox.Image = global::SKYNET.Properties.Resources.minimise;
+            this.MinimizeBox.Location = new System.Drawing.Point(261, 0);
+            this.MinimizeBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.MinimizeBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.MinimizeBox.Name = "MinimizeBox";
+            this.MinimizeBox.Size = new System.Drawing.Size(34, 26);
+            this.MinimizeBox.TabIndex = 250;
+            this.MinimizeBox.BoxClicked += new System.EventHandler(this.MinimizeBox_BoxClicked);
+            // 
+            // SettingsBox
+            // 
+            this.SettingsBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.SettingsBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.SettingsBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.SettingsBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.SettingsBox.Image = global::SKYNET.Properties.Resources.settings_unsel;
+            this.SettingsBox.Location = new System.Drawing.Point(227, 0);
+            this.SettingsBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.SettingsBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.SettingsBox.Name = "SettingsBox";
+            this.SettingsBox.Size = new System.Drawing.Size(34, 26);
+            this.SettingsBox.TabIndex = 251;
+            this.SettingsBox.BoxClicked += new System.EventHandler(this.SettingsBox_BoxClicked);
             // 
             // frmMain
             // 
@@ -767,15 +733,8 @@ namespace SKYNET
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
-            this.panelMin.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.minBtn)).EndInit();
-            this.panelClose.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).EndInit();
             this.TopPanel.ResumeLayout(false);
             this.TopPanel.PerformLayout();
-            this.PanelSettings.ResumeLayout(false);
-            this.PanelSettings.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picSettings)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.PanelBottom.ResumeLayout(false);
             this.PanelBottom.PerformLayout();
@@ -799,10 +758,6 @@ namespace SKYNET
         }
 
         #endregion
-        private System.Windows.Forms.Panel panelMin;
-        private System.Windows.Forms.PictureBox minBtn;
-        private System.Windows.Forms.Panel panelClose;
-        private System.Windows.Forms.PictureBox closeBtn;
         private System.Windows.Forms.Label status;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Timer ClearLabel;
@@ -821,7 +776,6 @@ namespace SKYNET
         private System.Windows.Forms.ToolStripMenuItem CloseBoxMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PingConstante;
         private System.Windows.Forms.ToolStripMenuItem EditarMenuItem;
-        private System.Windows.Forms.PictureBox picSettings;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ToolStripMenuItem OfflineAlertMenuItem;
         private System.Windows.Forms.Panel WelcomeBox;
@@ -833,7 +787,6 @@ namespace SKYNET
         private System.Windows.Forms.ToolStripMenuItem DevicePingInfoMenuItem;
         public System.Windows.Forms.Label byHackerprod;
         private System.Windows.Forms.ToolStripMenuItem PuertosMenuItem;
-        private System.Windows.Forms.Panel PanelSettings;
         private System.Windows.Forms.Panel PanelTransfer;
         private System.Windows.Forms.Panel panelReceived;
         private System.Windows.Forms.Label label5;
@@ -861,5 +814,9 @@ namespace SKYNET
         private System.Windows.Forms.ToolStripMenuItem cloneDevice;
         public System.Windows.Forms.Label LB_Tittle;
         private System.Windows.Forms.ToolStripMenuItem enviarMensajeMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem globalChatMenuItem;
+        private SKYNET_Box SettingsBox;
+        private SKYNET_Box MinimizeBox;
+        private SKYNET_Box CloseBox;
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.VisualBasic;
+using Microsoft.Win32;
+using SKYNET.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,7 +15,18 @@ namespace SKYNET
 {
     static class Program
     {
-        public static bool Launched { get; private set; }
+        [DllImport("user32.dll")]
+        private static extern int SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll", CharSet = CharSet.Ansi, SetLastError = true)]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool IsWindow(IntPtr hWnd);
+
+        public static bool Launched { get; set; }
+
 
         /// <summary>
         /// Punto de entrada principal para la aplicación.
@@ -24,7 +37,7 @@ namespace SKYNET
         {
             if (!IsAdmin())
             {
-                ReiniciarComoAdmin();
+                RestartAsAdmin();
             }
 
             Process[] processes = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName);
@@ -44,7 +57,8 @@ namespace SKYNET
             WindowsPrincipal p = new WindowsPrincipal(id);
             return p.IsInRole(WindowsBuiltInRole.Administrator);
         }
-        public static void ReiniciarComoAdmin()
+
+        public static void RestartAsAdmin()
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.UseShellExecute = true;
@@ -59,33 +73,19 @@ namespace SKYNET
             catch { }
             Process.GetCurrentProcess().Kill();
         }
-        [DllImport("user32.dll")]
-        private static extern int SetForegroundWindow(IntPtr hWnd);
 
-        [DllImport("user32.dll")]
-        private static extern int ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool IsWindow(IntPtr hWnd);
         public static void PrevApplication()
         {
             try
             {
-                RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\SKYNET\\[SKYNET] NetManager", writable: true);
-                registryKey.GetValue("Handle", RegistryValueKind.String);
-                string value = (string)registryKey.GetValue("Handle");
-
-                if (string.IsNullOrEmpty(value))
-                    value = "0";
-                else if (value == "")
-                    value = "0";
-
-                int num = Convert.ToInt32(value);
-                if (num > 0 && IsWindow((IntPtr)num))
+                RegistrySettings settings = new RegistrySettings(@"SOFTWARE\SKYNET\[SKYNET] NetManager\");
+                var handle = settings.Get<long>("Handle", 0);
+                IntPtr Handle = new IntPtr(handle);
+                if (Handle != IntPtr.Zero && IsWindow(Handle))
                 {
-                    //ShowWindow((IntPtr)num, 1);
-                    //SetForegroundWindow((IntPtr)num);
+                    ShowWindow(Handle, (int)AppWinStyle.MaximizedFocus);
+                    ShowWindow(Handle, (int)AppWinStyle.NormalFocus);
+                    SetForegroundWindow(Handle);
                 }
             }
             catch

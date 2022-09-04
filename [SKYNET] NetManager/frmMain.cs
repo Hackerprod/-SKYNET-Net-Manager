@@ -8,52 +8,30 @@ using System.IO;
 using System.Net.NetworkInformation;
 using System.Collections.Generic;
 using GlobalLowLevelHooks;
-using SKYNET.Properties;
 using System.Timers;
 using System.Web.Script.Serialization;
 using System.Threading.Tasks;
 using System.Net;
 using SKYNET.GUI;
+using SKYNET.Helpers;
 
 namespace SKYNET
 {
     public partial class frmMain : frmBase
     {
-        public static bool MinimizeWhenClose { get; set; } = false;
-        public static bool LaunchWindowsStart { get; set; } = false;
-        public static string CurrentSection { get; set; } = "Device";
-        public static string Key { get; set; } = "F8";
-        public static bool ShowInLeft { get; set; } = false;
-        public static double OpacityForm { get; set; } = 100;
-        public static bool CustomSound { get; set; }
-        public static string CustomSoundPatch { get; set; }
-        public static bool ShowTopPanel { get; set; }
-
-
-        private readonly System.Timers.Timer _timer = new System.Timers.Timer();
-
-
-        public frmBack frmBack;
-
+        public static frmBack frmBack;
         public static frmMain frm;
-        public bool Ready = false;
-        public DeviceBox menuBOX { get; set; }
 
-        public RegistrySettings settings;
-        public static bool FirstLaunch = false;
-        readonly PingOptions PingOption;
-        readonly byte[] buffer;
+        public bool Ready = false;
+        public DeviceBox menuBOX;
+
         private int x = 5;
         private int y = 5;
         private int last_x = 4;
         private int last_y = 5;
         private KeyboardHook keyboardHook;
-        //private Panel panel;
-        private bool Empty = false;
-
-        public static int BufferSize;
-        public static int Timeout { get; set; }
-        public static int TTL;
+        private System.Timers.Timer _timer;
+        private bool EmptyProfile = false;
 
         public frmMain(frmBack back)
         {
@@ -65,6 +43,7 @@ namespace SKYNET
             PrepareButtomPanel();
 
             frmBack = back;
+            _timer = new System.Timers.Timer();
 
             if (!Directory.Exists(Common.CurrentDirectory + "/Data"))
             {
@@ -76,37 +55,27 @@ namespace SKYNET
                     using (FileStream fileStream = new FileStream(Common.CurrentDirectory + "/Data/Device.json", FileMode.OpenOrCreate)) { }
                 }
 
-                Empty = true;
+                EmptyProfile = true;
             }
             else if (!File.Exists(Common.CurrentDirectory + "/Data/Device.json"))
             {
                 using (FileStream fileStream = new FileStream(Common.CurrentDirectory + "/Data/Device.json", FileMode.OpenOrCreate)) { }
-                Empty = true;
-
+                EmptyProfile = true;
             }
 
+            Settings.Load();
+            Settings.SetHandle(Handle.ToInt64());
 
-            // 128 TTL and DontFragment
-            PingOption = new PingOptions(128, true);
-            buffer = new byte[4];
-
-            settings = new RegistrySettings();
-            settings.GuardarID((object)Handle.ToInt64());
-            settings.LoadSettings();
-
-            if (Empty)
+            if (EmptyProfile)
             {
-                CurrentSection = "Device";
+                Settings.CurrentSection = "Device";
             }
-            //panel = WelcomeBox;
 
             InitTimer();
             _timer.Interval = 100;
             _timer.Start();
 
             ChatManager.Initialize();
-
-            shadow.EnableBlur();
         }
         
         private void SetTransparency()
@@ -116,9 +85,9 @@ namespace SKYNET
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            Maximize(ShowInLeft);
+            Maximize(Settings.ShowInLeft);
 
-            LoadProfile(CurrentSection);
+            LoadProfile(Settings.CurrentSection);
 
             keyboardHook = new KeyboardHook();
             keyboardHook.KeyDown += new KeyboardHook.KeyboardHookCallback(keyboardHook_KeyDown);
@@ -128,7 +97,6 @@ namespace SKYNET
             DeviceContainer.VerticalScrollbar = true;
 
             SetTransparency();
-
         }
 
         public void Maximize(bool inLeft)
@@ -136,13 +104,11 @@ namespace SKYNET
             frmBack.Maximize(inLeft);
             if (!inLeft)
                DeviceContainer.Height = this.Height - 250;
-
         }
-
 
         public void LoadProfile(string currentSection)
         {
-            CurrentSection = currentSection;
+            Settings.CurrentSection = currentSection;
             frm.CleanBoxControls();
             x = 5;
             y = 5;
@@ -159,9 +125,12 @@ namespace SKYNET
                 }
             }
             else
+            {
                 json = File.ReadAllText(Common.CurrentDirectory + "/Data/" + currentSection + ".json");
+            }
 
             List<Device> Devices = null;
+
             try
             {
                 Devices = new JavaScriptSerializer().Deserialize<List<Device>>(json);
@@ -174,22 +143,23 @@ namespace SKYNET
             if (Devices == null)
             {
                 Opacity = 100;
-                frmBack.Opacity = OpacityForm;
+                frmBack.Opacity = Settings.OpacityForm;
                 Common.CloseSplash = true;
                 return;
             }
+
             Devices.Sort((d1, d2) => d1.Orden.CompareTo(d2.Orden));
             foreach (Device device in Devices)
             {
                 AddBox(device);
             }
 
-            ProfileSelected.Text = "Perfil actual: " + currentSection;
+            ProfileSelected.Text = "Current profile: " + currentSection;
             Opacity = 100;
-            frmBack.Opacity = OpacityForm;
+            frmBack.Opacity = Settings.OpacityForm;
             Common.CloseSplash = true;
-            //modCommon.SplashScreen.Opacity = 0;
         }
+
         public void AddBox(Device device)
         {
             var deviceBox = new DeviceBox()
@@ -198,8 +168,6 @@ namespace SKYNET
                 Device = device,
                 Orden = DeviceManager.GetDeviceCount() + 1
             };
-
-            DragTest(deviceBox);
 
             DeviceContainer.Controls.Add(deviceBox);
 
@@ -215,17 +183,12 @@ namespace SKYNET
                 x = 5;
                 y += 49;
             }
-
         }
 
-        private void DragTest(DeviceBox deviceBox)
-        {
-        }
         public void Write(object obj)
         {
             ProfileSelected.Text = obj.ToString();
         }
-
 
         public void UpdateAndSave()
         {
@@ -246,11 +209,12 @@ namespace SKYNET
                 }
             }
             string json = new JavaScriptSerializer().Serialize(Devices);
-            File.WriteAllText(Common.CurrentDirectory + "/Data/" + CurrentSection + ".json", json);
+            File.WriteAllText(Common.CurrentDirectory + "/Data/" + Settings.CurrentSection + ".json", json);
         }
+
         private void keyboardHook_KeyDown(KeyboardHook.VKeys key)
         {
-            if (key.ToString() == Key)
+            if (key.ToString() == Settings.Key)
             {
                 if (WindowState == FormWindowState.Maximized && WinMod.IsActiveMainWindow())
                 {
@@ -276,52 +240,6 @@ namespace SKYNET
             }
         }
 
-        private void panelMin_MouseMove(object sender, MouseEventArgs e)
-        {
-            panelMin.BackColor = Color.FromArgb(53, 64, 78);
-        }
-
-        private void panelMin_MouseLeave(object sender, EventArgs e)
-        {
-            panelMin.BackColor = Color.FromArgb(43, 54, 68);
-        }
-        private void Settings_MouseMove(object sender, MouseEventArgs e)
-        {
-            PanelSettings.BackColor = Color.FromArgb(53, 64, 78);
-            picSettings.Image = Resources.settings_sel;
-        }
-
-        private void Settings_MouseLeave(object sender, EventArgs e)
-        {
-            PanelSettings.BackColor = Color.FromArgb(43, 54, 68);
-            picSettings.Image = Resources.settings_unsel;
-
-        }
-
-        private void panelClose_MouseMove(object sender, MouseEventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(53, 64, 78);
-        }
-
-        private void panelClose_MouseLeave(object sender, EventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(43, 54, 68);
-        }
-
-        private void closeBtn_Click(object sender, EventArgs e)
-        {
-            if (MinimizeWhenClose)
-            {
-                SetVisible(false);
-                WindowState = FormWindowState.Minimized;
-                return;
-            }
-            settings.SaveSettings();
-            settings.ResetId();
-            SaveDevices();
-            Process.GetCurrentProcess().Kill();
-        }
-
         private void SetVisible(bool value)
         {
             Visible = value;
@@ -330,26 +248,11 @@ namespace SKYNET
             Activate();
         }
 
-        private void minBtn_Click(object sender, EventArgs e)
-        {
-            SetVisible(false);
-            WindowState = FormWindowState.Minimized;
-        }
-
-
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //notifyIcon1.Visible = false;
+            notifyIcon1.Visible = false;
             SaveDevices();
         }
-
-
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -381,12 +284,12 @@ namespace SKYNET
                 frm.enviarMensajeMenuItem.Visible = false;
 
                 Rectangle cellDisplayRectangle = box.DisplayRectangle;
-                frm.HerramientasMenuItem.Text = "Herramientas (" + box.BoxName + ")";
+                frm.HerramientasMenuItem.Text = "Tools (" + box.BoxName + ")";
                 if (box.isWeb)
-                    frm.explorarPCMenuItem.Text = "Explorar web";
+                    frm.explorarPCMenuItem.Text = "Explore web";
                 else
                 {
-                    frm.explorarPCMenuItem.Text = "Explorar PC";
+                    frm.explorarPCMenuItem.Text = "Explore PC";
 
                     VerifySocket(box);
                     //frm.enviarMensajeMenuItem.Visible = true;
@@ -404,11 +307,11 @@ namespace SKYNET
                 frm.enviarMensajeMenuItem.Visible = false;
 
                 Rectangle cellDisplayRectangle = box.DisplayRectangle;
-                frm.HerramientasMenuItem.Text = "Herramientas (" + box.BoxName + ")";
+                frm.HerramientasMenuItem.Text = "Tools (" + box.BoxName + ")";
                 if (box.isWeb)
-                    frm.explorarPCMenuItem.Text = "Explorar web";
+                    frm.explorarPCMenuItem.Text = "Explore web";
                 else
-                    frm.explorarPCMenuItem.Text = "Explorar PC";
+                    frm.explorarPCMenuItem.Text = "Explore PC";
                 frm.menuBOX = box;
                 frm.BoxMenu.Show(box, cellDisplayRectangle.Left + xx, cellDisplayRectangle.Top + yy);
             }
@@ -434,72 +337,6 @@ namespace SKYNET
                     frm.enviarMensajeMenuItem.Visible = false;
                 }
             });
-        }
-
-        private void explorarPCToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (menuBOX == null)
-                return;
-
-            if (!menuBOX.isWeb)
-                Process.Start(@"\\" + menuBOX.IpName);
-            else
-                Process.Start("https://" + menuBOX.IpName);
-        }
-
-        private void hacerPingPorCMDToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (menuBOX == null)
-                return;
-
-            frmConsole console = new frmConsole(menuBOX);
-            console.Show();
-        }
-
-        private void MostrarMenuItem_Click(object sender, EventArgs e)
-        {
-            if (WindowState == FormWindowState.Minimized)
-            {
-                this.WindowState = FormWindowState.Maximized;
-                this.Activate();
-                SetVisible(true);
-            }
-            else
-            {
-                WindowState = FormWindowState.Minimized;
-                SetVisible(false);
-            }
-        }
-
-        private void CloseMenuItem_Click(object sender, EventArgs e)
-        {
-            settings.SaveSettings();
-            settings.ResetId();
-            SaveDevices();
-            Process.GetCurrentProcess().Kill();
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void CloseBoxMenuItem_Click(object sender, EventArgs e)
-        {
-            frmMessage message = new frmMessage("Estas seguro que deseas eliminar al dispositivo " + menuBOX.BoxName + "?", frmMessage.TypeMessage.YesNo);
-            DialogResult result = message.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                try
-                {
-                    if (File.Exists(Common.CurrentDirectory + "/Data/Images/" + CurrentSection + "_" + menuBOX.Name + ".png"))
-                    {
-                        File.Delete(Common.CurrentDirectory + "/Data/Images/" + CurrentSection + "_" + menuBOX.Name + ".png");
-                    }
-                }
-                catch { }
-
-                RemoveDevice(menuBOX);
-            }
         }
 
         private void RemoveDevice(DeviceBox menuBOX)
@@ -551,21 +388,10 @@ namespace SKYNET
             console.Show();
         }
 
-        private void EditarMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowManager(menuBOX);
-        }
-
         public void ShowManager(DeviceBox menuBOX = null)
         {
             frmManager manage = new frmManager(menuBOX);
             manage.ShowDialog();
-        }
-
-        private void PicSettings_Click(object sender, EventArgs e)
-        {
-            shadow.Dock = DockStyle.Fill;
-            MainMenu.Show(this, (Width - MainMenu.Width) - 12, TopPanel.Height + 5);
         }
 
         internal static DeviceBox GetBoxFromName(string device)
@@ -580,15 +406,6 @@ namespace SKYNET
                 }
             }
             return null;
-        }
-        private void OnlineAlertMenuItem_Click(object sender, EventArgs e)
-        {
-            menuBOX.AlertOnConnect = true;
-        }
-
-        private void OfflineAlertMenuItem_Click(object sender, EventArgs e)
-        {
-            menuBOX.AlertOnDisconnect = true;
         }
 
         private void Settings_Click(object sender, EventArgs e)
@@ -607,7 +424,7 @@ namespace SKYNET
                     RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", writable: true);
                     try
                     {
-                        if (LaunchWindowsStart)
+                        if (Settings.LaunchWindowsStart)
                         {
                             registryKey.SetValue("[SKYNET] NetManager", Application.ExecutablePath.ToString());
                         }
@@ -620,13 +437,8 @@ namespace SKYNET
                 }
                 catch { }
 
-                settings.SaveSettings();
+                Settings.Save();
             }
-        }
-        private void DevicePingInfoMenuItem_Click(object sender, EventArgs e)
-        {
-            frmDeviceInfo deviceInfo = new frmDeviceInfo(menuBOX);
-            deviceInfo.Show();
         }
 
         private void ByHackerprod_MouseLeave(object sender, EventArgs e)
@@ -640,11 +452,6 @@ namespace SKYNET
             new frmAbout().Show();
         }
 
-        private void PuertosMenuItem_Click(object sender, EventArgs e)
-        {
-            frmPortScan manage = new frmPortScan(menuBOX.IpName);
-            manage.Show();
-        }
         public void CleanBoxControls()
         {
             DeviceContainer.Invoke(new Action(() =>
@@ -653,6 +460,7 @@ namespace SKYNET
                 DeviceContainer.Controls.Add(WelcomeBox);
             }));
         }
+
         private void InitTimer()
         {
             _timer.AutoReset = false;
@@ -786,28 +594,6 @@ namespace SKYNET
 
         }
 
-        private void AgregarEquipoMenuItem_Click(object sender, EventArgs e)
-        {
-            frmMain.frm.ShowManager();
-        }
-
-        private void BuscarEquiposMenuItem_Click(object sender, EventArgs e)
-        {
-            frmSearch search = new frmSearch();
-            search.Show();
-        }
-
-        private void AdministrarPerfilesMenuItem_Click(object sender, EventArgs e)
-        {
-            frmProfile profile = new frmProfile();
-            profile.ShowDialog();
-        }
-
-        private void MinimizeMenuItem_Click(object sender, EventArgs e)
-        {
-            SetVisible(false);
-            WindowState = FormWindowState.Minimized;
-        }
 
         protected override void OnActivated(EventArgs e)
         {
@@ -825,6 +611,7 @@ namespace SKYNET
             Common.ShowShadow = false;
             shadow.Dock = DockStyle.None;
         }
+
         protected override void OnDeactivate(EventArgs e)
         {
             base.OnActivated(e);
@@ -871,16 +658,29 @@ namespace SKYNET
             
         }
 
-        private void EnviarMensajeMenuItem_Click(object sender, EventArgs e)
+        private void CloseBox_BoxClicked(object sender, EventArgs e)
         {
-            var chat = new frmPrivateChat(menuBOX);
-            ChatManager.RegisterChat(menuBOX.RemoteAddress, chat);
-            if (ChatManager.GetChatHistory(menuBOX.RemoteAddress, out var chatHistory))
+            if (Settings.MinimizeWhenClose)
             {
-                chat.FillHistory(chatHistory);
+                SetVisible(false);
+                WindowState = FormWindowState.Minimized;
+                return;
             }
-            chat.TopMost = true;
-            chat.Show();
+            Settings.Save();
+            Settings.SetHandle(0);
+            SaveDevices();
+            Process.GetCurrentProcess().Kill();
+        }
+
+        private void MinimizeBox_BoxClicked(object sender, EventArgs e)
+        {
+            SetVisible(false);
+            WindowState = FormWindowState.Minimized;
+        }
+
+        private void SettingsBox_BoxClicked(object sender, EventArgs e)
+        {
+            ShowSettings();
         }
     }
 }

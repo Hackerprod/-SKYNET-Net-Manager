@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.PN_Container = new System.Windows.Forms.Panel();
-            this.textBox = new System.Windows.Forms.TextBox();
+            this.TextBox = new System.Windows.Forms.TextBox();
             this.logo_box = new System.Windows.Forms.PictureBox();
             this.PN_Right = new System.Windows.Forms.Panel();
             this.PN_Left = new System.Windows.Forms.Panel();
@@ -44,7 +44,7 @@
             // PN_Container
             // 
             this.PN_Container.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.PN_Container.Controls.Add(this.textBox);
+            this.PN_Container.Controls.Add(this.TextBox);
             this.PN_Container.Controls.Add(this.logo_box);
             this.PN_Container.Controls.Add(this.PN_Right);
             this.PN_Container.Controls.Add(this.PN_Left);
@@ -56,18 +56,18 @@
             this.PN_Container.Size = new System.Drawing.Size(218, 33);
             this.PN_Container.TabIndex = 0;
             // 
-            // textBox
+            // TextBox
             // 
-            this.textBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.textBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F);
-            this.textBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.textBox.Location = new System.Drawing.Point(10, 6);
-            this.textBox.Name = "textBox";
-            this.textBox.Size = new System.Drawing.Size(177, 18);
-            this.textBox.TabIndex = 93;
-            this.textBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClick);
+            this.TextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBox.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F);
+            this.TextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.TextBox.Location = new System.Drawing.Point(10, 6);
+            this.TextBox.Name = "TextBox";
+            this.TextBox.Size = new System.Drawing.Size(177, 18);
+            this.TextBox.TabIndex = 93;
+            this.TextBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClick);
             // 
             // logo_box
             // 
@@ -154,7 +154,7 @@
         private System.Windows.Forms.Panel PN_Buttom;
         private System.Windows.Forms.Panel PN_Right;
         private System.Windows.Forms.PictureBox logo_box;
-        private System.Windows.Forms.TextBox textBox;
+        public System.Windows.Forms.TextBox TextBox;
         private System.Windows.Forms.Panel Container;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using SKYNET.GUI;
+using SKYNET.Helpers;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -25,35 +26,20 @@ namespace SKYNET
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            if (frmMain.FirstLaunch)
-            {
-                minimizeBox.Checked = false;
-                launchWindowsBox.Checked = false;
-                TB_KeyLabel.Text = frmMain.Key;
-                ShowInLeft.Checked = false;
-                CustomSound.Checked = false;
-                ShowTopPanel.Checked = true;
+            minimizeBox.Checked = Settings.MinimizeWhenClose;
+            launchWindowsBox.Checked = Settings.LaunchWindowsStart;
+            TB_KeyLabel.Text = Settings.Key;
+            ShowInLeft.Checked = Settings.ShowInLeft;
+            TimeOut.Text = Settings.Timeout.ToString();
+            TTL.Text = Settings.TTL.ToString();
+            BufferSize.Text = Settings.BufferSize.ToString();
+            CustomSound.Checked = Settings.CustomSound;
+            CustomSoundPatch.Text = Settings.CustomSoundPatch;
 
-                CustomSoundPatch.Visible = CustomSound.Checked;
-                SearhSound.Visible = CustomSound.Checked;
-            }
-            else
-            {
-                minimizeBox.Checked = frmMain.MinimizeWhenClose;
-                launchWindowsBox.Checked = frmMain.LaunchWindowsStart;
-                TB_KeyLabel.Text = frmMain.Key;
-                ShowInLeft.Checked = frmMain.ShowInLeft;
-                TimeOut.Text = frmMain.Timeout.ToString();
-                TTL.Text = frmMain.TTL.ToString();
-                BufferSize.Text = frmMain.BufferSize.ToString();
-                CustomSound.Checked = frmMain.CustomSound;
-                CustomSoundPatch.Text = frmMain.CustomSoundPatch;
+            CustomSoundPatch.Visible = CustomSound.Checked;
+            SearhSound.Visible = CustomSound.Checked;
 
-                CustomSoundPatch.Visible = CustomSound.Checked;
-                SearhSound.Visible = CustomSound.Checked;
-
-                ShowTopPanel.Checked = frmMain.ShowTopPanel;
-            }
+            ShowTopPanel.Checked = Settings.ShowTopPanel;
 
             int maximum = 100;
             int minimum = 80;
@@ -102,16 +88,16 @@ namespace SKYNET
 
         private void AceptarBtn_Click(object sender, EventArgs e)
         {
-            frmMain.MinimizeWhenClose = minimizeBox.Checked;
-            frmMain.LaunchWindowsStart = launchWindowsBox.Checked;
+            Settings.MinimizeWhenClose = minimizeBox.Checked;
+            Settings.LaunchWindowsStart = launchWindowsBox.Checked;
 
-            frmMain.Timeout = Convert.ToInt32(TimeOut.Text);
-            frmMain.TTL = Convert.ToInt32(TTL.Text);
-            frmMain.BufferSize = Convert.ToInt32(BufferSize.Text);
+            Settings.Timeout = Convert.ToInt32(TimeOut.Text);
+            Settings.TTL = Convert.ToInt32(TTL.Text);
+            Settings.BufferSize = Convert.ToInt32(BufferSize.Text);
 
-            frmMain.CustomSoundPatch = CustomSoundPatch.Text;
-            frmMain.CustomSound = CustomSound.Checked;
-            frmMain.ShowTopPanel = ShowTopPanel.Checked;
+            Settings.CustomSoundPatch = CustomSoundPatch.Text;
+            Settings.CustomSound = CustomSound.Checked;
+            Settings.ShowTopPanel = ShowTopPanel.Checked;
 
 
             button1.PerformClick();
@@ -131,7 +117,7 @@ namespace SKYNET
         {
             frmKey key = new frmKey();
             key.ShowDialog();
-            TB_KeyLabel.Text = frmMain.Key;
+            TB_KeyLabel.Text = Settings.Key;
         }
         private void OpacityBar_Scroll(object sender, EventArgs e)
         {
@@ -143,7 +129,7 @@ namespace SKYNET
             }
 
             frmBack.frm.Opacity = value;
-            frmMain.OpacityForm = value;
+            Settings.OpacityForm = value;
         }
 
         private void SearhSound_Click(object sender, EventArgs e)
@@ -173,7 +159,7 @@ namespace SKYNET
 
         private void ShowInLeft_MouseClick(object sender, MouseEventArgs e)
         {
-            frmMain.ShowInLeft = ShowInLeft.Checked;
+            Settings.ShowInLeft = ShowInLeft.Checked;
             frmMain.frm.Maximize(ShowInLeft.Checked);
         }
     }

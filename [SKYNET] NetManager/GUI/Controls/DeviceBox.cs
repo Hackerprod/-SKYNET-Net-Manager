@@ -1,4 +1,4 @@
-﻿using SKYNET.Properties;
+﻿using SKYNET.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -108,9 +108,9 @@ namespace SKYNET
                 Values.Add(i, 0);
             }
 
-            if (frmMain.TTL == 0) frmMain.TTL = 32;
-            _pingerOptions = new PingOptions(frmMain.TTL, false);
-            _buffer = new byte[frmMain.BufferSize];
+            if (Settings.TTL == 0) Settings.TTL = 32;
+            _pingerOptions = new PingOptions(Settings.TTL, false);
+            _buffer = new byte[Settings.BufferSize];
 
             InitTimer();
         }
@@ -138,10 +138,10 @@ namespace SKYNET
                 {
                     try
                     {
-                        this.StatusICON.Image = Resources.online;
+                        this.StatusICON.Image = Properties.Resources.online;
                         StatusPNL.BackColor = Color.FromArgb(7, 164, 245);
                         if (!isWeb)
-                            SetAvatar(Resources.OnlinePC);
+                            SetAvatar(Properties.Resources.OnlinePC);
                         status.Text = value.ToString() + " " + Ping;
                     }
                     catch { }
@@ -150,10 +150,10 @@ namespace SKYNET
                 {
                     try
                     {
-                        this.StatusICON.Image = Resources.idlechat;
+                        this.StatusICON.Image = Properties.Resources.idlechat;
                         StatusPNL.BackColor = Color.FromArgb(245, 7, 41);
                         if (!isWeb)
-                            SetAvatar(Resources.OfflinePC);
+                            SetAvatar(Properties.Resources.OfflinePC);
 
                         status.Text = value.ToString();
                     }
@@ -246,7 +246,7 @@ namespace SKYNET
 
                             IAsyncResult asyncResult = sockets.BeginConnect(EndPoint, new AsyncCallback((IAsyncResult ar) => { try { ((Socket)ar.AsyncState).EndConnect(ar); } catch { } }), sockets);
 
-                            if (asyncResult.AsyncWaitHandle.WaitOne(frmMain.Timeout, false))
+                            if (asyncResult.AsyncWaitHandle.WaitOne(Settings.Timeout, false))
                             {
                                 TimeSpan span = DateTime.Now - SentDateTime;
                                 long RoundtripTime = span.Milliseconds;
@@ -270,12 +270,12 @@ namespace SKYNET
                     else
                     {
 
-                        if (frmMain.TTL == 0) frmMain.TTL = 32;
-                        _pingerOptions = new PingOptions(frmMain.TTL, false);
+                        if (Settings.TTL == 0) Settings.TTL = 32;
+                        _pingerOptions = new PingOptions(Settings.TTL, false);
 
                         try
                         {
-                            PingReply pingReply = _pinger.Send(IpName, frmMain.Timeout, _buffer, _pingerOptions);
+                            PingReply pingReply = _pinger.Send(IpName, Settings.Timeout, _buffer, _pingerOptions);
                             {
                                 switch (pingReply.Status)
                                 {
@@ -510,7 +510,7 @@ namespace SKYNET
 
                                 IAsyncResult asyncResult = sockets.BeginConnect(EndPoint, new AsyncCallback((IAsyncResult ar) => { try { ((Socket)ar.AsyncState).EndConnect(ar); } catch { } }), sockets);
 
-                                if (asyncResult.AsyncWaitHandle.WaitOne(frmMain.Timeout, false))
+                                if (asyncResult.AsyncWaitHandle.WaitOne(Settings.Timeout, false))
                                 {
                                     TimeSpan span = DateTime.Now - SentDateTime;
 

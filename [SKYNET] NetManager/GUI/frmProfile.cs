@@ -1,4 +1,5 @@
 ﻿using SKYNET.GUI;
+using SKYNET.Helpers;
 using System;
 using System.Drawing;
 using System.IO;
@@ -27,7 +28,7 @@ namespace SKYNET
             {
                 profileBox.Items.Add(Path.GetFileNameWithoutExtension(item));
             }
-            SelectIndex(frmMain.CurrentSection);
+            SelectIndex(Settings.CurrentSection);
         }
 
         private void SelectIndex(string Section)
@@ -63,7 +64,7 @@ namespace SKYNET
                 return;
             }
             frmMain.frm.LoadProfile(profileBox.Text);
-            frmMain.CurrentSection = profileBox.Text;
+            Settings.CurrentSection = profileBox.Text;
         }
 
         private void AddProfile_Click(object sender, EventArgs e)

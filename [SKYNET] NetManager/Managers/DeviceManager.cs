@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SKYNET.Helpers;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -85,7 +86,7 @@ namespace SKYNET
             string[] files = Directory.GetFiles(Common.CurrentDirectory + "/Data/Images/");
             foreach (var picture in files)
             {
-                if (picture.Contains(frmMain.CurrentSection + "_" + name + ".png"))
+                if (picture.Contains(Settings.CurrentSection + "_" + name + ".png"))
                 {
                     path = picture;
                 }

@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace SKYNET
 {
-    partial class frmPrivateChat
+    partial class frmPublicChat
     {
         /// <summary>
         /// Required designer variable.

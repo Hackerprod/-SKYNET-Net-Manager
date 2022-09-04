@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic.CompilerServices;
 using SKYNET;
+using SKYNET.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -261,7 +262,7 @@ public class Common
 
     internal static void ShowBars(bool @checked)
     {
-        frmMain.ShowTopPanel = @checked;
+        Settings.ShowTopPanel = @checked;
         frmMain.frm.TopPanel.Visible = @checked;
         frmMain.frm.PanelBottom.Visible = @checked;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SKYNET.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -58,7 +59,7 @@ namespace SKYNET
             }
             if (save)
             {
-                frmMain.Key = e.KeyData.ToString();
+                Settings.Key = e.KeyData.ToString();
             }
             button1.PerformClick();
         }

@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using SKYNET.GUI;
+using SKYNET.Helpers;
 
 namespace SKYNET
 {
@@ -204,7 +205,7 @@ namespace SKYNET
             Image img = ImageCrop.PreviewBitmap();
             Bitmap image = ImageHelper.ImageResizer.ResizeBitmap((Bitmap)img, 1000, 1000, ImageFormat.Png);
 
-            string destPath = Path.Combine(Common.CurrentDirectory, "Data", "Images", frmMain.CurrentSection + "_" + SectionName + ".png");
+            string destPath = Path.Combine(Common.CurrentDirectory, "Data", "Images", Settings.CurrentSection + "_" + SectionName + ".png");
             Common.Resize((Bitmap)image, 1000, 1000, destPath);
             Close();
 

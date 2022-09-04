@@ -2,10 +2,9 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;                    
-using System.Runtime.InteropServices;
-using SKYNET.Properties;
 using System.Media;
 using SKYNET.GUI;
+using SKYNET.Helpers;
 
 namespace SKYNET
 {
@@ -29,42 +28,42 @@ namespace SKYNET
                 if (BOX.isWeb)
                 {
                     label1.Text = "EL EQUIPO ESTA ONLINE";
-                    Avatar.Image = Resources.glob_v2;
+                    Avatar.Image = Properties.Resources.glob_v2;
                 }
                 else
                 {
                     label1.Text = BOX.BoxName.ToUpper() + " ESTA ONLINE";
-                    Avatar.Image = Resources.My_Computer_lime_copia;
+                    Avatar.Image = Properties.Resources.My_Computer_lime_copia;
                 }
 
                 Time.Text = DateTime.Now.ToShortTimeString();
 
                 message.Text = "El programa ha realizado ping con el" + Environment.NewLine + "ip " + BOX.IpName;
 
-                if (frmMain.CustomSound)
+                if (Settings.CustomSound)
                 {
-                    if (File.Exists(frmMain.CustomSoundPatch))
+                    if (File.Exists(Settings.CustomSoundPatch))
                     {
                         try
                         {
-                            SoundPlayer beep = new SoundPlayer(frmMain.CustomSoundPatch);
+                            SoundPlayer beep = new SoundPlayer(Settings.CustomSoundPatch);
                             beep.Play();
                         }
                         catch
                         {
-                            SoundPlayer beep = new SoundPlayer(Resources.sound_start_record);
+                            SoundPlayer beep = new SoundPlayer(Properties.Resources.sound_start_record);
                             beep.Play();
                         }
                     }
                     else
                     {
-                        SoundPlayer beep = new SoundPlayer(Resources.sound_start_record);
+                        SoundPlayer beep = new SoundPlayer(Properties.Resources.sound_start_record);
                         beep.Play();
                     }
                 }
                 else
                 {
-                    SoundPlayer beep = new SoundPlayer(Resources.sound_start_record);
+                    SoundPlayer beep = new SoundPlayer(Properties.Resources.sound_start_record);
                     beep.Play();
                 }
             }
@@ -73,42 +72,42 @@ namespace SKYNET
                 if (BOX.isWeb)
                 {
                     label1.Text = "EL EQUIPO ESTA OFFLINE";
-                    Avatar.Image = Resources.glob_v2;
+                    Avatar.Image = Properties.Resources.glob_v2;
                 }
                 else
                 {
                     label1.Text = BOX.BoxName.ToUpper() + " ESTA OFFLINE";
-                    Avatar.Image = Resources.My_Computer_lime_copia;
+                    Avatar.Image = Properties.Resources.My_Computer_lime_copia;
                 }
 
                 Time.Text = DateTime.Now.ToShortTimeString();
 
                 message.Text = "El programa ha dejado de dar ping" + Environment.NewLine + " con el ip " + BOX.IpName;
 
-                if (frmMain.CustomSound)
+                if (Settings.CustomSound)
                 {
-                    if (File.Exists(frmMain.CustomSoundPatch))
+                    if (File.Exists(Settings.CustomSoundPatch))
                     {
                         try
                         {
-                            SoundPlayer beep = new SoundPlayer(frmMain.CustomSoundPatch);
+                            SoundPlayer beep = new SoundPlayer(Settings.CustomSoundPatch);
                             beep.Play();
                         }
                         catch
                         {
-                            SoundPlayer beep = new SoundPlayer(Resources.sound_start_record);
+                            SoundPlayer beep = new SoundPlayer(Properties.Resources.sound_start_record);
                             beep.Play();
                         }
                     }
                     else
                     {
-                        SoundPlayer beep = new SoundPlayer(Resources.sound_start_record);
+                        SoundPlayer beep = new SoundPlayer(Properties.Resources.sound_start_record);
                         beep.Play();
                     }
                 }
                 else
                 {
-                    SoundPlayer beep = new SoundPlayer(Resources.sound_start_record);
+                    SoundPlayer beep = new SoundPlayer(Properties.Resources.sound_start_record);
                     beep.Play();
                 }
             }

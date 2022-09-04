@@ -1,54 +1,36 @@
 ﻿using SKYNET.GUI;
+using SKYNET.Network;
 using SKYNET.Types;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SKYNET
 {
-    public partial class frmPrivateChat : frmBase
+    public partial class frmPublicChat : frmBase
     {
-        private DeviceBox box;
-        private IPAddress IPAddress;
+        private UDPBroadcaster broadcaster;
 
-        public frmPrivateChat(DeviceBox box)
+        public frmPublicChat()
         {
             InitializeComponent();
             base.SetMouseMove(PN_Top);
             CheckForIllegalCrossThreadCalls = false;  
-
-            this.box = box;
-
-            if (box == null)
-            {
-                Close();
-            }
-
-            if (IPAddress.TryParse(box.IpName, out var iPAddress))
-            {
-                this.IPAddress = iPAddress;
-            }
-
-            label2.Text = "Message to " + box.BoxName;
-            TB_Message.TextBox.Focus();
-        }
-
-        public frmPrivateChat(IPAddress iPAddress)
-        {
-            InitializeComponent();
-            base.SetMouseMove(PN_Top);
-            CheckForIllegalCrossThreadCalls = false;  
-
-            this.IPAddress = iPAddress;
-            label2.Text = "Message to " + iPAddress.ToString();
 
             TopMost = true;
             Common.MoveToTopMost(base.Handle);
             TB_Message.Focus();
+
+            broadcaster = new UDPBroadcaster();
+            broadcaster.OnMessageReceived = OnMessageReceived;
+        }
+
+        private void OnMessageReceived(object sender, MessageProcessor.MessageReceived message)
+        {
+            PrintMessage(message);
+            Common.Show(message);
         }
 
         internal void PrintMessage(MessageProcessor.MessageReceived e)
@@ -149,39 +131,14 @@ namespace SKYNET
         {
             Task.Run(() =>
             {
-                try
-                {
-                    byte[] bytes = Encoding.Default.GetBytes(msg);
-                    string IP = box != null ? box.IpName : IPAddress.ToString();
-                    HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create($"http://{IP}:28082/onMessage");
-                    httpWebRequest.Method = "POST";
-                    using (Stream newStream = httpWebRequest.GetRequestStream())
-                    {
-                        newStream.Write(bytes, 0, bytes.Length);
-                    }
-                    var sd = httpWebRequest.GetResponse().GetResponseStream();
-
-                    ChatMessage message = new ChatMessage()
-                    {
-                        Sender = Environment.UserName,
-                        Message = msg
-                    };
-
-                    WriteChat(message);
-
-                    ChatManager.RegisterMessage(IPAddress, message);
-                }
-                catch (Exception ex)
-                {
-                    //TB_Chat.Text += "Error sending: " + msg + Environment.NewLine;
-                }
+                broadcaster.Send(msg);
             });
 
         }
 
         private void CloseBox_Clicked(object sender, EventArgs e)
         {
-            ChatManager.RemoveChat(IPAddress);
+            //ChatManager.RemoveChat(IPAddress);
             Close();
         }
 

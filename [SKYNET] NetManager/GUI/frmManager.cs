@@ -1,5 +1,5 @@
 ﻿using SKYNET.GUI;
-using SKYNET.Properties;
+using SKYNET.Helpers;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -212,7 +212,7 @@ namespace SKYNET
             WindowState = FormWindowState.Minimized;
             if (dialogResult == DialogResult.OK)
             {
-                string FileName = Common.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + SectionName + ".png";
+                string FileName = Common.CurrentDirectory + "/Data/Images/" + Settings.CurrentSection + "_" + SectionName + ".png";
                 ImageType type = DeviceManager.GetImageType(ofdPhoto.FileName);
 
                 if (type == ImageType.ICO)
@@ -257,7 +257,7 @@ namespace SKYNET
 
         private void LoadImage()
         {
-            Avatar.Image = Common.ImageFromFile(Common.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + SectionName + ".png");
+            Avatar.Image = Common.ImageFromFile(Common.CurrentDirectory + "/Data/Images/" + Settings.CurrentSection + "_" + SectionName + ".png");
             if (Box != null)
             {
                 Box.SetAvatar(Avatar.Image, true);
@@ -271,25 +271,25 @@ namespace SKYNET
 
         private void DeleteAvatar_Click(object sender, EventArgs e)
         {
-            Avatar.Image = Common.ImageFromFile(Common.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + SectionName + ".png");
+            Avatar.Image = Common.ImageFromFile(Common.CurrentDirectory + "/Data/Images/" + Settings.CurrentSection + "_" + SectionName + ".png");
 
             if (Box != null)
             {
-                if (File.Exists(Common.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + Box.Name + ".png"))
+                if (File.Exists(Common.CurrentDirectory + "/Data/Images/" + Settings.CurrentSection + "_" + Box.Name + ".png"))
                 {
-                    try { File.Delete(Common.CurrentDirectory + "/Data/Images/" + frmMain.CurrentSection + "_" + Box.Name + ".png"); } catch { }
+                    try { File.Delete(Common.CurrentDirectory + "/Data/Images/" + Settings.CurrentSection + "_" + Box.Name + ".png"); } catch { }
 
                     Box.CustomAvatar = false;
 
                     if (Box.Status == ConnectionStatus.Online)
                     {
-                        Avatar.Image = Resources.OnlinePC;
-                        Box.SetAvatar(Resources.OnlinePC);
+                        Avatar.Image = Properties.Resources.OnlinePC;
+                        Box.SetAvatar(Properties.Resources.OnlinePC);
                     }
                     else
                     {
-                        Avatar.Image = Resources.OfflinePC;
-                        Box.SetAvatar(Resources.OfflinePC);
+                        Avatar.Image = Properties.Resources.OfflinePC;
+                        Box.SetAvatar(Properties.Resources.OfflinePC);
                     }
 
                 }

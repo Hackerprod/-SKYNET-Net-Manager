@@ -18,8 +18,8 @@ namespace SKYNET.Controls
         [Category("SKYNET")]
         public HorizontalAlignment TextAlign
         {
-            get { return textBox.TextAlign; }
-            set { textBox.TextAlign = value; }
+            get { return TextBox.TextAlign; }
+            set { TextBox.TextAlign = value; }
         }
 
         [Category("SKYNET")]
@@ -33,11 +33,11 @@ namespace SKYNET.Controls
         {
             get 
             { 
-                return textBox.Text;
+                return TextBox.Text;
             }
             set
             {
-                textBox.Text = value;
+                TextBox.Text = value;
             }
         }
 
@@ -66,8 +66,8 @@ namespace SKYNET.Controls
                 PN_Left.BackColor = value;
                 PN_Right.BackColor = value;
                 PN_Container.BackColor = value;
-                textBox.BackColor = value;
-                textBox.Refresh();
+                TextBox.BackColor = value;
+                TextBox.Refresh();
             }
         }
 
@@ -89,11 +89,11 @@ namespace SKYNET.Controls
         {
             get 
             { 
-                return textBox.ForeColor; 
+                return TextBox.ForeColor; 
             }
             set
             {
-                textBox.ForeColor = value;
+                TextBox.ForeColor = value;
                 base.ForeColor = value;
             }
         }
@@ -168,31 +168,46 @@ namespace SKYNET.Controls
                 _isPassword = value;
                 if (value)
                 {
-                    textBox.PasswordChar = '*';
-                    textBox.UseSystemPasswordChar = true;
+                    TextBox.PasswordChar = '*';
+                    TextBox.UseSystemPasswordChar = true;
                 }
                 else
-                    textBox.UseSystemPasswordChar = false;
+                    TextBox.UseSystemPasswordChar = false;
             }
         }
+
+        [Category("SKYNET")]
+        public bool Multiline
+        {
+            get
+            {
+                return TextBox.Multiline;
+            }
+            set
+            {
+                TextBox.Multiline = value;
+            }
+        }
+
+
         public SKYNET_TextBox()
         {
             InitializeComponent();
-            textBox.BackColor = BackColor;
+            TextBox.BackColor = BackColor;
 
-            textBox.GotFocus += TextBox_GotFocus;
-            textBox.LostFocus += TextBox_LostFocus;
-            textBox.KeyDown += TextBox_KeyDown;
-            textBox.KeyUp += TextBox_KeyUp;
-            textBox.KeyPress += TextBox_KeyPress;
-            textBox.TextChanged += TextBox_TextChanged;
+            TextBox.GotFocus += TextBox_GotFocus;
+            TextBox.LostFocus += TextBox_LostFocus;
+            TextBox.KeyDown += TextBox_KeyDown;
+            TextBox.KeyUp += TextBox_KeyUp;
+            TextBox.KeyPress += TextBox_KeyPress;
+            TextBox.TextChanged += TextBox_TextChanged;
 
             BackColor = Color;
         }
 
         private void OnMouseClick(object sender, MouseEventArgs e)
         {
-            textBox.Focus();
+            TextBox.Focus();
         }
 
         private void LogoClick(object sender, MouseEventArgs e)
@@ -271,7 +286,13 @@ namespace SKYNET.Controls
             BackColor = Color;
             base.OnPaint(e);
         }
-        public override Font Font { get => textBox.Font; set => textBox.Font = value; }
+
+        public override Font Font
+        {
+            get => TextBox.Font;
+            set => TextBox.Font = value;
+        }
+
         protected override void OnTextChanged(EventArgs e)
         {
             base.OnTextChanged(e);
@@ -279,7 +300,19 @@ namespace SKYNET.Controls
 
         private void SKYNET_TextBox_SizeChanged(object sender, EventArgs e)
         {
-            PN_Top.Height = ((Height - textBox.Height) / 2) - 1;
+            PN_Top.Height = ((Height - TextBox.Height) / 2) - 1;
+        }
+
+        public new void Focus()
+        {
+            TextBox.Focus();
+        }
+
+
+
+        public void Clear()
+        {
+            TextBox.Clear();
         }
     }
 }
