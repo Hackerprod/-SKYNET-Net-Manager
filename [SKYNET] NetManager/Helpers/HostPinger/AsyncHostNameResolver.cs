@@ -1,8 +1,7 @@
-﻿using NetUtils;
-using System;
+﻿using System;
 using System.Net;
 
-namespace NetUtils
+namespace SKYNET.NetUtils
 {
     internal class AsyncHostNameResolver
     {

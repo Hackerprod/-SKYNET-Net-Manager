@@ -1,4 +1,4 @@
-﻿using NetUtils;
+﻿using SKYNET.NetUtils;
 using SKYNET.GUI;
 using System;
 using System.Collections;
@@ -31,7 +31,6 @@ namespace SKYNET
 
         public TypeMessage typeMessage;
         private ImageList _ilQuality;
-        System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(NetPinger.IPScanForm));
 
         public frmSearch()
         {
@@ -50,16 +49,15 @@ namespace SKYNET
             //_cmbRangeType.SelectedIndex = 0;
 
             _ilQuality = new System.Windows.Forms.ImageList(components);
-            _ilQuality.ImageStream = (System.Windows.Forms.ImageListStreamer)componentResourceManager.GetObject("_ilQuality.ImageStream");
             _ilQuality.TransparentColor = System.Drawing.Color.Transparent;
-            _ilQuality.Images.SetKeyName(0, "0");
-            _ilQuality.Images.SetKeyName(1, "1");
-            _ilQuality.Images.SetKeyName(2, "2");
-            _ilQuality.Images.SetKeyName(3, "3");
-            _ilQuality.Images.SetKeyName(4, "4");
-            _ilQuality.Images.SetKeyName(5, "5");
-            _ilQuality.Images.SetKeyName(6, "6");
-            _lvAliveHosts.SmallImageList = _ilQuality;
+            //_ilQuality.Images.SetKeyName(0, "0");
+            //_ilQuality.Images.SetKeyName(1, "1");
+            //_ilQuality.Images.SetKeyName(2, "2");
+            //_ilQuality.Images.SetKeyName(3, "3");
+            //_ilQuality.Images.SetKeyName(4, "4");
+            //_ilQuality.Images.SetKeyName(5, "5");
+            //_ilQuality.Images.SetKeyName(6, "6");
+            //_lvAliveHosts.SmallImageList = _ilQuality;
 
             ToolStripMenuItem Monitorear = new ToolStripMenuItem() { Text = "Monitorear equipo" };
             Monitorear.Click += Monitorear_Click;
@@ -141,7 +139,7 @@ namespace SKYNET
             {
                 ListViewItem listViewItem = new ListViewItem();
                 listViewItem.Tag = host;
-                listViewItem.BackColor = Color.GreenYellow;
+                //listViewItem.BackColor = Color.GreenYellow;
                 listViewItem.SubItems.Add(host.Address.ToString());
                 listViewItem.SubItems.Add("");
                 listViewItem.SubItems.Add("");
@@ -187,7 +185,7 @@ namespace SKYNET
                     {
                         host.OnStateChange -= Host_OnStateChange;
                         host.OnHostNameAvailable -= Host_OnHostNameAvailable;
-                        listViewItem.BackColor = Color.IndianRed;
+                        //listViewItem.BackColor = Color.IndianRed;
                         Timer timer = new Timer();
                         timer.Tag = listViewItem;
                         timer.Interval = 2000;
@@ -212,7 +210,7 @@ namespace SKYNET
             timer.Stop();
             timer.Tick -= NewTimer_Tick;
             ListViewItem listViewItem = (ListViewItem)timer.Tag;
-            listViewItem.BackColor = Color.White;
+            //listViewItem.BackColor = Color.White;
         }
         private void Host_OnHostNameAvailable(IPScanHostState host)
         {

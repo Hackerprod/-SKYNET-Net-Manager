@@ -1,4 +1,5 @@
 ﻿using SKYNET.Controls;
+using SKYNET.GUI;
 using SKYNET.Properties;
 
 namespace SKYNET
@@ -40,7 +41,7 @@ namespace SKYNET
             this.DeleteProfile = new SKYNET_Button();
             this.AddProfile = new SKYNET_Button();
             this.SetProfile = new SKYNET_Button();
-            this.profileBox = new FlatComboBox();
+            this.profileBox = new SKYNET_ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.Browser = new System.Windows.Forms.WebBrowser();
             this.PN_Top.SuspendLayout();
@@ -240,7 +241,7 @@ namespace SKYNET
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label10;
         private SKYNET_Button SetProfile;
-        private FlatComboBox profileBox;
+        private SKYNET_ComboBox profileBox;
         private SKYNET_Button DeleteProfile;
         private SKYNET_Button AddProfile;
         private System.Windows.Forms.Panel panelClose;

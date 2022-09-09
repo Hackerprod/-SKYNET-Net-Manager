@@ -5,10 +5,23 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace lolo
+namespace SKYNET.Helpers
 {
     public class Hook
     {
+        public delegate void KeyDownEventDelegate(KeyboardHookEventArgs e);
+        public delegate void KeyUpEventDelegate(KeyboardHookEventArgs e);
+
+        private HookProc _hookproc;
+        private IntPtr _hhook;
+        private delegate int HookProc(int code, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam);
+        private int WM_KEYDOWN = 256;
+        private int WM_KEYUP = 257;
+        private int WM_SYSKEYDOWN = 260;
+        private int WM_SYSKEYUP = 261;
+        private bool _ispaused;
+
+
         private enum HookType
         {
             WH_JOURNALRECORD,
@@ -41,33 +54,14 @@ namespace lolo
             public IntPtr extraInfo;
         }
 
-        private delegate int HookProc(int code, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam);
-
-        public delegate void KeyDownEventDelegate(KeyboardHookEventArgs e);
-
-        public delegate void KeyUpEventDelegate(KeyboardHookEventArgs e);
-
-        private int WM_KEYDOWN = 256;
-
-        private int WM_KEYUP = 257;
-
-        private int WM_SYSKEYDOWN = 260;
-
-        private int WM_SYSKEYUP = 261;
-
-        private bool _ispaused;
-
         public KeyDownEventDelegate KeyDownEvent = delegate
         {
         };
 
+
         public KeyUpEventDelegate KeyUpEvent = delegate
         {
         };
-
-        private HookProc _hookproc;
-
-        private IntPtr _hhook;
 
         public string Name
         {

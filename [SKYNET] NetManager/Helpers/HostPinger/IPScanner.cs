@@ -1,11 +1,10 @@
-﻿using NetUtils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading;
 
-namespace NetUtils
+namespace SKYNET.NetUtils
 {
     public class IPScanner
     {

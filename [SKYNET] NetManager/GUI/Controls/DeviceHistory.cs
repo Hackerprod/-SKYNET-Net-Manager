@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using SKYNET;
-using SKYNET;
 
-namespace WindowsFormsApp
+namespace SKYNET.GUI
 {
     public partial class DeviceHistory : UserControl
     {

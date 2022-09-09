@@ -1,6 +1,6 @@
 ﻿using SKYNET;
 
-namespace NetUtils
+namespace SKYNET.NetUtils
 {
     public delegate void OnPingDelegate(HostPinger host);
     public delegate void OnHostStatusChangeDelegate(HostPinger host, ConnectionStatus oldStatus, ConnectionStatus newStatus);

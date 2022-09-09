@@ -1,5 +1,6 @@
 ﻿
 using SKYNET.Controls;
+using SKYNET.GUI;
 using SKYNET.Properties;
 
 namespace SKYNET
@@ -44,6 +45,9 @@ namespace SKYNET
             this.ClearLabel = new System.Windows.Forms.Timer(this.components);
             this.LB_Tittle = new System.Windows.Forms.Label();
             this.TopPanel = new System.Windows.Forms.Panel();
+            this.SettingsBox = new SKYNET.Controls.SKYNET_Box();
+            this.MinimizeBox = new SKYNET.Controls.SKYNET_Box();
+            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PanelBottom = new System.Windows.Forms.Panel();
             this.PanelTransfer = new System.Windows.Forms.Panel();
@@ -61,14 +65,14 @@ namespace SKYNET
             this.ProfileSelected = new System.Windows.Forms.Label();
             this.shadow = new SKYNET.Controls.SKYNET_ShadowBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.DeviceContainer = new MetroPanel();
+            this.DeviceContainer = new SKYNET.GUI.MetroPanel();
             this.WelcomeBox = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.timerTransfer = new System.Windows.Forms.Timer(this.components);
-            this.BoxMenu = new SKYNET_ContextMenuStrip();
+            this.BoxMenu = new SKYNET.SKYNET_ContextMenuStrip();
             this.HerramientasMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DevicePingInfoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditarMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,7 +86,7 @@ namespace SKYNET
             this.enviarMensajeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CloseBoxMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.TryMenu = new SKYNET_ContextMenuStrip();
+            this.TryMenu = new SKYNET.SKYNET_ContextMenuStrip();
             this.MostrarMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.agregarEquipoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buscarEquiposMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,15 +94,12 @@ namespace SKYNET
             this.PingMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MinimizeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CloseMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MainMenu = new SKYNET_ContextMenuStrip();
+            this.MainMenu = new SKYNET.SKYNET_ContextMenuStrip();
             this.menu_AddDevice = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_Profiles = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_SearchDevice = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_Settings = new System.Windows.Forms.ToolStripMenuItem();
             this.globalChatMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
-            this.MinimizeBox = new SKYNET.Controls.SKYNET_Box();
-            this.SettingsBox = new SKYNET.Controls.SKYNET_Box();
             this.TopPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.PanelBottom.SuspendLayout();
@@ -160,6 +161,57 @@ namespace SKYNET
             this.TopPanel.Name = "TopPanel";
             this.TopPanel.Size = new System.Drawing.Size(329, 28);
             this.TopPanel.TabIndex = 248;
+            // 
+            // SettingsBox
+            // 
+            this.SettingsBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.SettingsBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.SettingsBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.SettingsBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.SettingsBox.Image = null;
+            this.SettingsBox.Location = new System.Drawing.Point(227, 0);
+            this.SettingsBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.SettingsBox.MenuMode = true;
+            this.SettingsBox.MenuSeparation = 9;
+            this.SettingsBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.SettingsBox.Name = "SettingsBox";
+            this.SettingsBox.Size = new System.Drawing.Size(34, 26);
+            this.SettingsBox.TabIndex = 251;
+            this.SettingsBox.BoxClicked += new System.EventHandler(this.SettingsBox_BoxClicked);
+            // 
+            // MinimizeBox
+            // 
+            this.MinimizeBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.MinimizeBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.MinimizeBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.MinimizeBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.MinimizeBox.Image = global::SKYNET.Properties.Resources.minimise;
+            this.MinimizeBox.Location = new System.Drawing.Point(261, 0);
+            this.MinimizeBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.MinimizeBox.MenuMode = false;
+            this.MinimizeBox.MenuSeparation = 8;
+            this.MinimizeBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.MinimizeBox.Name = "MinimizeBox";
+            this.MinimizeBox.Size = new System.Drawing.Size(34, 26);
+            this.MinimizeBox.TabIndex = 250;
+            this.MinimizeBox.BoxClicked += new System.EventHandler(this.MinimizeBox_BoxClicked);
+            // 
+            // CloseBox
+            // 
+            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.Location = new System.Drawing.Point(295, 0);
+            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.MenuMode = false;
+            this.CloseBox.MenuSeparation = 8;
+            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.Name = "CloseBox";
+            this.CloseBox.Size = new System.Drawing.Size(34, 26);
+            this.CloseBox.TabIndex = 249;
+            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
             // 
             // pictureBox1
             // 
@@ -665,51 +717,6 @@ namespace SKYNET
             this.globalChatMenuItem.Size = new System.Drawing.Size(175, 22);
             this.globalChatMenuItem.Text = "Global Chat";
             this.globalChatMenuItem.Click += new System.EventHandler(this.GlobalChatMenuItem_Click);
-            // 
-            // CloseBox
-            // 
-            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
-            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
-            this.CloseBox.Location = new System.Drawing.Point(295, 0);
-            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
-            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
-            this.CloseBox.Name = "CloseBox";
-            this.CloseBox.Size = new System.Drawing.Size(34, 26);
-            this.CloseBox.TabIndex = 249;
-            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
-            // 
-            // MinimizeBox
-            // 
-            this.MinimizeBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.MinimizeBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.MinimizeBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.MinimizeBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
-            this.MinimizeBox.Image = global::SKYNET.Properties.Resources.minimise;
-            this.MinimizeBox.Location = new System.Drawing.Point(261, 0);
-            this.MinimizeBox.MaximumSize = new System.Drawing.Size(34, 26);
-            this.MinimizeBox.MinimumSize = new System.Drawing.Size(34, 26);
-            this.MinimizeBox.Name = "MinimizeBox";
-            this.MinimizeBox.Size = new System.Drawing.Size(34, 26);
-            this.MinimizeBox.TabIndex = 250;
-            this.MinimizeBox.BoxClicked += new System.EventHandler(this.MinimizeBox_BoxClicked);
-            // 
-            // SettingsBox
-            // 
-            this.SettingsBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.SettingsBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.SettingsBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.SettingsBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
-            this.SettingsBox.Image = global::SKYNET.Properties.Resources.settings_unsel;
-            this.SettingsBox.Location = new System.Drawing.Point(227, 0);
-            this.SettingsBox.MaximumSize = new System.Drawing.Size(34, 26);
-            this.SettingsBox.MinimumSize = new System.Drawing.Size(34, 26);
-            this.SettingsBox.Name = "SettingsBox";
-            this.SettingsBox.Size = new System.Drawing.Size(34, 26);
-            this.SettingsBox.TabIndex = 251;
-            this.SettingsBox.BoxClicked += new System.EventHandler(this.SettingsBox_BoxClicked);
             // 
             // frmMain
             // 

@@ -1,7 +1,6 @@
-﻿using NetUtils;
-using SKYNET;
+﻿using SKYNET;
 
-namespace NetUtils
+namespace SKYNET.NetUtils
 {
     public interface IPingLogger
     {

@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-namespace GlobalLowLevelHooks
+namespace SKYNET.Helpers
 {
     /// <summary>
     /// Class for intercepting low level Windows mouse hooks.

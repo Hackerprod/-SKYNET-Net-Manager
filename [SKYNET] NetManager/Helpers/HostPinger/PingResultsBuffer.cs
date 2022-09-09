@@ -1,6 +1,6 @@
-﻿using NetUtils;
-using System.Collections.Generic;
-namespace NetUtils
+﻿using System.Collections.Generic;
+
+namespace SKYNET.NetUtils
 {
     public class PingResultsBuffer
     {

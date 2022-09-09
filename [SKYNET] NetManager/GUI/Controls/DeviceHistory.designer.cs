@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApp
+﻿namespace SKYNET.GUI
 {
     partial class DeviceHistory
     {

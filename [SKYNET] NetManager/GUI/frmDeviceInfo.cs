@@ -1,5 +1,5 @@
-﻿using NetUtils;
-using SKYNET.GUI;
+﻿using SKYNET.GUI;
+using SKYNET.NetUtils;
 using SKYNET.Properties;
 using System;
 using System.Drawing;
@@ -13,13 +13,11 @@ namespace SKYNET
 {
     public partial class frmDeviceInfo : frmBase
     {
-        readonly DeviceBox device;
-        Image BoxImage;
-
-        private bool CustomAvatar { get; set; }
-
-        private readonly AsyncHostNameResolver _nameResolver = new AsyncHostNameResolver();
-        private readonly System.Timers.Timer _timer = new System.Timers.Timer();
+        private readonly DeviceBox device;
+        private Image BoxImage;
+        private bool CustomAvatar;
+        private AsyncHostNameResolver _nameResolver = new AsyncHostNameResolver();
+        private System.Timers.Timer _timer = new System.Timers.Timer();
 
 
         public frmDeviceInfo(DeviceBox tool = null)

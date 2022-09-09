@@ -1,16 +1,12 @@
-﻿using NetUtils;
-using SKYNET;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading;
 using System.Timers;
 using System.Xml;
-using System.Windows.Forms;
-using System.ComponentModel;
 using System.Net.Sockets;
 
-namespace NetUtils
+namespace SKYNET.NetUtils
 {
     public class HostPinger
     {

@@ -7,7 +7,6 @@ using Microsoft.Win32;
 using System.IO;                   
 using System.Net.NetworkInformation;
 using System.Collections.Generic;
-using GlobalLowLevelHooks;
 using System.Timers;
 using System.Web.Script.Serialization;
 using System.Threading.Tasks;
@@ -680,7 +679,8 @@ namespace SKYNET
 
         private void SettingsBox_BoxClicked(object sender, EventArgs e)
         {
-            ShowSettings();
+            shadow.Dock = DockStyle.Fill;
+            MainMenu.Show(this, base.Width - MainMenu.Width - 12, TopPanel.Height + 5);
         }
     }
 }

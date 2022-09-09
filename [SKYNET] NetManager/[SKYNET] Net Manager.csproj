@@ -70,6 +70,9 @@
     <Compile Include="GUI\Controls\SKYNET_Box.designer.cs">
       <DependentUpon>SKYNET_Box.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\SKYNET_ComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GUI\frmPublicChat.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,7 +87,6 @@
     <Compile Include="Helpers\HostPinger\AsyncHostNameResolver.cs" />
     <Compile Include="Helpers\HostPinger\Delegates.cs" />
     <Compile Include="Helpers\HostPinger\HostPinger.cs" />
-    <Compile Include="Helpers\HostPinger\HostStatus.cs" />
     <Compile Include="Helpers\HostPinger\IPingLogger.cs" />
     <Compile Include="Helpers\HostPinger\IPScanHostState.cs" />
     <Compile Include="Helpers\HostPinger\IPScanner.cs" />
@@ -196,9 +198,6 @@
     </Compile>
     <Compile Include="GUI\Controls\DeviceHistory.designer.cs">
       <DependentUpon>DeviceHistory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Controls\FlatComboBox.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="GUI\Controls\ImageCropControl.cs">
       <SubType>UserControl</SubType>
@@ -359,9 +358,6 @@
     <Compile Include="GUI\frmSplashScreen.Designer.cs">
       <DependentUpon>frmSplashScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\IPScanForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Managers\ChatManager.cs" />
     <Compile Include="Managers\DeviceManager.cs" />
     <Compile Include="Managers\MessageProcessor.cs" />
@@ -449,9 +445,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmSplashScreen.resx">
       <DependentUpon>frmSplashScreen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\IPScanForm.resx">
-      <DependentUpon>IPScanForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

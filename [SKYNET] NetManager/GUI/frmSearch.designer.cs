@@ -1,4 +1,5 @@
 ﻿using SKYNET.Controls;
+using SKYNET.GUI;
 using SKYNET.Properties;
 
 namespace SKYNET
@@ -60,7 +61,7 @@ namespace SKYNET
             this.label1 = new System.Windows.Forms.Label();
             this._prgScanProgress = new System.Windows.Forms.ProgressBar();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.IP_Ranges = new FlatComboBox();
+            this.IP_Ranges = new SKYNET_ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.IPbox = new SKYNET.Controls.SKYNET_TextBox();
@@ -170,6 +171,7 @@ namespace SKYNET
             // 
             // _lvAliveHosts
             // 
+            this._lvAliveHosts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
             this._lvAliveHosts.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this._lvAliveHosts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
@@ -179,6 +181,7 @@ namespace SKYNET
             this.columnHeader5,
             this.columnHeader6});
             this._lvAliveHosts.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lvAliveHosts.ForeColor = System.Drawing.Color.White;
             this._lvAliveHosts.FullRowSelect = true;
             this._lvAliveHosts.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this._lvAliveHosts.HideSelection = false;
@@ -353,6 +356,7 @@ namespace SKYNET
             this.IPbox.Location = new System.Drawing.Point(248, 49);
             this.IPbox.Logo = null;
             this.IPbox.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.IPbox.Multiline = false;
             this.IPbox.Name = "IPbox";
             this.IPbox.OnlyNumbers = false;
             this.IPbox.ShowLogo = false;
@@ -461,6 +465,6 @@ namespace SKYNET
         private SKYNET_ContextMenuStrip ContextMenu;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
-        private FlatComboBox IP_Ranges;
+        private SKYNET_ComboBox IP_Ranges;
     }
 }

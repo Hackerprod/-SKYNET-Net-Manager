@@ -40,7 +40,7 @@ namespace SKYNET
             this.closeBtn = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.DeviceInfo = new System.Windows.Forms.Panel();
-            this.deviceHistory1 = new WindowsFormsApp.DeviceHistory();
+            this.deviceHistory1 = new SKYNET.GUI.DeviceHistory();
             this.D_Status = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -1076,6 +1076,6 @@ namespace SKYNET
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Label TotalTime;
         private System.Windows.Forms.Label label14;
-        private WindowsFormsApp.DeviceHistory deviceHistory1;
+        private SKYNET.GUI.DeviceHistory deviceHistory1;
     }
 }
