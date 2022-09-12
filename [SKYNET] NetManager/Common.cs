@@ -45,79 +45,14 @@ public class Common
         return (long)GetForegroundWindow();
     }
 
-    public static string GetMacAddress(string ipAddress)
-    {
-        string macAddress = string.Empty;
-        System.Diagnostics.Process pProcess = new System.Diagnostics.Process();
-        pProcess.StartInfo.FileName = "arp";
-        pProcess.StartInfo.Arguments = "-a " + ipAddress;
-        pProcess.StartInfo.UseShellExecute = false;
-        pProcess.StartInfo.RedirectStandardOutput = true;
-        pProcess.StartInfo.CreateNoWindow = true;
-        pProcess.Start();
-        string strOutput = pProcess.StandardOutput.ReadToEnd();
-        string[] substrings = strOutput.Split('-');
-        if (substrings.Length >= 8)
-        {
-            macAddress = substrings[3].Substring(Math.Max(0, substrings[3].Length - 2))
-                     + "-" + substrings[4] + "-" + substrings[5] + "-" + substrings[6]
-                     + "-" + substrings[7] + "-"
-                     + substrings[8].Substring(0, 2);
-            return macAddress;
-        }
-
-        else
-        {
-            return "not found";
-        }
-    }
-
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     private static extern int SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
     private const int WM_VSCROLL = 277;
     private const int SB_PAGEBOTTOM = 7;
+
     public static void ScrollToBottom(RichTextBox MyRichTextBox)
     {
         SendMessage(MyRichTextBox.Handle, WM_VSCROLL, (IntPtr)SB_PAGEBOTTOM, IntPtr.Zero);
-    }
-
-    public static string GetMacAddress(IPAddress address)
-    {
-        try
-        {
-            var destAddr = BitConverter.ToInt32(address.GetAddressBytes(), 0);
-            var srcAddr = BitConverter.ToInt32(System.Net.IPAddress.Any.GetAddressBytes(), 0);
-            var macAddress = new byte[6];
-            var macAddrLen = macAddress.Length;
-            var ret = SendArp(destAddr, srcAddr, macAddress, ref macAddrLen);
-            if (ret != 0)
-            {
-                return "";
-            }
-            var mac = new PhysicalAddress(macAddress);
-            return BitConverter.ToString(macAddress).Replace('-', ':');
-        }
-        catch (Exception)
-        {
-            return "";
-        }
-
-    }
-    [System.Runtime.InteropServices.DllImport("Iphlpapi.dll", EntryPoint = "SendARP")]
-    private extern static Int32 SendArp(Int32 destIpAddress, Int32 srcIpAddress, byte[] macAddress, ref Int32 macAddressLength);
-
-    public static string GetMacByIp(string ip)
-    {
-        var macIpPairs = GetAllMacAddressesAndIppairs();
-        int index = macIpPairs.FindIndex(x => x.IpAddress == ip);
-        if (index >= 0)
-        {
-            return macIpPairs[index].MacAddress.ToUpper();
-        }
-        else
-        {
-            return null;
-        }
     }
 
     public static void InvokeAction(Control control, Action Action)
@@ -341,11 +276,6 @@ public class Common
         {
         }
         return image1;
-    }
-
-    internal static string GetMacAddress(object remoteAddress)
-    {
-        throw new NotImplementedException();
     }
 
     public static void Resize(string sourcePath, int maxWidth, int maxHeight, string destPath)
@@ -596,15 +526,6 @@ public class Common
             currentProcess = null;
         }
     }
-    internal static bool IsValidIp(string ip)
-    {
-        if (string.IsNullOrEmpty(ip))
-        {
-            return false;
-        }
-        return regex_0.IsMatch(ip);
-    }
-    public static readonly Regex regex_0 = new Regex("((?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]))", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
     public static string CurrentDirectory
     {

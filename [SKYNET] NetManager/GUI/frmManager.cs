@@ -92,7 +92,7 @@ namespace SKYNET
         }
         private void Save_Click(object sender, EventArgs e)
         {
-            if (!Common.IsValidIp(DeviceIp.Text))
+            if (!NetHelper.IsValidIp(DeviceIp.Text))
             {
                 Common.Show("El número IP no es válido... por favor verifíquelo");
                 return;
@@ -319,7 +319,7 @@ namespace SKYNET
 
         private void DeviceIp_TextChanged(object sender, EventArgs e)
         {
-            if (Common.IsValidIp(DeviceIp.Text))
+            if (NetHelper.IsValidIp(DeviceIp.Text))
             {
                 PanelDeviceIp.BackColor = DeviceIp.BackColor;
             }

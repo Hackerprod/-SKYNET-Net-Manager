@@ -8,12 +8,17 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using SKYNET.Helpers;
 
 namespace SKYNET
 {
     public partial class frmSearch : frmBase
     {
         private IPScanner _scanner;
+        private ImageList _ilQuality;
+
+
         private class HostSorterByIP : IComparer
         {
             public int Compare(object x, object y)
@@ -28,9 +33,6 @@ namespace SKYNET
                 return addressBytes[num] - addressBytes2[num];
             }
         }
-
-        public TypeMessage typeMessage;
-        private ImageList _ilQuality;
 
         public frmSearch()
         {
@@ -72,6 +74,7 @@ namespace SKYNET
             ContextMenu.Items.Add(BuscarPort);
 
         }
+
         private void _scanner_OnRestartScan(IPScanner scanner)
         {
             if (base.InvokeRequired)
@@ -97,6 +100,7 @@ namespace SKYNET
                 _prgScanProgress.Text = value.ToString() + "% [" + currentAddress.ToString() + "]";
             }
         }
+
         private void _scanner_OnStartScan(IPScanner scanner)
         {
             if (base.InvokeRequired)
@@ -113,9 +117,10 @@ namespace SKYNET
                 _lvAliveHosts.Items.Clear();
                 _prgScanProgress.Visible = true;
                 _prgScanProgress.Value = 0;
-                btnSearch.Text = "Detener";
+                btnSearch.Text = "Stop";
             }
         }
+
         private void _scanner_OnStopScan(IPScanner scanner)
         {
             if (base.InvokeRequired)
@@ -125,10 +130,11 @@ namespace SKYNET
             else
             {
                 _prgScanProgress.Value = 0;
-                btnSearch.Text = "Iniciar";
+                btnSearch.Text = "Search";
                 _prgScanProgress.Visible = false;
             }
         }
+
         private void _scanner_OnAliveHostFound(IPScanner scanner, IPScanHostState host)
         {
             if (base.InvokeRequired)
@@ -155,7 +161,7 @@ namespace SKYNET
                     listViewItem.SubItems[2].Text = host.AvgResponseTime.ToString("F02") + " ms";
                     listViewItem.SubItems[3].Text = ((float)host.LossCount / (float)host.PingsCount).ToString("P");
                     listViewItem.SubItems[4].Text = host.HostName;
-                    listViewItem.SubItems[5].Text = GetMacAddress(host.RemoteAddress);
+                    listViewItem.SubItems[5].Text = NetHelper.GetMACAddress(host.RemoteAddress);
                 }
                 Timer timer = new Timer();
                 timer.Tag = listViewItem;
@@ -164,6 +170,7 @@ namespace SKYNET
                 timer.Enabled = true;
             }
         }
+
         private void Host_OnStateChange(IPScanHostState host, IPScanHostState.State oldState)
         {
             if (base.InvokeRequired)
@@ -204,6 +211,7 @@ namespace SKYNET
             ListViewItem item = (ListViewItem)timer.Tag;
             _lvAliveHosts.Items.Remove(item);
         }
+
         private void NewTimer_Tick(object sender, EventArgs e)
         {
             Timer timer = (Timer)sender;
@@ -212,6 +220,7 @@ namespace SKYNET
             ListViewItem listViewItem = (ListViewItem)timer.Tag;
             //listViewItem.BackColor = Color.White;
         }
+
         private void Host_OnHostNameAvailable(IPScanHostState host)
         {
             if (base.InvokeRequired)
@@ -227,6 +236,7 @@ namespace SKYNET
                 }
             }
         }
+
         private ListViewItem FindListViewItem(IPScanHostState host)
         {
             foreach (ListViewItem item in _lvAliveHosts.Items)
@@ -239,12 +249,6 @@ namespace SKYNET
             return null;
         }
 
-        public enum TypeMessage
-        {
-            Alert,
-            Normal,
-            YesNo
-        }
         private void FrmManager_Load(object sender, EventArgs e)
         {
             foreach (var ip in GetAllIp())
@@ -258,19 +262,7 @@ namespace SKYNET
             IPbox.Text = GetIp();
             btnSearch.Focus(); 
         }
-        public static bool MyIpRange(string ip)
-        {
-            try
-            {
-                if (ip.Split('.')[0] == GetIp().Split('.')[0])
-                    if (ip.Split('.')[1] == GetIp().Split('.')[1])
-                        if (ip.Split('.')[2] == GetIp().Split('.')[2])
-                            return true;
-            }
-            catch { return false; }
 
-            return false;
-        }
         public static string GetIp()
         {
             string hostname = Dns.GetHostName();
@@ -285,6 +277,7 @@ namespace SKYNET
             }
             return ipaddress.ToString();
         }
+
         public static IEnumerable<string> GetAllIp()
         {
             string hostname = Dns.GetHostName();
@@ -298,68 +291,25 @@ namespace SKYNET
             }
         }
 
-        private void Close_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void panelClose_MouseMove(object sender, MouseEventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(53, 64, 78);
-        }
-
-        private void panelClose_MouseLeave(object sender, EventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(43, 54, 68);
-        }
-
         private void BtnSearch_Click(object sender, EventArgs e)
         {
             try
             {
-                string IpStart = GetStartIP(IPbox.Text);
-                string IpEnd = GetEndIP(IpStart);
-
-                if (!Common.IsValidIp(IpStart))
+                if (!IPAddress.TryParse(IPbox.Text, out var address))
                 {
-                    Common.Show("El Ip " + IpStart + " no es válido.");
-                    return;
-                }
-                if (!Common.IsValidIp(IpEnd))
-                {
-                    Common.Show("El Ip " + IpEnd + " no es válido.");
+                    Common.Show($"The IP Address {IPbox.Text} is not valid.");
                     return;
                 }
 
+                var FirstIPAddress = NetHelper.GetFirstIPAddress(address);
+                var LastIPAddress = NetHelper.GetLastIPAddress(FirstIPAddress);
 
-                _scanner.Start(new IPScanRange(IPAddress.Parse(IpStart), IPAddress.Parse(IpEnd)));
+                _scanner.Start(new IPScanRange(FirstIPAddress, LastIPAddress));
             }
             catch (FormatException)
             {
                 MessageBox.Show(this, "Cannot parse IP range or subnetmask!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
-        }
-        private string GetStartIP(string ipStart)
-        {
-            string EndIp = "";
-            try
-            {
-                string[] range = ipStart.Split('.');
-                EndIp = range[0] + "." + range[1] + "." + range[2] + ".0";
-            }
-            catch { }
-            return EndIp;
-        }
-        private string GetEndIP(string ipStart)
-        {
-            string EndIp = "";
-            try
-            {
-                string[] range = ipStart.Split('.');
-                EndIp = range[0] + "." + range[1] + "." + range[2] + ".255";
-            }
-            catch { }
-            return EndIp;
         }
 
         private void _lvAliveHosts_DoubleClick(object sender, EventArgs e)
@@ -375,23 +325,6 @@ namespace SKYNET
             }
             catch {}
         }
-        private string GetMacAddress(IPAddress address)
-        {
-            var destAddr = BitConverter.ToInt32(address.GetAddressBytes(), 0);
-            var srcAddr = BitConverter.ToInt32(System.Net.IPAddress.Any.GetAddressBytes(), 0);
-            var macAddress = new byte[6];
-            var macAddrLen = macAddress.Length;
-            var ret = SendArp(destAddr, srcAddr, macAddress, ref macAddrLen);
-            if (ret != 0)
-            {
-                return "";
-            }
-            var mac = new PhysicalAddress(macAddress);
-            return BitConverter.ToString(macAddress).Replace('-', ':');
-
-        }
-        [System.Runtime.InteropServices.DllImport("Iphlpapi.dll", EntryPoint = "SendARP")]
-        private extern static Int32 SendArp(Int32 destIpAddress, Int32 srcIpAddress, byte[] macAddress, ref Int32 macAddressLength);
 
         private void _lvAliveHosts_MouseClick(object sender, MouseEventArgs e)
         {
@@ -421,10 +354,6 @@ namespace SKYNET
 
         }
 
-        private void _lvAliveHosts_KeyDown(object sender, KeyEventArgs e)
-        {
-            e.SuppressKeyPress = true;
-        }
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
@@ -444,9 +373,9 @@ namespace SKYNET
             IPbox.Text = IP_Ranges.Text;
         }
 
-        private void label9_Click(object sender, EventArgs e)
+        private void CloseBox_BoxClicked(object sender, EventArgs e)
         {
-
+            Close();
         }
     }
 }

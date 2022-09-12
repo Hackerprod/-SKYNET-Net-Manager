@@ -125,7 +125,6 @@ namespace SKYNET
             this.Avatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Avatar.TabIndex = 0;
             this.Avatar.TabStop = false;
-            this.Avatar.Click += new System.EventHandler(this.Avatar_Click);
             this.Avatar.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Box_MouseClick);
             this.Avatar.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Box_MouseDoubleClick);
             this.Avatar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.StatusICON_MouseDown);

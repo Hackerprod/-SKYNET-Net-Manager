@@ -5,6 +5,7 @@ using System.Threading;
 using System.Timers;
 using System.Xml;
 using System.Net.Sockets;
+using SKYNET.Helpers;
 
 namespace SKYNET.NetUtils
 {
@@ -642,8 +643,7 @@ namespace SKYNET.NetUtils
 
             HostName = device.IpName;
 
-
-            if (!Common.IsValidIp(HostName))
+            if (!NetHelper.IsValidIp(HostName))
             {
                 return;
             }

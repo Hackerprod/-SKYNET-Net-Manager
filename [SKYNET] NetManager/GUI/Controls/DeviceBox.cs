@@ -17,6 +17,60 @@ namespace SKYNET
 {
     public partial class DeviceBox : UserControl
     {
+        public IPAddress RemoteAddress { get; set; }
+
+        private int              _Interval;
+        private Device           _Device;
+        private DateTime         _StartTime;
+        public TimeSpan[]        _statusDurations;
+        public DateTime          _statusReachedAt;
+        private int              _SentPackets;
+        private int              _ReceivedPackets;
+        private int              _LostPackets;
+        private int              _ConsecutivePacketsLost;
+        private bool             _LastPacketLost;
+        private int              _ConsecutivePacketsLostReceived;
+        private bool             _circularAvatar;
+        private ConnectionStatus _Status;
+
+        public int Interval
+        {
+            get
+            {
+                if (_Interval == 0)
+                    return 1;
+                else
+                    return _Interval;
+            }
+            set
+            {
+                _Interval = value;
+            }
+        }
+
+
+        //Ping Manager
+        private readonly System.Timers.Timer _timer = new System.Timers.Timer();
+        private PingOptions _pingerOptions;
+        private readonly Ping _pinger = new Ping();
+        private readonly byte[] _buffer;
+
+        //Ping History
+        public int SentPackets { get { return _SentPackets; } set { _SentPackets = value; } }
+        public int ReceivedPackets { get { return _ReceivedPackets; } set { _ReceivedPackets = value; } }
+        public int LostPackets { get { return _LostPackets; } set { _LostPackets = value; } }
+        public int ConsecutivePacketsLost { get { return _ConsecutivePacketsLost; } set { _ConsecutivePacketsLost = value; } }
+        public bool LastPacketLost { get { return _LastPacketLost; } set { _LastPacketLost = value; } }
+
+        //DeviceInfo
+        public long CurrentResponseTime { get; set; }
+        public long TotalResponseTime { get; set; }
+        public long MinResponseTime { get; set; }
+        public long MaxResponseTime { get; set; }
+
+        public DateTime StartTime { get { return _StartTime; } set { _StartTime = value; } }
+
+        public string OpcionalLocation { get; set; }
         public string HostName { get; set; }
         public bool AlertOnConnect { get; set; }
         public bool AlertOnDisconnect { get; set; }
@@ -30,7 +84,6 @@ namespace SKYNET
 
         public Dictionary<int, int> Values;
 
-        private Device _Device;
         public Device Device 
         { 
             get { return _Device; } 
@@ -55,37 +108,6 @@ namespace SKYNET
             }
         }
 
-
-        //Ping Manager
-        private readonly System.Timers.Timer _timer = new System.Timers.Timer();
-        private PingOptions _pingerOptions;
-        private readonly Ping _pinger = new Ping();
-        private readonly byte[] _buffer;
-
-        //Ping History
-        public int SentPackets { get { return _SentPackets; } set { _SentPackets = value; } }
-        private int _SentPackets;
-        public int ReceivedPackets { get { return _ReceivedPackets; } set { _ReceivedPackets = value; } }
-        private int _ReceivedPackets;
-        public int LostPackets { get { return _LostPackets; } set { _LostPackets = value; } }
-        private int _LostPackets;
-        public int ConsecutivePacketsLost { get { return _ConsecutivePacketsLost; } set { _ConsecutivePacketsLost = value; } }
-        private int _ConsecutivePacketsLost;
-        public bool LastPacketLost { get { return _LastPacketLost; } set { _LastPacketLost = value; } }
-        private bool _LastPacketLost;
-
-
-        public int ConsecutivePacketsLostReceived;
-        public long CurrentResponseTime;
-        public long MinResponseTime;
-        public long MaxResponseTime;
-        public long TotalResponseTime;
-        public TimeSpan[] _statusDurations;
-        public DateTime _statusReachedAt;
-
-        public DateTime StartTime { get { return _startTime; } set { _startTime = value; } }
-        private DateTime _startTime;
-
         public DeviceBox()
         {
             InitializeComponent();
@@ -96,7 +118,7 @@ namespace SKYNET
             CurrentResponseTime = 0L;
             MinResponseTime = 9223372036854775807L;
             MaxResponseTime = 0L;
-            ConsecutivePacketsLostReceived = 0;
+            _ConsecutivePacketsLostReceived = 0;
             ConsecutivePacketsLost = 0;
             TotalResponseTime = 0L;
             _statusDurations = new TimeSpan[2];
@@ -115,7 +137,6 @@ namespace SKYNET
             InitTimer();
         }
 
-        private ConnectionStatus _Status { get; set; }
         public ConnectionStatus Status
         {
             get
@@ -161,15 +182,16 @@ namespace SKYNET
                 }
             }
         }
+
         public string OnlineStatusDuration
         {
             get { return DurationToString(GetStatusDuration(ConnectionStatus.Online)); }
         }
+
         public string OfflineStatusDuration
         {
             get { return DurationToString(GetStatusDuration(ConnectionStatus.Offline)); }
         }
-
 
         private string DurationToString(TimeSpan duration)
         {
@@ -182,6 +204,7 @@ namespace SKYNET
             stringBuilder.AppendFormat("{0:d2} : {1:d2} : {2:d2}", duration.Hours, duration.Minutes, duration.Seconds);
             return stringBuilder.ToString();
         }
+
         public TimeSpan GetStatusDuration(ConnectionStatus status)
         {
             TimeSpan timeSpan = _statusDurations[(int)status];
@@ -191,11 +214,7 @@ namespace SKYNET
             }
             return timeSpan;
         }
-        public IPAddress RemoteAddress { get; set; }
-        public int Interval { get { if (_interval == 0) return 1; else return _interval; } set { _interval = value; } }
-        private int _interval;
 
-        public string OpcionalLocation { get; set; }
         public bool CircularAvatar
         {
             get { return _circularAvatar; }
@@ -215,27 +234,26 @@ namespace SKYNET
                 }
             }
         }
-        bool _circularAvatar;
 
         private void InitTimer()
         {
             _timer.AutoReset = false;
             _timer.Elapsed += _timer_Elapsed;
         }
+
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             DoPing();
         }
-        bool lol = false;
+
         private void DoPing()
         {
             IPAddress.TryParse(IpName, out IPAddress _HostIP);
             try
             {
-                if (/*modCommon.IsCableConnected() && */Common.IsValidIp(IpName))
+                if (/*modCommon.IsCableConnected() && */NetHelper.IsValidIp(IpName))
                 {
                     int.TryParse(Port, out int PortPing);
-                    lol = true;
                     if (isWeb && PortPing != 80)
                     {
                         IPEndPoint EndPoint = new IPEndPoint(_HostIP, PortPing);
@@ -259,7 +277,6 @@ namespace SKYNET
                                 sockets.Close();
                                 IncluyeLost();
                             }
-
                         }
                         catch
                         {
@@ -310,6 +327,7 @@ namespace SKYNET
             _timer.Interval = (double)Interval * 1000;
             _timer.Start();
         }
+
         private void IncluyeLost()
         {
 
@@ -367,12 +385,10 @@ namespace SKYNET
 
         }
 
-
-
         private void IncluyeReceived(long RoundtripTime)
         {
 
-            MAC = Common.GetMacAddress(RemoteAddress);
+            MAC = NetHelper.GetMACAddress(RemoteAddress);
             Ping = RoundtripTime + " ms";
             Status = ConnectionStatus.Online;
 
@@ -428,6 +444,7 @@ namespace SKYNET
                 }
             }
         }
+
         private void Box_MouseClick(object sender, MouseEventArgs e)
         {
             try
@@ -439,6 +456,7 @@ namespace SKYNET
             }
             catch { }
         }
+
         private void Box_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             try
@@ -471,6 +489,7 @@ namespace SKYNET
             }
             catch { }
         }
+
         private void Device_Load(object sender, EventArgs e)
         {
             Timeout = 2000;
@@ -494,7 +513,7 @@ namespace SKYNET
                     {
                         Thread.CurrentThread.IsBackground = true;
 
-                        if (!Common.IsValidIp(address))
+                        if (!NetHelper.IsValidIp(address))
                             return;
 
                         IPAddress.TryParse(IpName, out IPAddress _HostIP);
@@ -518,7 +537,7 @@ namespace SKYNET
                                     Ping = RoundtripTime + " ms";
 
                                     RemoteAddress = ((IPEndPoint)sockets.RemoteEndPoint).Address;
-                                    MAC = Common.GetMacAddress(RemoteAddress);
+                                    MAC = NetHelper.GetMACAddress(RemoteAddress);
 
                                     Status = ConnectionStatus.Online;
                                     sockets.Close();
@@ -544,7 +563,7 @@ namespace SKYNET
                                 {
                                     Ping = reply.RoundtripTime + " ms";
                                     Status = ConnectionStatus.Online;
-                                    MAC = Common.GetMacAddress(reply.Address);
+                                    MAC = NetHelper.GetMACAddress(reply.Address);
                                 }
                                 else
                                 {
@@ -587,21 +606,6 @@ namespace SKYNET
             this.BackColor = Color.FromArgb(63, 74, 88);
             Cursor = Cursors.Default;
             frmMain.frm.menuBOX = this;
-
-            //Mover Control
-            /*if (mouseDown)
-            {
-                Location = new Point((Location.X - lastLocation.X) + e.X, (Location.Y - lastLocation.Y) + e.Y);
-                Update();
-            }*/
-        }
-
-        private void Avatar_Click(object sender, EventArgs e)
-        {
-            if (Common.Hackerprod)
-            {
-                //modCommon.Show("Running: " + Running + " | status: " + Status);
-            }
         }
 
         private void StatusICON_MouseDown(object sender, MouseEventArgs e)

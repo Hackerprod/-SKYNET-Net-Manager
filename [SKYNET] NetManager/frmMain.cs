@@ -76,7 +76,7 @@ namespace SKYNET
 
             ChatManager.Initialize();
         }
-        
+
         private void SetTransparency()
         {
             TransparencyKey = this.BackColor;

@@ -79,6 +79,7 @@
     <Compile Include="GUI\frmPublicChat.designer.cs">
       <DependentUpon>frmPublicChat.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\NetHelper.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Types\ConnectionStatus.cs" />
     <Compile Include="Helpers\DwmApi.cs" />
@@ -100,7 +101,6 @@
     <Compile Include="Helpers\RegistrySettings.cs" />
     <Compile Include="Helpers\ThreadManager.cs" />
     <Compile Include="Network\UDPBroadcaster.cs" />
-    <Compile Include="Helpers\WakeOnLanAction.cs" />
     <Compile Include="Network\websocket-sharp\ByteOrder.cs" />
     <Compile Include="Network\websocket-sharp\CloseEventArgs.cs" />
     <Compile Include="Network\websocket-sharp\CloseStatusCode.cs" />
