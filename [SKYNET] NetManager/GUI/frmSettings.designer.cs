@@ -38,8 +38,6 @@ namespace SKYNET
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
-            this.panelClose = new System.Windows.Forms.Panel();
-            this.closeBtn = new System.Windows.Forms.PictureBox();
             this.status = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -55,12 +53,12 @@ namespace SKYNET
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.SearhSound = new SKYNET_Button();
+            this.SearhSound = new SKYNET.SKYNET_Button();
             this.CustomSoundPatch = new SKYNET.Controls.SKYNET_TextBox();
             this.TTL = new SKYNET.Controls.SKYNET_TextBox();
             this.BufferSize = new SKYNET.Controls.SKYNET_TextBox();
             this.TimeOut = new SKYNET.Controls.SKYNET_TextBox();
-            this.AceptarBtn = new SKYNET_Button();
+            this.AceptarBtn = new SKYNET.SKYNET_Button();
             this.launchWindowsBox = new SKYNET.Controls.SKYNET_Check();
             this.label9 = new System.Windows.Forms.Label();
             this.CustomSound = new SKYNET.Controls.SKYNET_Check();
@@ -75,38 +73,11 @@ namespace SKYNET
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.panelClose.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).BeginInit();
+            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.KeyContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OpacityBar)).BeginInit();
             this.PN_Top.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // panelClose
-            // 
-            this.panelClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panelClose.Controls.Add(this.closeBtn);
-            this.panelClose.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelClose.Location = new System.Drawing.Point(311, 0);
-            this.panelClose.Name = "panelClose";
-            this.panelClose.Size = new System.Drawing.Size(40, 26);
-            this.panelClose.TabIndex = 5;
-            this.panelClose.Click += new System.EventHandler(this.closeBtn_Click);
-            this.panelClose.MouseLeave += new System.EventHandler(this.panelClose_MouseLeave);
-            this.panelClose.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelClose_MouseMove);
-            // 
-            // closeBtn
-            // 
-            this.closeBtn.Image = global::SKYNET.Properties.Resources.close;
-            this.closeBtn.Location = new System.Drawing.Point(12, 5);
-            this.closeBtn.Name = "closeBtn";
-            this.closeBtn.Size = new System.Drawing.Size(16, 16);
-            this.closeBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.closeBtn.TabIndex = 4;
-            this.closeBtn.TabStop = false;
-            this.closeBtn.Click += new System.EventHandler(this.closeBtn_Click);
-            this.closeBtn.MouseLeave += new System.EventHandler(this.panelClose_MouseLeave);
-            this.closeBtn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelClose_MouseMove);
             // 
             // status
             // 
@@ -123,7 +94,6 @@ namespace SKYNET
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(17, 23);
             this.textBox1.TabIndex = 1;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label1
             // 
@@ -202,8 +172,8 @@ namespace SKYNET
             // PN_Top
             // 
             this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.PN_Top.Controls.Add(this.CloseBox);
             this.PN_Top.Controls.Add(this.label1);
-            this.PN_Top.Controls.Add(this.panelClose);
             this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
             this.PN_Top.Location = new System.Drawing.Point(0, 0);
             this.PN_Top.Name = "PN_Top";
@@ -273,14 +243,14 @@ namespace SKYNET
             this.SearhSound.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.SearhSound.ForeColor = System.Drawing.Color.White;
             this.SearhSound.ForeColorMouseOver = System.Drawing.Color.White;
-            this.SearhSound.ImageAlignment = SKYNET_Button._ImgAlign.Left;
+            this.SearhSound.ImageAlignment = SKYNET.SKYNET_Button._ImgAlign.Left;
             this.SearhSound.ImageIcon = null;
             this.SearhSound.Location = new System.Drawing.Point(235, 404);
             this.SearhSound.MenuMode = false;
             this.SearhSound.Name = "SearhSound";
             this.SearhSound.Rounded = false;
             this.SearhSound.Size = new System.Drawing.Size(93, 28);
-            this.SearhSound.Style = SKYNET_Button._Style.TextOnly;
+            this.SearhSound.Style = SKYNET.SKYNET_Button._Style.TextOnly;
             this.SearhSound.TabIndex = 272;
             this.SearhSound.Text = "Buscar Sonido";
             this.SearhSound.Click += new System.EventHandler(this.SearhSound_Click);
@@ -294,6 +264,7 @@ namespace SKYNET
             this.CustomSoundPatch.Location = new System.Drawing.Point(23, 404);
             this.CustomSoundPatch.Logo = null;
             this.CustomSoundPatch.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.CustomSoundPatch.Multiline = false;
             this.CustomSoundPatch.Name = "CustomSoundPatch";
             this.CustomSoundPatch.OnlyNumbers = false;
             this.CustomSoundPatch.ShowLogo = false;
@@ -310,6 +281,7 @@ namespace SKYNET
             this.TTL.Location = new System.Drawing.Point(282, 310);
             this.TTL.Logo = null;
             this.TTL.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.TTL.Multiline = false;
             this.TTL.Name = "TTL";
             this.TTL.OnlyNumbers = false;
             this.TTL.ShowLogo = false;
@@ -326,6 +298,7 @@ namespace SKYNET
             this.BufferSize.Location = new System.Drawing.Point(151, 310);
             this.BufferSize.Logo = null;
             this.BufferSize.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.BufferSize.Multiline = false;
             this.BufferSize.Name = "BufferSize";
             this.BufferSize.OnlyNumbers = false;
             this.BufferSize.ShowLogo = false;
@@ -342,6 +315,7 @@ namespace SKYNET
             this.TimeOut.Location = new System.Drawing.Point(19, 310);
             this.TimeOut.Logo = null;
             this.TimeOut.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.TimeOut.Multiline = false;
             this.TimeOut.Name = "TimeOut";
             this.TimeOut.OnlyNumbers = false;
             this.TimeOut.ShowLogo = false;
@@ -357,14 +331,14 @@ namespace SKYNET
             this.AceptarBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.AceptarBtn.ForeColor = System.Drawing.Color.White;
             this.AceptarBtn.ForeColorMouseOver = System.Drawing.Color.White;
-            this.AceptarBtn.ImageAlignment = SKYNET_Button._ImgAlign.Left;
+            this.AceptarBtn.ImageAlignment = SKYNET.SKYNET_Button._ImgAlign.Left;
             this.AceptarBtn.ImageIcon = null;
             this.AceptarBtn.Location = new System.Drawing.Point(235, 449);
             this.AceptarBtn.MenuMode = false;
             this.AceptarBtn.Name = "AceptarBtn";
             this.AceptarBtn.Rounded = false;
             this.AceptarBtn.Size = new System.Drawing.Size(93, 25);
-            this.AceptarBtn.Style = SKYNET_Button._Style.TextOnly;
+            this.AceptarBtn.Style = SKYNET.SKYNET_Button._Style.TextOnly;
             this.AceptarBtn.TabIndex = 249;
             this.AceptarBtn.Text = "Aceptar";
             this.AceptarBtn.Click += new System.EventHandler(this.AceptarBtn_Click);
@@ -510,6 +484,23 @@ namespace SKYNET
             this.panel5.Size = new System.Drawing.Size(305, 2);
             this.panel5.TabIndex = 287;
             // 
+            // CloseBox
+            // 
+            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.Location = new System.Drawing.Point(317, 0);
+            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.MenuMode = false;
+            this.CloseBox.MenuSeparation = 8;
+            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.Name = "CloseBox";
+            this.CloseBox.Size = new System.Drawing.Size(34, 26);
+            this.CloseBox.TabIndex = 248;
+            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
+            // 
             // frmSettings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -556,10 +547,7 @@ namespace SKYNET
             this.Name = "frmSettings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Net Manager";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
-            this.panelClose.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).EndInit();
             this.KeyContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.OpacityBar)).EndInit();
             this.PN_Top.ResumeLayout(false);
@@ -570,8 +558,6 @@ namespace SKYNET
         }
 
         #endregion
-        private System.Windows.Forms.Panel panelClose;
-        private System.Windows.Forms.PictureBox closeBtn;
         private System.Windows.Forms.Label status;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
@@ -607,5 +593,6 @@ namespace SKYNET
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel5;
+        private SKYNET_Box CloseBox;
     }
 }

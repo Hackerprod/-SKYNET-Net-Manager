@@ -31,8 +31,6 @@ namespace SKYNET
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPortScan));
             this.PN_Top = new System.Windows.Forms.Panel();
-            this.CloseBox = new System.Windows.Forms.Panel();
-            this.ClosePic = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -40,7 +38,7 @@ namespace SKYNET
             this.label7 = new System.Windows.Forms.Label();
             this.RemoteHost = new SKYNET.Controls.SKYNET_TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.launchBtn = new SKYNET_Button();
+            this.launchBtn = new SKYNET.SKYNET_Button();
             this.FBox = new SKYNET.Controls.SKYNET_TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.SBox = new SKYNET.Controls.SKYNET_TextBox();
@@ -52,9 +50,8 @@ namespace SKYNET
             this.Info = new System.Windows.Forms.Label();
             this.PortWorker = new System.ComponentModel.BackgroundWorker();
             this.progressBarCheck = new SKYNET.Controls.SKYNET_ProgressBar();
+            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.PN_Top.SuspendLayout();
-            this.CloseBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ClosePic)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -71,32 +68,6 @@ namespace SKYNET
             this.PN_Top.Name = "PN_Top";
             this.PN_Top.Size = new System.Drawing.Size(616, 26);
             this.PN_Top.TabIndex = 5;
-            // 
-            // CloseBox
-            // 
-            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.CloseBox.Controls.Add(this.ClosePic);
-            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CloseBox.Location = new System.Drawing.Point(582, 0);
-            this.CloseBox.Name = "CloseBox";
-            this.CloseBox.Size = new System.Drawing.Size(34, 26);
-            this.CloseBox.TabIndex = 12;
-            this.CloseBox.Click += new System.EventHandler(this.CloseBox_Click);
-            this.CloseBox.MouseLeave += new System.EventHandler(this.Control_MouseLeave);
-            this.CloseBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Control_MouseMove);
-            // 
-            // ClosePic
-            // 
-            this.ClosePic.Image = global::SKYNET.Properties.Resources.close;
-            this.ClosePic.Location = new System.Drawing.Point(9, 5);
-            this.ClosePic.Name = "ClosePic";
-            this.ClosePic.Size = new System.Drawing.Size(16, 16);
-            this.ClosePic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.ClosePic.TabIndex = 4;
-            this.ClosePic.TabStop = false;
-            this.ClosePic.Click += new System.EventHandler(this.CloseBox_Click);
-            this.ClosePic.MouseLeave += new System.EventHandler(this.Control_MouseLeave);
-            this.ClosePic.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Control_MouseMove);
             // 
             // label3
             // 
@@ -149,6 +120,7 @@ namespace SKYNET
             this.timeOut.Location = new System.Drawing.Point(410, 23);
             this.timeOut.Logo = null;
             this.timeOut.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.timeOut.Multiline = false;
             this.timeOut.Name = "timeOut";
             this.timeOut.OnlyNumbers = false;
             this.timeOut.ShowLogo = true;
@@ -176,6 +148,7 @@ namespace SKYNET
             this.RemoteHost.Location = new System.Drawing.Point(12, 23);
             this.RemoteHost.Logo = null;
             this.RemoteHost.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.RemoteHost.Multiline = false;
             this.RemoteHost.Name = "RemoteHost";
             this.RemoteHost.OnlyNumbers = false;
             this.RemoteHost.ShowLogo = true;
@@ -202,14 +175,14 @@ namespace SKYNET
             this.launchBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.launchBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.launchBtn.ForeColorMouseOver = System.Drawing.Color.Empty;
-            this.launchBtn.ImageAlignment = SKYNET_Button._ImgAlign.Left;
+            this.launchBtn.ImageAlignment = SKYNET.SKYNET_Button._ImgAlign.Left;
             this.launchBtn.ImageIcon = null;
             this.launchBtn.Location = new System.Drawing.Point(516, 22);
             this.launchBtn.MenuMode = false;
             this.launchBtn.Name = "launchBtn";
             this.launchBtn.Rounded = false;
             this.launchBtn.Size = new System.Drawing.Size(93, 29);
-            this.launchBtn.Style = SKYNET_Button._Style.TextOnly;
+            this.launchBtn.Style = SKYNET.SKYNET_Button._Style.TextOnly;
             this.launchBtn.TabIndex = 21;
             this.launchBtn.Text = "Buscar";
             this.launchBtn.Click += new System.EventHandler(this.LaunchBtn_Click);
@@ -223,6 +196,7 @@ namespace SKYNET
             this.FBox.Location = new System.Drawing.Point(286, 23);
             this.FBox.Logo = null;
             this.FBox.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.FBox.Multiline = false;
             this.FBox.Name = "FBox";
             this.FBox.OnlyNumbers = false;
             this.FBox.ShowLogo = true;
@@ -250,6 +224,7 @@ namespace SKYNET
             this.SBox.Location = new System.Drawing.Point(164, 23);
             this.SBox.Logo = null;
             this.SBox.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.SBox.Multiline = false;
             this.SBox.Name = "SBox";
             this.SBox.OnlyNumbers = false;
             this.SBox.ShowLogo = true;
@@ -352,6 +327,23 @@ namespace SKYNET
             this.progressBarCheck.ValueAlignment = SKYNET.Controls.SKYNET_ProgressBar.Alignment.Right;
             this.progressBarCheck.Visible = false;
             // 
+            // CloseBox
+            // 
+            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.Location = new System.Drawing.Point(582, 0);
+            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.MenuMode = false;
+            this.CloseBox.MenuSeparation = 8;
+            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.Name = "CloseBox";
+            this.CloseBox.Size = new System.Drawing.Size(34, 26);
+            this.CloseBox.TabIndex = 8;
+            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
+            // 
             // frmPortScan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -370,11 +362,9 @@ namespace SKYNET
             this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmPortScan";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SkyNet Manager";
+            this.Text = "Net Manager";
             this.PN_Top.ResumeLayout(false);
             this.PN_Top.PerformLayout();
-            this.CloseBox.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ClosePic)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -392,8 +382,6 @@ namespace SKYNET
         private SKYNET_Button launchBtn;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel CloseBox;
-        private System.Windows.Forms.PictureBox ClosePic;
         private SKYNET_TextBox SBox;
         private SKYNET_TextBox FBox;
         private System.Windows.Forms.Label label1;
@@ -409,5 +397,6 @@ namespace SKYNET
         private System.Windows.Forms.Label label7;
         private SKYNET_ProgressBar progressBarCheck;
         private System.ComponentModel.BackgroundWorker PortWorker;
+        private SKYNET_Box CloseBox;
     }
 }

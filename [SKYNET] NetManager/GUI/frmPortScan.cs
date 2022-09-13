@@ -12,6 +12,8 @@ namespace SKYNET
     {
         public static ManualResetEvent connectDone = new ManualResetEvent(false);
         private bool Cancel;
+        private int Max;
+        private int Min;
 
         public frmPortScan(string host, int InitPort = 20, int FinishPort = 150)
         {
@@ -23,22 +25,7 @@ namespace SKYNET
             FBox.Text = FinishPort.ToString();
             RemoteHost.Text = host;
         }
-        private void CloseBox_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
 
-        private void Control_MouseMove(object sender, MouseEventArgs e)
-        {
-            CloseBox.BackColor = Color.FromArgb(53, 64, 78);
-        }
-
-        private void Control_MouseLeave(object sender, EventArgs e)
-        {
-            CloseBox.BackColor = Color.FromArgb(43, 54, 68);
-        }
-        int Max;
-        int Min;
         private void LaunchBtn_Click(object sender, EventArgs e)
         {
             bool portS = int.TryParse(SBox.Text, out int PortS);
@@ -78,7 +65,6 @@ namespace SKYNET
             {
             }
         }
-
 
         private void AddPort(int port)
         {
@@ -967,6 +953,7 @@ namespace SKYNET
             }
             Label_End:;
         }
+
         private void PortWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             progressBarCheck.Visible = false;
@@ -974,6 +961,7 @@ namespace SKYNET
             Info.Text = "Listo.";
             launchBtn.Text = "Buscar";
         }
+
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
@@ -986,6 +974,11 @@ namespace SKYNET
             mARGINS.cyTopHeight = 0;
             DwmApi.MARGINS marInset = mARGINS;
             DwmApi.DwmExtendFrameIntoClientArea(base.Handle, ref marInset);
+        }
+
+        private void CloseBox_BoxClicked(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -36,8 +36,6 @@ namespace SKYNET
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCropEditor));
             this.PN_Top = new System.Windows.Forms.Panel();
-            this.CloseBox = new System.Windows.Forms.Panel();
-            this.ClosePic = new System.Windows.Forms.PictureBox();
             this.acceptBtn = new System.Windows.Forms.Button();
             this.Browser = new System.Windows.Forms.WebBrowser();
             this.panelBody = new System.Windows.Forms.Panel();
@@ -45,21 +43,20 @@ namespace SKYNET
             this.l_Preview = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel16 = new System.Windows.Forms.Panel();
-            this.Rotate_L = new SKYNET_Button();
+            this.Rotate_L = new SKYNET.SKYNET_Button();
             this.Redondear = new SKYNET.Controls.SKYNET_Check();
             this._circled = new System.Windows.Forms.Label();
             this.ShowLine = new SKYNET.Controls.SKYNET_Check();
             this._showlines = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.p_Preview = new System.Windows.Forms.PictureBox();
-            this.btn_Apply = new SKYNET_Button();
+            this.btn_Apply = new SKYNET.SKYNET_Button();
             this.ImageCrop = new SKYNET.ImageCropControl();
             this.label6 = new System.Windows.Forms.Label();
             this.panelLogo = new System.Windows.Forms.Panel();
             this.Logo = new System.Windows.Forms.PictureBox();
+            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.PN_Top.SuspendLayout();
-            this.CloseBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ClosePic)).BeginInit();
             this.panelBody.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -78,32 +75,6 @@ namespace SKYNET
             this.PN_Top.Name = "PN_Top";
             this.PN_Top.Size = new System.Drawing.Size(725, 26);
             this.PN_Top.TabIndex = 5;
-            // 
-            // CloseBox
-            // 
-            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(47)))), ((int)(((byte)(61)))));
-            this.CloseBox.Controls.Add(this.ClosePic);
-            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CloseBox.Location = new System.Drawing.Point(691, 0);
-            this.CloseBox.Name = "CloseBox";
-            this.CloseBox.Size = new System.Drawing.Size(34, 26);
-            this.CloseBox.TabIndex = 12;
-            this.CloseBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CloseBox_MouseClick);
-            this.CloseBox.MouseLeave += new System.EventHandler(this.Control_MouseLeave);
-            this.CloseBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Control_MouseMove);
-            // 
-            // ClosePic
-            // 
-            this.ClosePic.Image = global::SKYNET.Properties.Resources.close;
-            this.ClosePic.Location = new System.Drawing.Point(9, 5);
-            this.ClosePic.Name = "ClosePic";
-            this.ClosePic.Size = new System.Drawing.Size(16, 16);
-            this.ClosePic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.ClosePic.TabIndex = 4;
-            this.ClosePic.TabStop = false;
-            this.ClosePic.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CloseBox_MouseClick);
-            this.ClosePic.MouseLeave += new System.EventHandler(this.Control_MouseLeave);
-            this.ClosePic.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Control_MouseMove);
             // 
             // acceptBtn
             // 
@@ -190,14 +161,14 @@ namespace SKYNET
             this.Rotate_L.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Rotate_L.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(220)))), ((int)(((byte)(240)))));
             this.Rotate_L.ForeColorMouseOver = System.Drawing.Color.White;
-            this.Rotate_L.ImageAlignment = SKYNET_Button._ImgAlign.Left;
+            this.Rotate_L.ImageAlignment = SKYNET.SKYNET_Button._ImgAlign.Left;
             this.Rotate_L.ImageIcon = null;
             this.Rotate_L.Location = new System.Drawing.Point(560, 294);
             this.Rotate_L.MenuMode = false;
             this.Rotate_L.Name = "Rotate_L";
             this.Rotate_L.Rounded = true;
             this.Rotate_L.Size = new System.Drawing.Size(145, 25);
-            this.Rotate_L.Style = SKYNET_Button._Style.TextOnly;
+            this.Rotate_L.Style = SKYNET.SKYNET_Button._Style.TextOnly;
             this.Rotate_L.TabIndex = 97;
             this.Rotate_L.Text = "Rotar Imagen";
             this.Rotate_L.Click += new System.EventHandler(this.Rotate_L_Click);
@@ -275,14 +246,14 @@ namespace SKYNET
             this.btn_Apply.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btn_Apply.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(220)))), ((int)(((byte)(240)))));
             this.btn_Apply.ForeColorMouseOver = System.Drawing.Color.White;
-            this.btn_Apply.ImageAlignment = SKYNET_Button._ImgAlign.Left;
+            this.btn_Apply.ImageAlignment = SKYNET.SKYNET_Button._ImgAlign.Left;
             this.btn_Apply.ImageIcon = null;
             this.btn_Apply.Location = new System.Drawing.Point(560, 325);
             this.btn_Apply.MenuMode = false;
             this.btn_Apply.Name = "btn_Apply";
             this.btn_Apply.Rounded = true;
             this.btn_Apply.Size = new System.Drawing.Size(145, 25);
-            this.btn_Apply.Style = SKYNET_Button._Style.TextOnly;
+            this.btn_Apply.Style = SKYNET.SKYNET_Button._Style.TextOnly;
             this.btn_Apply.TabIndex = 37;
             this.btn_Apply.Text = "Guardar cambios";
             this.btn_Apply.Click += new System.EventHandler(this.Btn_Apply_Click);
@@ -299,7 +270,6 @@ namespace SKYNET
             this.ImageCrop.Size = new System.Drawing.Size(526, 339);
             this.ImageCrop.TabIndex = 0;
             this.ImageCrop.CropRectangleChanged += new System.EventHandler(this.ImageCrop_CropRectangleChanged);
-            this.ImageCrop.AspectRatioChanged += new System.EventHandler(this.ImageCrop_AspectRatioChanged);
             // 
             // label6
             // 
@@ -333,6 +303,23 @@ namespace SKYNET
             this.Logo.TabIndex = 1;
             this.Logo.TabStop = false;
             // 
+            // CloseBox
+            // 
+            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(60)))));
+            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(60)))));
+            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(56)))), ((int)(((byte)(70)))));
+            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.Location = new System.Drawing.Point(691, 0);
+            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.MenuMode = false;
+            this.CloseBox.MenuSeparation = 8;
+            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.Name = "CloseBox";
+            this.CloseBox.Size = new System.Drawing.Size(34, 26);
+            this.CloseBox.TabIndex = 0;
+            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
+            // 
             // frmCropEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -355,8 +342,6 @@ namespace SKYNET
             this.Text = "[SKYNET] Dota2 GCS";
             this.Shown += new System.EventHandler(this.FrmMain_Shown);
             this.PN_Top.ResumeLayout(false);
-            this.CloseBox.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ClosePic)).EndInit();
             this.panelBody.ResumeLayout(false);
             this.panelBody.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -378,8 +363,6 @@ namespace SKYNET
         private System.Windows.Forms.PictureBox Logo;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel panelLogo;
-        private System.Windows.Forms.Panel CloseBox;
-        private System.Windows.Forms.PictureBox ClosePic;
         private ImageCropControl ImageCrop;
         private SKYNET_Button btn_Apply;
         private SKYNET_Check ShowLine;
@@ -393,5 +376,6 @@ namespace SKYNET
         private System.Windows.Forms.Label l_Preview;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox p_Preview;
+        private SKYNET_Box CloseBox;
     }
 }

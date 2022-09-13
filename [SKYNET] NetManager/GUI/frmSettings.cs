@@ -54,38 +54,6 @@ namespace SKYNET
             OpacityBar.Value = value;
         }
 
-        private void panelClose_MouseMove(object sender, MouseEventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(53, 64, 78);
-        }
-
-        private void panelClose_MouseLeave(object sender, EventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(43, 54, 68);
-        }
-
-        private void closeBtn_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void minBtn_Click(object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
-            Visible = false;
-        }
-
-
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void AceptarBtn_Click(object sender, EventArgs e)
         {
             Settings.MinimizeWhenClose = minimizeBox.Checked;
@@ -119,6 +87,7 @@ namespace SKYNET
             key.ShowDialog();
             TB_KeyLabel.Text = Settings.Key;
         }
+
         private void OpacityBar_Scroll(object sender, EventArgs e)
         {
             double value = OpacityBar.Value;
@@ -147,10 +116,6 @@ namespace SKYNET
 
         }
 
-        private void ShowTopPanel_Click(object sender, EventArgs e)
-        {
-            Common.ShowBars(ShowTopPanel.Checked);
-        }
         private void CustomSound_MouseClick(object sender, MouseEventArgs e)
         {
             CustomSoundPatch.Visible = CustomSound.Checked;
@@ -161,6 +126,11 @@ namespace SKYNET
         {
             Settings.ShowInLeft = ShowInLeft.Checked;
             frmMain.frm.Maximize(ShowInLeft.Checked);
+        }
+
+        private void CloseBox_BoxClicked(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

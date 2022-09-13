@@ -36,8 +36,6 @@ namespace SKYNET
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDeviceInfo));
             this.PN_Top = new System.Windows.Forms.Panel();
-            this.panelClose = new System.Windows.Forms.Panel();
-            this.closeBtn = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.DeviceInfo = new System.Windows.Forms.Panel();
             this.deviceHistory1 = new SKYNET.GUI.DeviceHistory();
@@ -107,9 +105,8 @@ namespace SKYNET
             this.panel1 = new System.Windows.Forms.Panel();
             this.label28 = new System.Windows.Forms.Label();
             this.HostName = new System.Windows.Forms.Label();
+            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.PN_Top.SuspendLayout();
-            this.panelClose.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).BeginInit();
             this.DeviceInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.D_Status)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Avatar)).BeginInit();
@@ -138,7 +135,7 @@ namespace SKYNET
             // PN_Top
             // 
             this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.PN_Top.Controls.Add(this.panelClose);
+            this.PN_Top.Controls.Add(this.CloseBox);
             this.PN_Top.Controls.Add(this.label3);
             this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
             this.PN_Top.ForeColor = System.Drawing.Color.White;
@@ -146,32 +143,6 @@ namespace SKYNET
             this.PN_Top.Name = "PN_Top";
             this.PN_Top.Size = new System.Drawing.Size(520, 26);
             this.PN_Top.TabIndex = 5;
-            // 
-            // panelClose
-            // 
-            this.panelClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panelClose.Controls.Add(this.closeBtn);
-            this.panelClose.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelClose.Location = new System.Drawing.Point(484, 0);
-            this.panelClose.Name = "panelClose";
-            this.panelClose.Size = new System.Drawing.Size(36, 26);
-            this.panelClose.TabIndex = 8;
-            this.panelClose.Click += new System.EventHandler(this.Close_Click);
-            this.panelClose.MouseLeave += new System.EventHandler(this.PanelClose_MouseLeave);
-            this.panelClose.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PanelClose_MouseMove);
-            // 
-            // closeBtn
-            // 
-            this.closeBtn.Image = global::SKYNET.Properties.Resources.close;
-            this.closeBtn.Location = new System.Drawing.Point(10, 5);
-            this.closeBtn.Name = "closeBtn";
-            this.closeBtn.Size = new System.Drawing.Size(16, 16);
-            this.closeBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.closeBtn.TabIndex = 4;
-            this.closeBtn.TabStop = false;
-            this.closeBtn.Click += new System.EventHandler(this.Close_Click);
-            this.closeBtn.MouseLeave += new System.EventHandler(this.PanelClose_MouseLeave);
-            this.closeBtn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PanelClose_MouseMove);
             // 
             // label3
             // 
@@ -184,7 +155,6 @@ namespace SKYNET
             this.label3.Size = new System.Drawing.Size(135, 16);
             this.label3.TabIndex = 7;
             this.label3.Text = "Datos del monitoreo";
-            this.label3.Click += new System.EventHandler(this.Label3_Click);
             // 
             // DeviceInfo
             // 
@@ -299,7 +269,6 @@ namespace SKYNET
             this.DeviceName.Size = new System.Drawing.Size(144, 19);
             this.DeviceName.TabIndex = 257;
             this.DeviceName.Text = "Nombre del equipo";
-            this.DeviceName.Click += new System.EventHandler(this.DeviceName_Click);
             // 
             // DeviceIp
             // 
@@ -939,6 +908,23 @@ namespace SKYNET
             this.HostName.TabIndex = 10;
             this.HostName.Text = "Loading info...";
             // 
+            // CloseBox
+            // 
+            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.Location = new System.Drawing.Point(486, 0);
+            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.MenuMode = false;
+            this.CloseBox.MenuSeparation = 8;
+            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.Name = "CloseBox";
+            this.CloseBox.Size = new System.Drawing.Size(34, 26);
+            this.CloseBox.TabIndex = 8;
+            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
+            // 
             // frmDeviceInfo
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -953,11 +939,9 @@ namespace SKYNET
             this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmDeviceInfo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SkyNet Manager";
+            this.Text = "Net Manager";
             this.PN_Top.ResumeLayout(false);
             this.PN_Top.PerformLayout();
-            this.panelClose.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).EndInit();
             this.DeviceInfo.ResumeLayout(false);
             this.DeviceInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.D_Status)).EndInit();
@@ -1007,8 +991,6 @@ namespace SKYNET
         #endregion
         private System.Windows.Forms.Panel PN_Top;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panelClose;
-        private System.Windows.Forms.PictureBox closeBtn;
         private System.Windows.Forms.Panel DeviceInfo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
@@ -1077,5 +1059,6 @@ namespace SKYNET
         private System.Windows.Forms.Label TotalTime;
         private System.Windows.Forms.Label label14;
         private SKYNET.GUI.DeviceHistory deviceHistory1;
+        private Controls.SKYNET_Box CloseBox;
     }
 }

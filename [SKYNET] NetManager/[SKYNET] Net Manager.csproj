@@ -35,8 +35,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -222,23 +221,11 @@
     <Compile Include="GUI\Controls\SKYNET_Check.designer.cs">
       <DependentUpon>SKYNET_Check.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Controls\SKYNET_CloseBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Controls\SKYNET_CloseBox.designer.cs">
-      <DependentUpon>SKYNET_CloseBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Controls\SKYNET_ContextMenuStrip.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GUI\Controls\SKYNET_ListView.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GUI\Controls\SKYNET_MinimizeBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Controls\SKYNET_MinimizeBox.designer.cs">
-      <DependentUpon>SKYNET_MinimizeBox.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Controls\SKYNET_ProgressBar.cs">
       <SubType>Component</SubType>
@@ -380,12 +367,6 @@
     <EmbeddedResource Include="GUI\Controls\SKYNET_Box.resx">
       <DependentUpon>SKYNET_Box.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Controls\SKYNET_CloseBox.resx">
-      <DependentUpon>SKYNET_CloseBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Controls\SKYNET_MinimizeBox.resx">
-      <DependentUpon>SKYNET_MinimizeBox.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\SKYNET_ShadowBox.resx">
       <DependentUpon>SKYNET_ShadowBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -467,7 +448,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="1 %28111%29.ico" />
+    <Content Include="Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

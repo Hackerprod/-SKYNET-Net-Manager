@@ -10,8 +10,6 @@ namespace SKYNET
 {
     public partial class frmAlert : frmBase
     {
-        public static frmAlert frm;
-
         public static string Win32;
         public bool Ready = false;
         public frmAlert(DeviceBox BOX)
@@ -20,8 +18,6 @@ namespace SKYNET
             base.SetMouseMove(this);
             TopMost = true;
             CheckForIllegalCrossThreadCalls = false;  
-            frm = this;
-
 
             if (BOX.AlertOnConnect)
             {
@@ -128,27 +124,6 @@ namespace SKYNET
 
         }
 
-        private void panelClose_MouseMove(object sender, MouseEventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(57, 62, 63);
-        }
-
-        private void panelClose_MouseLeave(object sender, EventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(43, 47, 48);
-        }
-
-        private void closeBtn_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-
-
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
@@ -163,5 +138,9 @@ namespace SKYNET
             DwmApi.DwmExtendFrameIntoClientArea(base.Handle, ref marInset);
         }
 
+        private void CloseBox_BoxClicked(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

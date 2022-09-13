@@ -10,7 +10,6 @@ namespace SKYNET
 {
     public partial class frmProfile : frmBase
     {
-        public TypeMessage typeMessage;
         public static string NewProfile;
 
         public frmProfile()
@@ -43,19 +42,6 @@ namespace SKYNET
             }
         }
 
-        public enum TypeMessage
-        {
-            Alert,
-            Normal,
-            YesNo
-        }
-
-        private void FrmManager_Load(object sender, EventArgs e)
-        {
-
-
-        }
-
         private void SetProfile_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(profileBox.Text))
@@ -81,20 +67,6 @@ namespace SKYNET
                 profileBox.Items.Add(NewProfile);
                 SelectIndex(NewProfile);
             }
-        }
-
-        private void Close_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-        private void Close_MouseMove(object sender, MouseEventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(53, 64, 78);
-        }
-
-        private void Close_MouseLeave(object sender, EventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(43, 54, 68);
         }
 
         private void DeleteProfile_Click(object sender, EventArgs e)
@@ -143,5 +115,9 @@ namespace SKYNET
             DwmApi.DwmExtendFrameIntoClientArea(base.Handle, ref marInset);
         }
 
+        private void CloseBox_BoxClicked(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

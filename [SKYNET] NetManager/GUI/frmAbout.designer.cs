@@ -113,7 +113,7 @@
             this.VersionInfo.Name = "VersionInfo";
             this.VersionInfo.Size = new System.Drawing.Size(29, 16);
             this.VersionInfo.TabIndex = 30;
-            this.VersionInfo.Text = "v1.6";
+            this.VersionInfo.Text = "v1.8";
             // 
             // YearInfo
             // 
@@ -201,7 +201,7 @@
             this.Padding = new System.Windows.Forms.Padding(1);
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SkyNet Manager";
+            this.Text = "Net Manager";
             this.Activated += new System.EventHandler(this.frmMessage_Activated);
             this.Deactivate += new System.EventHandler(this.frmMessage_Deactivate);
             this.Load += new System.EventHandler(this.FrmAbout_Load);

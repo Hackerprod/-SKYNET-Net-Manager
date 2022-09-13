@@ -12,9 +12,8 @@ namespace SKYNET
 {
     public partial class frmManager : frmBase
     {
-        public TypeMessage typeMessage;
-        DeviceBox Box;
-        string SectionName;
+        private DeviceBox Box;
+        private string SectionName;
 
         public frmManager(DeviceBox tool = null)
         {
@@ -46,6 +45,7 @@ namespace SKYNET
             }
             Check(DeviceWeb.Checked);
         }
+
         public frmManager(Host host)
         {
             InitializeComponent();
@@ -70,26 +70,6 @@ namespace SKYNET
             }
         }
 
-        private void cancelBtn_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-        private void panelClose_MouseMove(object sender, MouseEventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(53, 64, 78);
-        }
-
-        private void panelClose_MouseLeave(object sender, EventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(43, 54, 68);
-        }
-
-        public enum TypeMessage
-        {
-            Alert,
-            Normal,
-            YesNo
-        }
         private void Save_Click(object sender, EventArgs e)
         {
             if (!NetHelper.IsValidIp(DeviceIp.Text))
@@ -180,13 +160,8 @@ namespace SKYNET
             }
 
 
-
             frmMain.frm.SaveDevices();
             Close();
-        }
-
-        private void DeviceWeb_Click(object sender, EventArgs e)
-        {
         }
 
         private void Check(bool _checked)
@@ -252,7 +227,6 @@ namespace SKYNET
             }
             this.Visible = true;
             WindowState = FormWindowState.Normal;
-
         }
 
         private void LoadImage()
@@ -294,7 +268,6 @@ namespace SKYNET
 
                 }
             }
-
         }
 
         private void MAC_KeyDown(object sender, KeyEventArgs e)
@@ -352,7 +325,6 @@ namespace SKYNET
             }
         }
 
-
         private void OpcionalLocation_DoubleClick(object sender, EventArgs e)
         {
             OpenFileDialog ofdPhoto = new OpenFileDialog();
@@ -372,9 +344,6 @@ namespace SKYNET
             Activate();
         }
 
-        private void CircularAvatar_Click(object sender, EventArgs e)
-        {
-        }
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
@@ -392,7 +361,6 @@ namespace SKYNET
         private void CircularAvatar_CheckedChanged(object sender, bool e)
         {
             Box.CircularAvatar = e;
-
             if (Box.CustomAvatar)
             {
                 if (e)
@@ -402,12 +370,16 @@ namespace SKYNET
                 else
                     Avatar.Image = Box.BoxImage;
             }
-
         }
 
         private void DeviceWeb_Click(object sender, MouseEventArgs e)
         {
             Check(DeviceWeb.Checked);
+        }
+
+        private void CloseBox_BoxClicked(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

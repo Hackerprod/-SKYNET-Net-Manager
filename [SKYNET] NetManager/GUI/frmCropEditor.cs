@@ -137,16 +137,6 @@ namespace SKYNET
             CloseBox.BackColor = Color.FromArgb(43, 54, 68);
         }
 
-        private void CloseBox_MouseClick(object sender, MouseEventArgs e)
-        {
-            Close();
-        }
-
-        private void ImageCrop_AspectRatioChanged(object sender, EventArgs e)
-        {
-            //modCommon.Show("lol");
-        }
-
         private void ImageCrop_CropRectangleChanged(object sender, EventArgs e)
         {
             UpdatePreview();
@@ -349,6 +339,9 @@ namespace SKYNET
             return srcRect;
         }
 
-
+        private void CloseBox_BoxClicked(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

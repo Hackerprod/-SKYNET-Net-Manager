@@ -37,10 +37,6 @@ namespace SKYNET
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmConsole));
-            this.panelMin = new System.Windows.Forms.Panel();
-            this.minBtn = new System.Windows.Forms.PictureBox();
-            this.panelClose = new System.Windows.Forms.Panel();
-            this.closeBtn = new System.Windows.Forms.PictureBox();
             this.status = new System.Windows.Forms.Label();
             this.pnlButtom = new System.Windows.Forms.Panel();
             this.PanelPing = new System.Windows.Forms.Panel();
@@ -48,64 +44,11 @@ namespace SKYNET
             this.txtConsole = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.PN_Top = new System.Windows.Forms.Panel();
-            this.panelMin.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.minBtn)).BeginInit();
-            this.panelClose.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).BeginInit();
+            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
+            this.MinimizeBox = new SKYNET.Controls.SKYNET_Box();
             this.PanelPing.SuspendLayout();
             this.PN_Top.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // panelMin
-            // 
-            this.panelMin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panelMin.Controls.Add(this.minBtn);
-            this.panelMin.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelMin.Location = new System.Drawing.Point(449, 0);
-            this.panelMin.Name = "panelMin";
-            this.panelMin.Size = new System.Drawing.Size(38, 26);
-            this.panelMin.TabIndex = 6;
-            this.panelMin.Click += new System.EventHandler(this.minBtn_Click);
-            this.panelMin.MouseLeave += new System.EventHandler(this.panelMin_MouseLeave);
-            this.panelMin.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelMin_MouseMove);
-            // 
-            // minBtn
-            // 
-            this.minBtn.Image = global::SKYNET.Properties.Resources.minimise;
-            this.minBtn.Location = new System.Drawing.Point(14, 8);
-            this.minBtn.Name = "minBtn";
-            this.minBtn.Size = new System.Drawing.Size(13, 12);
-            this.minBtn.TabIndex = 4;
-            this.minBtn.TabStop = false;
-            this.minBtn.Click += new System.EventHandler(this.minBtn_Click);
-            this.minBtn.MouseLeave += new System.EventHandler(this.panelMin_MouseLeave);
-            this.minBtn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelMin_MouseMove);
-            // 
-            // panelClose
-            // 
-            this.panelClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panelClose.Controls.Add(this.closeBtn);
-            this.panelClose.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelClose.Location = new System.Drawing.Point(487, 0);
-            this.panelClose.Name = "panelClose";
-            this.panelClose.Size = new System.Drawing.Size(39, 26);
-            this.panelClose.TabIndex = 5;
-            this.panelClose.Click += new System.EventHandler(this.closeBtn_Click);
-            this.panelClose.MouseLeave += new System.EventHandler(this.panelClose_MouseLeave);
-            this.panelClose.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelClose_MouseMove);
-            // 
-            // closeBtn
-            // 
-            this.closeBtn.Image = global::SKYNET.Properties.Resources.close;
-            this.closeBtn.Location = new System.Drawing.Point(13, 5);
-            this.closeBtn.Name = "closeBtn";
-            this.closeBtn.Size = new System.Drawing.Size(16, 16);
-            this.closeBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.closeBtn.TabIndex = 4;
-            this.closeBtn.TabStop = false;
-            this.closeBtn.Click += new System.EventHandler(this.closeBtn_Click);
-            this.closeBtn.MouseLeave += new System.EventHandler(this.panelClose_MouseLeave);
-            this.closeBtn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelClose_MouseMove);
             // 
             // status
             // 
@@ -159,24 +102,58 @@ namespace SKYNET
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI Symbol", 8.5F, System.Drawing.FontStyle.Bold);
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(157)))), ((int)(((byte)(160)))));
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(3, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 15);
             this.label1.TabIndex = 247;
-            this.label1.Text = "Consola";
+            this.label1.Text = "Console";
             // 
             // PN_Top
             // 
             this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.PN_Top.Controls.Add(this.MinimizeBox);
+            this.PN_Top.Controls.Add(this.CloseBox);
             this.PN_Top.Controls.Add(this.label1);
-            this.PN_Top.Controls.Add(this.panelMin);
-            this.PN_Top.Controls.Add(this.panelClose);
             this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
             this.PN_Top.Location = new System.Drawing.Point(0, 0);
             this.PN_Top.Name = "PN_Top";
             this.PN_Top.Size = new System.Drawing.Size(526, 26);
             this.PN_Top.TabIndex = 26;
+            // 
+            // CloseBox
+            // 
+            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.Location = new System.Drawing.Point(492, 0);
+            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.MenuMode = false;
+            this.CloseBox.MenuSeparation = 8;
+            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.Name = "CloseBox";
+            this.CloseBox.Size = new System.Drawing.Size(34, 26);
+            this.CloseBox.TabIndex = 248;
+            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
+            // 
+            // MinimizeBox
+            // 
+            this.MinimizeBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.MinimizeBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.MinimizeBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.MinimizeBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.MinimizeBox.Image = global::SKYNET.Properties.Resources.minimise;
+            this.MinimizeBox.Location = new System.Drawing.Point(458, 0);
+            this.MinimizeBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.MinimizeBox.MenuMode = false;
+            this.MinimizeBox.MenuSeparation = 8;
+            this.MinimizeBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.MinimizeBox.Name = "MinimizeBox";
+            this.MinimizeBox.Size = new System.Drawing.Size(34, 26);
+            this.MinimizeBox.TabIndex = 249;
+            this.MinimizeBox.BoxClicked += new System.EventHandler(this.MinimizeBox_BoxClicked);
             // 
             // frmConsole
             // 
@@ -195,13 +172,8 @@ namespace SKYNET
             this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmConsole";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SkyNet Manager";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
+            this.Text = "Net Manager";
             this.Load += new System.EventHandler(this.frmMain_Load);
-            this.panelMin.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.minBtn)).EndInit();
-            this.panelClose.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).EndInit();
             this.PanelPing.ResumeLayout(false);
             this.PanelPing.PerformLayout();
             this.PN_Top.ResumeLayout(false);
@@ -212,10 +184,6 @@ namespace SKYNET
         }
 
         #endregion
-        private System.Windows.Forms.Panel panelMin;
-        private System.Windows.Forms.PictureBox minBtn;
-        private System.Windows.Forms.Panel panelClose;
-        private System.Windows.Forms.PictureBox closeBtn;
         private System.Windows.Forms.Label status;
         private System.Windows.Forms.Panel pnlButtom;
         private System.Windows.Forms.Panel PanelPing;
@@ -223,5 +191,7 @@ namespace SKYNET
         private System.Windows.Forms.RichTextBox txtConsole;
         private System.Windows.Forms.TextBox textBox;
         private System.Windows.Forms.Panel PN_Top;
+        private Controls.SKYNET_Box MinimizeBox;
+        private Controls.SKYNET_Box CloseBox;
     }
 }

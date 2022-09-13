@@ -179,12 +179,6 @@ namespace SKYNET
 
         }
 
-        private void CloseBox_Clicked(object sender, EventArgs e)
-        {
-            ChatManager.RemoveChat(IPAddress);
-            Close();
-        }
-
         private void FrmPrivateChat_Shown(object sender, EventArgs e)
         {
             TB_Message.Focus();
@@ -200,6 +194,12 @@ namespace SKYNET
             catch 
             {
             }
+        }
+
+        private void CloseBox_BoxClicked(object sender, EventArgs e)
+        {
+            ChatManager.RemoveChat(IPAddress);
+            Close();
         }
     }
 }

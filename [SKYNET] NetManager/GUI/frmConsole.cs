@@ -11,7 +11,6 @@ namespace SKYNET
 {
     public partial class frmConsole : frmBase
     {
-        public static frmConsole frm;
         public static string Win32;
         public bool Ready = false;
         public DeviceBox BOXmenu;
@@ -27,7 +26,6 @@ namespace SKYNET
             TopMost = true;
             CheckForIllegalCrossThreadCalls = false;
             base.SetMouseMove(PN_Top);
-            frm = this;
             BOXmenu = menuBOX;
             if (constante)
                 Command = "ping " + menuBOX.IpName + " /t";
@@ -59,47 +57,6 @@ namespace SKYNET
                     txtConsole.Text += line + Environment.NewLine;
                 }
             });
-        }
-
-        private void panelMin_MouseMove(object sender, MouseEventArgs e)
-        {
-            panelMin.BackColor = Color.FromArgb(53, 64, 78);
-        }
-
-        private void panelMin_MouseLeave(object sender, EventArgs e)
-        {
-            panelMin.BackColor = Color.FromArgb(43, 54, 68);
-        }
-
-        private void panelClose_MouseMove(object sender, MouseEventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(53, 64, 78);
-        }
-
-        private void panelClose_MouseLeave(object sender, EventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(43, 54, 68);
-        }
-
-        private void closeBtn_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void minBtn_Click(object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
-        }
-
-
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
-
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-            
         }
 
         private void txtConsole_KeyDown(object sender, KeyEventArgs e)
@@ -152,6 +109,16 @@ namespace SKYNET
             mARGINS.cyTopHeight = 0;
             DwmApi.MARGINS marInset = mARGINS;
             DwmApi.DwmExtendFrameIntoClientArea(base.Handle, ref marInset);
+        }
+
+        private void MinimizeBox_BoxClicked(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+
+        private void CloseBox_BoxClicked(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 

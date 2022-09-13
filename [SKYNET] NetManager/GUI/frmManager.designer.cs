@@ -33,8 +33,6 @@ namespace SKYNET
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmManager));
             this.PN_Top = new System.Windows.Forms.Panel();
-            this.panelClose = new System.Windows.Forms.Panel();
-            this.closeBtn = new System.Windows.Forms.PictureBox();
             this.acceptBtn = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -46,11 +44,11 @@ namespace SKYNET
             this.Interval = new SKYNET.Controls.SKYNET_TextBox();
             this.PanelDeviceIp = new System.Windows.Forms.Panel();
             this.DeviceIp = new SKYNET.Controls.SKYNET_TextBox();
-            this.Save = new SKYNET_Button();
+            this.Save = new SKYNET.SKYNET_Button();
             this.OpcionalLocation = new SKYNET.Controls.SKYNET_TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.SearchPorts = new SKYNET_Button();
+            this.SearchPorts = new SKYNET.SKYNET_Button();
             this.DeviceName = new SKYNET.Controls.SKYNET_TextBox();
             this.MAC = new SKYNET.Controls.SKYNET_TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -59,9 +57,8 @@ namespace SKYNET
             this.DeviceWeb = new SKYNET.Controls.SKYNET_Check();
             this.Avatar = new System.Windows.Forms.PictureBox();
             this.Browser = new System.Windows.Forms.WebBrowser();
+            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.PN_Top.SuspendLayout();
-            this.panelClose.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).BeginInit();
             this.Container.SuspendLayout();
             this.PanelInterval.SuspendLayout();
             this.PanelDeviceIp.SuspendLayout();
@@ -72,39 +69,13 @@ namespace SKYNET
             // PN_Top
             // 
             this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.PN_Top.Controls.Add(this.panelClose);
+            this.PN_Top.Controls.Add(this.CloseBox);
             this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
             this.PN_Top.ForeColor = System.Drawing.Color.White;
             this.PN_Top.Location = new System.Drawing.Point(0, 0);
             this.PN_Top.Name = "PN_Top";
             this.PN_Top.Size = new System.Drawing.Size(470, 26);
             this.PN_Top.TabIndex = 5;
-            // 
-            // panelClose
-            // 
-            this.panelClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panelClose.Controls.Add(this.closeBtn);
-            this.panelClose.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelClose.Location = new System.Drawing.Point(434, 0);
-            this.panelClose.Name = "panelClose";
-            this.panelClose.Size = new System.Drawing.Size(36, 26);
-            this.panelClose.TabIndex = 9;
-            this.panelClose.Click += new System.EventHandler(this.cancelBtn_Click);
-            this.panelClose.MouseLeave += new System.EventHandler(this.panelClose_MouseLeave);
-            this.panelClose.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelClose_MouseMove);
-            // 
-            // closeBtn
-            // 
-            this.closeBtn.Image = global::SKYNET.Properties.Resources.close;
-            this.closeBtn.Location = new System.Drawing.Point(10, 5);
-            this.closeBtn.Name = "closeBtn";
-            this.closeBtn.Size = new System.Drawing.Size(16, 16);
-            this.closeBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.closeBtn.TabIndex = 4;
-            this.closeBtn.TabStop = false;
-            this.closeBtn.Click += new System.EventHandler(this.cancelBtn_Click);
-            this.closeBtn.MouseLeave += new System.EventHandler(this.panelClose_MouseLeave);
-            this.closeBtn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelClose_MouseMove);
             // 
             // acceptBtn
             // 
@@ -222,6 +193,7 @@ namespace SKYNET
             this.Interval.Location = new System.Drawing.Point(0, 0);
             this.Interval.Logo = null;
             this.Interval.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.Interval.Multiline = false;
             this.Interval.Name = "Interval";
             this.Interval.OnlyNumbers = false;
             this.Interval.ShowLogo = false;
@@ -250,6 +222,7 @@ namespace SKYNET
             this.DeviceIp.Location = new System.Drawing.Point(0, 0);
             this.DeviceIp.Logo = null;
             this.DeviceIp.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.DeviceIp.Multiline = false;
             this.DeviceIp.Name = "DeviceIp";
             this.DeviceIp.OnlyNumbers = false;
             this.DeviceIp.ShowLogo = false;
@@ -266,14 +239,14 @@ namespace SKYNET
             this.Save.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Save.ForeColor = System.Drawing.Color.White;
             this.Save.ForeColorMouseOver = System.Drawing.Color.Empty;
-            this.Save.ImageAlignment = SKYNET_Button._ImgAlign.Left;
+            this.Save.ImageAlignment = SKYNET.SKYNET_Button._ImgAlign.Left;
             this.Save.ImageIcon = null;
             this.Save.Location = new System.Drawing.Point(338, 256);
             this.Save.MenuMode = false;
             this.Save.Name = "Save";
             this.Save.Rounded = false;
             this.Save.Size = new System.Drawing.Size(112, 29);
-            this.Save.Style = SKYNET_Button._Style.TextOnly;
+            this.Save.Style = SKYNET.SKYNET_Button._Style.TextOnly;
             this.Save.TabIndex = 21;
             this.Save.Text = "Save";
             this.Save.Click += new System.EventHandler(this.Save_Click);
@@ -288,6 +261,7 @@ namespace SKYNET
             this.OpcionalLocation.Location = new System.Drawing.Point(297, 166);
             this.OpcionalLocation.Logo = null;
             this.OpcionalLocation.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.OpcionalLocation.Multiline = false;
             this.OpcionalLocation.Name = "OpcionalLocation";
             this.OpcionalLocation.OnlyNumbers = false;
             this.OpcionalLocation.ShowLogo = false;
@@ -326,14 +300,14 @@ namespace SKYNET
             this.SearchPorts.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.SearchPorts.ForeColor = System.Drawing.Color.White;
             this.SearchPorts.ForeColorMouseOver = System.Drawing.Color.Empty;
-            this.SearchPorts.ImageAlignment = SKYNET_Button._ImgAlign.Left;
+            this.SearchPorts.ImageAlignment = SKYNET.SKYNET_Button._ImgAlign.Left;
             this.SearchPorts.ImageIcon = null;
             this.SearchPorts.Location = new System.Drawing.Point(12, 256);
             this.SearchPorts.MenuMode = false;
             this.SearchPorts.Name = "SearchPorts";
             this.SearchPorts.Rounded = false;
             this.SearchPorts.Size = new System.Drawing.Size(148, 29);
-            this.SearchPorts.Style = SKYNET_Button._Style.TextOnly;
+            this.SearchPorts.Style = SKYNET.SKYNET_Button._Style.TextOnly;
             this.SearchPorts.TabIndex = 254;
             this.SearchPorts.Text = "Search ports";
             this.SearchPorts.Click += new System.EventHandler(this.SearchPorts_Click);
@@ -348,6 +322,7 @@ namespace SKYNET
             this.DeviceName.Location = new System.Drawing.Point(297, 15);
             this.DeviceName.Logo = null;
             this.DeviceName.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.DeviceName.Multiline = false;
             this.DeviceName.Name = "DeviceName";
             this.DeviceName.OnlyNumbers = false;
             this.DeviceName.ShowLogo = false;
@@ -365,6 +340,7 @@ namespace SKYNET
             this.MAC.Location = new System.Drawing.Point(297, 91);
             this.MAC.Logo = null;
             this.MAC.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.MAC.Multiline = false;
             this.MAC.Name = "MAC";
             this.MAC.OnlyNumbers = false;
             this.MAC.ShowLogo = false;
@@ -394,6 +370,7 @@ namespace SKYNET
             this.Port.Location = new System.Drawing.Point(12, 222);
             this.Port.Logo = null;
             this.Port.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.Port.Multiline = false;
             this.Port.Name = "Port";
             this.Port.OnlyNumbers = false;
             this.Port.ShowLogo = false;
@@ -445,6 +422,23 @@ namespace SKYNET
             this.Browser.Size = new System.Drawing.Size(31, 41);
             this.Browser.TabIndex = 19;
             // 
+            // CloseBox
+            // 
+            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.Location = new System.Drawing.Point(436, 0);
+            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.MenuMode = false;
+            this.CloseBox.MenuSeparation = 8;
+            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.Name = "CloseBox";
+            this.CloseBox.Size = new System.Drawing.Size(34, 26);
+            this.CloseBox.TabIndex = 0;
+            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
+            // 
             // frmManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -462,11 +456,9 @@ namespace SKYNET
             this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmManager";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SkyNet Manager";
+            this.Text = "Net Manager";
             this.Load += new System.EventHandler(this.FrmManager_Load);
             this.PN_Top.ResumeLayout(false);
-            this.panelClose.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.closeBtn)).EndInit();
             this.Container.ResumeLayout(false);
             this.Container.PerformLayout();
             this.PanelInterval.ResumeLayout(false);
@@ -494,8 +486,6 @@ namespace SKYNET
         private SKYNET_TextBox DeviceName;
         private SKYNET_TextBox DeviceIp;
         private SKYNET_Button SearchPorts;
-        private System.Windows.Forms.Panel panelClose;
-        private System.Windows.Forms.PictureBox closeBtn;
         private SKYNET_TextBox Interval;
         private System.Windows.Forms.Label label2;
         private SKYNET_TextBox OpcionalLocation;
@@ -505,5 +495,6 @@ namespace SKYNET
         private SKYNET_Check CircularAvatar;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private SKYNET_Box CloseBox;
     }
 }

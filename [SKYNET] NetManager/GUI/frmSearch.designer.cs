@@ -393,7 +393,7 @@ namespace SKYNET
             this.MaximumSize = new System.Drawing.Size(1360, 728);
             this.Name = "frmSearch";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SkyNet Manager";
+            this.Text = "Net Manager";
             this.Load += new System.EventHandler(this.FrmManager_Load);
             this.PN_Top.ResumeLayout(false);
             this.PN_Top.PerformLayout();

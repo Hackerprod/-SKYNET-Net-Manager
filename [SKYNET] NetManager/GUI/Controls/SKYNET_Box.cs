@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace SKYNET.Controls
 {
+    [DefaultEvent("BoxClicked")]
     public partial class SKYNET_Box : UserControl
     {
         private Color color;

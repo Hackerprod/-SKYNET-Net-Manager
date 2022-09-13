@@ -18,6 +18,9 @@ namespace SKYNET
         private bool CustomAvatar;
         private AsyncHostNameResolver _nameResolver = new AsyncHostNameResolver();
         private System.Timers.Timer _timer = new System.Timers.Timer();
+        private int tick = 0;
+        private int PingCount = 0;
+        private ConnectionStatus LastStatus;
 
 
         public frmDeviceInfo(DeviceBox tool = null)
@@ -87,9 +90,6 @@ namespace SKYNET
             D_Status.Parent = Avatar;
         }
 
-
-
-
         private ConnectionStatus _Status
         {
             get { return _Status; }
@@ -109,6 +109,7 @@ namespace SKYNET
                 }
             }
         }
+
         private Image GetImageFromStatus(ConnectionStatus status)
         {
             if (status == ConnectionStatus.Online)
@@ -145,24 +146,6 @@ namespace SKYNET
                 }
             }
         }
-
-        private void Close_Click(object sender, EventArgs e)
-        {
-            _timer.Stop();
-            Close();
-        }
-
-        private void PanelClose_MouseMove(object sender, MouseEventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(53, 64, 78);
-        }
-
-        private void PanelClose_MouseLeave(object sender, EventArgs e)
-        {
-            panelClose.BackColor = Color.FromArgb(43, 54, 68);
-        }
-        int PingCount = 0;
-        ConnectionStatus LastStatus;
 
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -259,13 +242,6 @@ namespace SKYNET
                 GetDeadDuration.Text = device.OfflineStatusDuration;
                 TotalTime.Text = GetTotalTime(device.StartTime);
                 //HostAvailability.Text = Box.HostAvailability;
-
-
-
-
-
-
-
             }
             catch
             {
@@ -277,7 +253,6 @@ namespace SKYNET
             _timer.Start();
         }
 
-        int tick = 0;
         private void AddBarGraphic(int GraphicTime)
         {
             if (device.Status == ConnectionStatus.Offline)
@@ -328,6 +303,7 @@ namespace SKYNET
             stringBuilder.AppendFormat("{0:d2} : {1:d2} : {2:d2}", duration.Hours, duration.Minutes, duration.Seconds);
             return stringBuilder.ToString();
         }
+
         public TimeSpan GetStatusDuration(ConnectionStatus status, DeviceBox Box)
         {
             TimeSpan timeSpan = Box._statusDurations[(int)Box.Status];
@@ -337,28 +313,22 @@ namespace SKYNET
             }
             return timeSpan;
         }
+
         private string PercentToString(float percent)
         {
             return $"{percent / 100f:P}";
         }
+
         public float GetAverageResponseTime(long receivedPackets, long totalResponseTime)
         {
             return (receivedPackets != 0) ? ((float)totalResponseTime / (float)receivedPackets) : 0f;
         }
+
         public float GetPacketsPercent(long LostPackets, long SentPackets)
         {
             return (float)LostPackets / (float)SentPackets * 100f;
         }
 
-        private void Label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void DeviceName_Click(object sender, EventArgs e)
-        {
-
-        }
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
@@ -371,6 +341,12 @@ namespace SKYNET
             mARGINS.cyTopHeight = 0;
             DwmApi.MARGINS marInset = mARGINS;
             DwmApi.DwmExtendFrameIntoClientArea(base.Handle, ref marInset);
+        }
+
+        private void CloseBox_BoxClicked(object sender, EventArgs e)
+        {
+            _timer.Stop();
+            Close();
         }
     }
 }
