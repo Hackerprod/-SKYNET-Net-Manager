@@ -320,7 +320,7 @@ namespace SKYNET
                 string Host = _lvAliveHosts.SelectedItems[0].SubItems[4].Text;
                 string mac = _lvAliveHosts.SelectedItems[0].SubItems[5].Text;
 
-                frmManager Manager = new frmManager(new Host() { HostName = Host, IP = IP, MAC = mac });
+                frmManager Manager = new frmManager(new Host() { HostName = Host, IPAddress = IPAddress.Parse(IP), MAC = mac });
                 Manager.Show();
             }
             catch {}
@@ -339,8 +339,10 @@ namespace SKYNET
         {
             string IP = _lvAliveHosts.SelectedItems[0].SubItems[1].Text;
 
-            new frmPortScan(IP).ShowDialog();
-
+            if (IPAddress.TryParse(IP, out var Address))
+            {
+                new frmPortScan(Address).ShowDialog();
+            }
         }
 
         private void Monitorear_Click(object sender, EventArgs e)
@@ -349,7 +351,7 @@ namespace SKYNET
             string Host = _lvAliveHosts.SelectedItems[0].SubItems[4].Text;
             string mac = _lvAliveHosts.SelectedItems[0].SubItems[5].Text;
 
-            frmManager Manager = new frmManager(new Host() { HostName = Host, IP = IP, MAC = mac, Interval = 1 });
+            frmManager Manager = new frmManager(new Host() { HostName = Host, IPAddress = IPAddress.Parse(IP), MAC = mac, Interval = 1 });
             Manager.Show();
 
         }

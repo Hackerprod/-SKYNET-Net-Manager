@@ -1,4 +1,5 @@
 ﻿using SKYNET.GUI;
+using SKYNET.Helpers;
 using SKYNET.Types;
 using System;
 using System.Collections.Generic;
@@ -28,12 +29,9 @@ namespace SKYNET
                 Close();
             }
 
-            if (IPAddress.TryParse(box.IpName, out var iPAddress))
-            {
-                this.IPAddress = iPAddress;
-            }
+            this.IPAddress = box.Device.IPAddress.ToIPAddress();
 
-            label2.Text = "Message to " + box.BoxName;
+            label2.Text = "Message to " + box.Device.Name;
             TB_Message.TextBox.Focus();
         }
 
@@ -82,35 +80,7 @@ namespace SKYNET
 
         private void WriteChat(ChatMessage message)
         {
-            ListViewItem listViewItem = new ListViewItem();
-            listViewItem.SubItems.Add(new ListViewItem.ListViewSubItem());
-            listViewItem.SubItems.Add(new ListViewItem.ListViewSubItem());
-
-            listViewItem.SubItems[0].Text = message.Sender;
-            listViewItem.SubItems[1].Text = message.Message;
-
-            LV_Chat.Items.Add(listViewItem);
-
-            SetScrollPosition();
-        }
-
-        public void SetScrollPosition()
-        {
-            if (LV_Chat.Items.Count < 16) return;
-
-            // 12 (altura del listview)
-            SuspendLayout();
-            EnsureVisible();
-            ResumeLayout();
-        }
-
-        private void EnsureVisible()
-        {
-            int num = LV_Chat.Items.Count - 1;
-            if (num >= 0)
-            {
-                LV_Chat.EnsureVisible(num);
-            }
+            skyneT_WebChat1.WriteChat(message);
         }
 
         public void FillHistory(List<ChatMessage> messages)
@@ -152,7 +122,7 @@ namespace SKYNET
                 try
                 {
                     byte[] bytes = Encoding.Default.GetBytes(msg);
-                    string IP = box != null ? box.IpName : IPAddress.ToString();
+                    string IP = box != null ? box.Device.IPAddress.ToString() : IPAddress.ToString();
                     HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create($"http://{IP}:28082/onMessage");
                     httpWebRequest.Method = "POST";
                     using (Stream newStream = httpWebRequest.GetRequestStream())
@@ -164,7 +134,9 @@ namespace SKYNET
                     ChatMessage message = new ChatMessage()
                     {
                         Sender = Environment.UserName,
-                        Message = msg
+                        Message = msg,
+                        Time = DateTime.Now,
+                        Addresses = NetHelper.GetIPAddresses()
                     };
 
                     WriteChat(message);
@@ -182,18 +154,6 @@ namespace SKYNET
         private void FrmPrivateChat_Shown(object sender, EventArgs e)
         {
             TB_Message.Focus();
-        }
-
-        private void LV_Chat_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                string text = this.LV_Chat.SelectedItems[0].SubItems[1].Text;
-                Clipboard.SetText(text);
-            }
-            catch 
-            {
-            }
         }
 
         private void CloseBox_BoxClicked(object sender, EventArgs e)

@@ -28,9 +28,9 @@ namespace SKYNET
             base.SetMouseMove(PN_Top);
             BOXmenu = menuBOX;
             if (constante)
-                Command = "ping " + menuBOX.IpName + " /t";
+                Command = $"ping {menuBOX.Device.IPAddress} /t";
             else
-                Command = "ping " + menuBOX.IpName;
+                Command = $"ping {menuBOX.Device.IPAddress}";
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -74,14 +74,14 @@ namespace SKYNET
                     {
                         if (txtConsole.Lines[i].Contains("Media = "))
                         {
-                            BOXmenu.Ping = txtConsole.Lines[i].Split('=')[3].Replace("ms", " ms");
+                            BOXmenu._Ping = txtConsole.Lines[i].Split('=')[3].Replace("ms", " ms");
                             BOXmenu.Status =  ConnectionStatus.Online;
                         }
                     }
                 }
                 catch
                 {
-                    BOXmenu.Ping = "3" + " ms";
+                    BOXmenu._Ping = "3" + " ms";
                     BOXmenu.Status = ConnectionStatus.Online;
 
                     BOXmenu.Status = ConnectionStatus.Online;

@@ -15,12 +15,37 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 public class Common
 {
+    public static void EnsureDirectoryExists(string filePath, bool isFile = false)
+    {
+        if (!string.IsNullOrEmpty(filePath))
+        {
+            filePath = filePath.Trim().Replace("\0", string.Empty);
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                try
+                {
+                    string text = isFile ? Path.GetDirectoryName(filePath) : filePath;
+                    if (Path.IsPathRooted(filePath))
+                    {
+                        text = text.Trim();
+                        if (!Directory.Exists(text))
+                        {
+                            Directory.CreateDirectory(text);
+                        }
+                    }
+                }
+                catch (Exception exception)
+                {
+
+                }
+            }
+        }
+    }
+
     [DllImport("user32.dll", CharSet = CharSet.Ansi, SetLastError = true)]
     private static extern IntPtr GetForegroundWindow();
 
@@ -513,33 +538,18 @@ public class Common
         }
 
     }
-    static Process currentProcess;
-    public static string GetPatch()
-    {
-        try
-        {
-            currentProcess = Process.GetCurrentProcess();
-            return new FileInfo(currentProcess.MainModule.FileName).Directory.FullName;
-        }
-        finally
-        {
-            currentProcess = null;
-        }
-    }
 
-    public static string CurrentDirectory
+    public static string GetPath()
     {
-        get
-        {
-            Process currentProcess = Process.GetCurrentProcess();
-            return new FileInfo(currentProcess.MainModule.FileName).Directory.FullName;
-        }
+        Process currentProcess = Process.GetCurrentProcess();
+        return new FileInfo(currentProcess.MainModule.FileName).Directory.FullName;
     }
 
     public static frmSplashScreen SplashScreen { get; set; }
     public static bool Hackerprod { get { return Environment.UserName == "Hackerprod"; } }
 
     public static bool ShowShadow { get; internal set; }
+    public static short IE_VERSION { get; internal set; }
 
     public static Bitmap ChangeOpacity(Image img, float opacityvalue)
     {

@@ -23,9 +23,9 @@ namespace SKYNET
         private Rectangle rScreen;
         private Bitmap bitmap;
         private float AspectRatio;
-        private string SectionName;
+        private string Guid;
 
-        public frmCropEditor(string filepatch, string sectionName)
+        public frmCropEditor(string filepatch, string guid)
         {
             InitializeComponent();
             base.SetMouseMove(PN_Top);
@@ -40,7 +40,7 @@ namespace SKYNET
 
             bitmap = (Bitmap)Image.FromFile(filepatch);
 
-            SectionName = sectionName;
+            Guid = guid;
 
             ImageCrop.Bitmap = bitmap;
 
@@ -187,15 +187,15 @@ namespace SKYNET
 
         private void Btn_Apply_Click(object sender, EventArgs e)
         {
-            if (!Directory.Exists(Common.CurrentDirectory + "/Data/Images/"))
+            if (!Directory.Exists(Path.Combine(Common.GetPath(), "Data", "Images")))
             {
-                Directory.CreateDirectory(Common.CurrentDirectory + "/Data/Images/");
+                Directory.CreateDirectory(Path.Combine(Common.GetPath(), "Data", "Images"));
             }
 
             Image img = ImageCrop.PreviewBitmap();
             Bitmap image = ImageHelper.ImageResizer.ResizeBitmap((Bitmap)img, 1000, 1000, ImageFormat.Png);
 
-            string destPath = Path.Combine(Common.CurrentDirectory, "Data", "Images", Settings.CurrentSection + "_" + SectionName + ".png");
+            string destPath = Path.Combine(Common.GetPath(), "Data", "Images", Guid + ".jpg");
             Common.Resize((Bitmap)image, 1000, 1000, destPath);
             Close();
 

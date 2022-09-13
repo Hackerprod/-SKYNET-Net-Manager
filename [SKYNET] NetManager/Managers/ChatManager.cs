@@ -75,6 +75,11 @@ namespace SKYNET
 
         public static void RegisterChat(IPAddress address, frmPrivateChat form)
         {
+            //if (address == null || form == null)
+            //{
+            //    return;
+            //}
+
             if (!Chats.ContainsKey(address))
             {
                 Chats.TryAdd(address, form);

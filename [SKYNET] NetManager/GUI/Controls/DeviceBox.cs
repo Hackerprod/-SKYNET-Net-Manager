@@ -9,7 +9,6 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -17,8 +16,6 @@ namespace SKYNET
 {
     public partial class DeviceBox : UserControl
     {
-        public IPAddress RemoteAddress { get; set; }
-
         private int              _Interval;
         private Device           _Device;
         private DateTime         _StartTime;
@@ -32,6 +29,23 @@ namespace SKYNET
         private int              _ConsecutivePacketsLostReceived;
         private bool             _circularAvatar;
         private ConnectionStatus _Status;
+        private int              _Orden;
+        private int              _Timeout;
+        private bool             _ImageFromFile;
+
+        public string _Ping;
+
+        public Image Image
+        {
+            get
+            {
+                return PB_Image.Image;
+            }
+            set
+            {
+                PB_Image.Image = value;
+            }
+        }
 
         public int Interval
         {
@@ -74,10 +88,7 @@ namespace SKYNET
         public string HostName { get; set; }
         public bool AlertOnConnect { get; set; }
         public bool AlertOnDisconnect { get; set; }
-        public bool CustomAvatar { get; set; }
-        public string Port { get; set; }
         public string MAC { get; set; }
-        private int Timeout { get; set; }
         PingOptions PingOption { get; set; }
         byte[] Buffer { get; set; }
         public bool Running { get; set; }
@@ -95,16 +106,19 @@ namespace SKYNET
                 {
                     return;
                 }
-                BoxName = _Device.Name;
-                IpName = _Device.Ip;
-                isWeb = _Device.TCP;
-                Name = _Device.Orden.ToString();
-                Port = _Device.Port.ToString();
+
                 Interval = _Device.Interval;
                 OpcionalLocation = _Device.OpcionalLocation;
-                Status = ConnectionStatus.Offline;
-                Orden = _Device.Orden;
-                CircularAvatar = _Device.CircularAvatar;
+                CircularImage = _Device.CircularImage;
+                
+                LB_Name.Text = _Device.Name;
+                LB_IPAddress.Text = _Device.IPAddress;
+
+                if (DeviceManager.GetDeviceImage(_Device, out var image))
+                {
+                    SetImage(image);
+                    _ImageFromFile = true;
+                }
             }
         }
 
@@ -124,6 +138,7 @@ namespace SKYNET
             _statusDurations = new TimeSpan[2];
             _statusReachedAt = DateTime.Now;
 
+            _ImageFromFile = false;
             Values = new Dictionary<int, int>();
             for (int i = 1; i < 31; i++)
             {
@@ -136,6 +151,90 @@ namespace SKYNET
 
             InitTimer();
         }
+
+        private void Device_Load(object sender, EventArgs e)
+        {
+            _Timeout = 2000;
+            PingOption = new PingOptions(32, true);
+            Buffer = new byte[4];
+
+            if (Common.IsCableConnected())
+            {
+                try
+                {
+                    new Thread(() =>
+                    {
+                        Thread.CurrentThread.IsBackground = true;
+
+                        if (Device.IPAddress == null)
+                            return;
+
+                        if (Device.TCP && Device.Port != 80)
+                        {
+                            IPEndPoint EndPoint = new IPEndPoint(Device.IPAddress.ToIPAddress(), Device.Port);
+                            Socket sockets = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                            try
+                            {
+                                DateTime SentDateTime = DateTime.Now;
+
+                                IAsyncResult asyncResult = sockets.BeginConnect(EndPoint, new AsyncCallback((IAsyncResult ar) => { try { ((Socket)ar.AsyncState).EndConnect(ar); } catch { } }), sockets);
+
+                                if (asyncResult.AsyncWaitHandle.WaitOne(Settings.Timeout, false))
+                                {
+                                    TimeSpan span = DateTime.Now - SentDateTime;
+
+                                    long RoundtripTime = span.Milliseconds;
+                                    _Ping = RoundtripTime + " ms";
+
+                                    MAC = NetHelper.GetMACAddress(((IPEndPoint)sockets.RemoteEndPoint).Address);
+
+                                    Status = ConnectionStatus.Online;
+                                    sockets.Close();
+                                }
+                                else
+                                {
+                                    sockets.Close();
+                                    Status = ConnectionStatus.Offline;
+                                }
+
+                            }
+                            catch
+                            {
+                                Status = ConnectionStatus.Offline;
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                PingReply reply = new Ping().Send(Device.IPAddress, _Timeout, Buffer, PingOption);
+                                if (reply.Status == IPStatus.Success)
+                                {
+                                    _Ping = reply.RoundtripTime + " ms";
+                                    Status = ConnectionStatus.Online;
+                                    MAC = NetHelper.GetMACAddress(reply.Address);
+                                }
+                                else
+                                {
+                                    Status = ConnectionStatus.Offline;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                Status = ConnectionStatus.Offline;
+                            }
+                        }
+                    }).Start();
+                }
+                catch { }
+            }
+
+            StartTime = DateTime.Now;
+            this.Refresh();
+            _timer.Interval = (double)Interval * 1000;
+            _timer.Start();
+        }
+
 
         public ConnectionStatus Status
         {
@@ -161,9 +260,8 @@ namespace SKYNET
                     {
                         this.StatusICON.Image = Properties.Resources.online;
                         StatusPNL.BackColor = Color.FromArgb(7, 164, 245);
-                        if (!isWeb)
-                            SetAvatar(Properties.Resources.OnlinePC);
-                        status.Text = value.ToString() + " " + Ping;
+                        SetImage(Properties.Resources.OnlinePC);
+                        status.Text = value.ToString() + " " + _Ping;
                     }
                     catch { }
                 }
@@ -173,8 +271,7 @@ namespace SKYNET
                     {
                         this.StatusICON.Image = Properties.Resources.idlechat;
                         StatusPNL.BackColor = Color.FromArgb(245, 7, 41);
-                        if (!isWeb)
-                            SetAvatar(Properties.Resources.OfflinePC);
+                        SetImage(Properties.Resources.OfflinePC);
 
                         status.Text = value.ToString();
                     }
@@ -215,7 +312,7 @@ namespace SKYNET
             return timeSpan;
         }
 
-        public bool CircularAvatar
+        public bool CircularImage
         {
             get { return _circularAvatar; }
             set
@@ -223,14 +320,11 @@ namespace SKYNET
                 _circularAvatar = value;
                 if (_circularAvatar)
                 {
-                    if (CustomAvatar)
-                    {
-                        Avatar.Image = Common.CropToCircle(BoxImage);
-                    }
+                    PB_Image.Image = Common.CropToCircle(Image);
                 }
                 else
                 {
-                    Avatar.Image = BoxImage;
+                    PB_Image.Image = Image;
                 }
             }
         }
@@ -248,15 +342,14 @@ namespace SKYNET
 
         private void DoPing()
         {
-            IPAddress.TryParse(IpName, out IPAddress _HostIP);
             try
             {
-                if (/*modCommon.IsCableConnected() && */NetHelper.IsValidIp(IpName))
+
+                if (/*modCommon.IsCableConnected() && */ IPAddress.TryParse(Device.IPAddress, out var Address))
                 {
-                    int.TryParse(Port, out int PortPing);
-                    if (isWeb && PortPing != 80)
+                    if (Device.TCP && Device.Port != 80)
                     {
-                        IPEndPoint EndPoint = new IPEndPoint(_HostIP, PortPing);
+                        IPEndPoint EndPoint = new IPEndPoint(Address, Device.Port);
                         Socket sockets = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                         try
                         {
@@ -268,7 +361,6 @@ namespace SKYNET
                             {
                                 TimeSpan span = DateTime.Now - SentDateTime;
                                 long RoundtripTime = span.Milliseconds;
-                                RemoteAddress = ((IPEndPoint)sockets.RemoteEndPoint).Address;
                                 IncluyeReceived(RoundtripTime);
                                 sockets.Close();
                             }
@@ -292,12 +384,11 @@ namespace SKYNET
 
                         try
                         {
-                            PingReply pingReply = _pinger.Send(IpName, Settings.Timeout, _buffer, _pingerOptions);
+                            PingReply pingReply = _pinger.Send(Device.IPAddress, Settings.Timeout, _buffer, _pingerOptions);
                             {
                                 switch (pingReply.Status)
                                 {
                                     case IPStatus.Success:
-                                        RemoteAddress = pingReply.Address;
                                         IncluyeReceived(pingReply.RoundtripTime);
                                         break;
                                     default:
@@ -388,8 +479,8 @@ namespace SKYNET
         private void IncluyeReceived(long RoundtripTime)
         {
 
-            MAC = NetHelper.GetMACAddress(RemoteAddress);
-            Ping = RoundtripTime + " ms";
+            MAC = NetHelper.GetMACAddress(Device.IPAddress.ToIPAddress());
+            _Ping = RoundtripTime + " ms";
             Status = ConnectionStatus.Online;
 
             if (AlertOnConnect)
@@ -419,30 +510,19 @@ namespace SKYNET
             AddValue((int)time);
         }
 
-        public void SetAvatar(Image image, bool Custom = false)
+        public void SetImage(Image image)
         {
-            if (Custom == true)
-            {
-                CustomAvatar = true;
+            if (_ImageFromFile) return;
 
-                if (CircularAvatar)
-                {
-                    Avatar.Image = Common.CropToCircle(image);
-                }
-                else
-                {
-                    Avatar.Image = image;
-                }
-                BoxImage = image;
+            if (CircularImage)
+            {
+                PB_Image.Image = Common.CropToCircle(image);
             }
             else
             {
-                if (CustomAvatar == false)
-                {
-                    Avatar.Image = image;
-                    BoxImage = image;
-                }
+                PB_Image.Image = image;
             }
+            Image = image;
         }
 
         private void Box_MouseClick(object sender, MouseEventArgs e)
@@ -473,117 +553,20 @@ namespace SKYNET
                         if (Status == ConnectionStatus.Online)
                         {
 
-                            if (!isWeb)
-                                Process.Start(@"\\" + IpName);
+                            if (!Device.TCP)
+                                Process.Start(@"\\" + Device.IPAddress);
                             else
                             {
-                                if (Port == "443")
-                                    Process.Start("https://" + IpName + ":" + Port);
-
+                                if (Device.Port == 443)
+                                    Process.Start($"https://{Device.IPAddress}:{Device.Port}");
                                 else
-                                    Process.Start("http://" + IpName + ":" + Port);
+                                    Process.Start($"http://{Device.IPAddress}:{Device.Port}");
                             }
                         }
                     }
                 }
             }
             catch { }
-        }
-
-        private void Device_Load(object sender, EventArgs e)
-        {
-            Timeout = 2000;
-            PingOption = new PingOptions(32, true);
-            Buffer = new byte[4];
-
-            string ImageFile = DeviceManager.GetAvatarFromOrden(Name);
-
-            if (File.Exists(ImageFile))
-            {
-                BoxImage = DeviceManager.GetDeviceImage(this);
-                SetAvatar(BoxImage, true);
-            }
-
-            if (Common.IsCableConnected())
-            {
-                string address = IpName;
-                try
-                {
-                    new Thread(() =>
-                    {
-                        Thread.CurrentThread.IsBackground = true;
-
-                        if (!NetHelper.IsValidIp(address))
-                            return;
-
-                        IPAddress.TryParse(IpName, out IPAddress _HostIP);
-                        int.TryParse(Port, out int PortPing);
-
-                        if (isWeb && PortPing != 80)
-                        {
-                            IPEndPoint EndPoint = new IPEndPoint(_HostIP, PortPing);
-                            Socket sockets = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                            try
-                            {
-                                DateTime SentDateTime = DateTime.Now;
-
-                                IAsyncResult asyncResult = sockets.BeginConnect(EndPoint, new AsyncCallback((IAsyncResult ar) => { try { ((Socket)ar.AsyncState).EndConnect(ar); } catch { } }), sockets);
-
-                                if (asyncResult.AsyncWaitHandle.WaitOne(Settings.Timeout, false))
-                                {
-                                    TimeSpan span = DateTime.Now - SentDateTime;
-
-                                    long RoundtripTime = span.Milliseconds;
-                                    Ping = RoundtripTime + " ms";
-
-                                    RemoteAddress = ((IPEndPoint)sockets.RemoteEndPoint).Address;
-                                    MAC = NetHelper.GetMACAddress(RemoteAddress);
-
-                                    Status = ConnectionStatus.Online;
-                                    sockets.Close();
-                                }
-                                else
-                                {
-                                    sockets.Close();
-                                    Status = ConnectionStatus.Offline;
-                                }
-
-                            }
-                            catch
-                            {
-                                Status = ConnectionStatus.Offline;
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                PingReply reply = new Ping().Send(address, Timeout, Buffer, PingOption);
-                                if (reply.Status == IPStatus.Success)
-                                {
-                                    Ping = reply.RoundtripTime + " ms";
-                                    Status = ConnectionStatus.Online;
-                                    MAC = NetHelper.GetMACAddress(reply.Address);
-                                }
-                                else
-                                {
-                                    Status = ConnectionStatus.Offline;
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                Status = ConnectionStatus.Offline;
-                            }
-                        }
-                    }).Start();
-                }
-                catch { }
-            }
-
-            StartTime = DateTime.Now;
-            this.Refresh();
-            _timer.Interval = (double)Interval * 1000;
-            _timer.Start();
         }
 
         public void ClearAlerts()
@@ -594,15 +577,15 @@ namespace SKYNET
 
         private void Box_MouseLeave(object sender, EventArgs e)
         {
-            name.ForeColor = Color.FromArgb(224, 224, 224);
-            ip.ForeColor = Color.Silver;
+            LB_Name.ForeColor = Color.FromArgb(224, 224, 224);
+            LB_IPAddress.ForeColor = Color.Silver;
             this.BackColor = Color.FromArgb(43, 54, 68);
         }
 
         private void Box_MouseMove(object sender, MouseEventArgs e)
         {
-            name.ForeColor = Color.White;
-            ip.ForeColor = Color.White;
+            LB_Name.ForeColor = Color.White;
+            LB_IPAddress.ForeColor = Color.White;
             this.BackColor = Color.FromArgb(63, 74, 88);
             Cursor = Cursors.Default;
             frmMain.frm.menuBOX = this;

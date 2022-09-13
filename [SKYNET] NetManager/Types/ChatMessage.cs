@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 
 namespace SKYNET.Types
 {
@@ -10,5 +8,12 @@ namespace SKYNET.Types
     {
         public string Sender { get; set; }
         public string Message { get; set; }
+        public DateTime Time { get; set; }
+        public List<IPAddress> Addresses { get; set; }
+
+        public ChatMessage()
+        {
+            Addresses = new List<IPAddress>();
+        }
     }
 }

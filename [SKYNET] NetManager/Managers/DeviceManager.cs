@@ -1,5 +1,7 @@
 ﻿using SKYNET.Helpers;
+using SKYNET.Properties;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -11,19 +13,7 @@ namespace SKYNET
     {
         public static Device GetDevice(DeviceBox deviceBox)
         {
-            Device device = new Device();
-            device.Name = deviceBox.BoxName;
-            device.Ip = deviceBox.IpName;
-            device.TCP = deviceBox.isWeb;
-
-            if (int.TryParse(deviceBox.Port, out int Port))
-                device.Port = Port;
-
-            device.Interval = deviceBox.Interval;
-            device.OpcionalLocation = deviceBox.OpcionalLocation;
-            device.Orden = deviceBox.Orden;
-            device.CircularAvatar = deviceBox.CircularAvatar;
-            return device;
+            return deviceBox.Device;
         }
 
         public static Device GetDeviceFromIP(IPAddress address)
@@ -34,7 +24,7 @@ namespace SKYNET
                 if (item is DeviceBox)
                 {
                     DeviceBox box = (DeviceBox)item;
-                    if (box.Device.Ip == address.ToString())
+                    if (box.Device.IPAddress == address.ToString())
                     {
                         return box.Device;
                     }
@@ -42,6 +32,7 @@ namespace SKYNET
             }
             return device;
         }
+
         public static DeviceBox GetBoxFromIP(IPAddress address)
         {
             DeviceBox device = null;
@@ -50,7 +41,7 @@ namespace SKYNET
                 if (item is DeviceBox)
                 {
                     DeviceBox box = (DeviceBox)item;
-                    if (box.Device.Ip == address.ToString())
+                    if (box.Device.IPAddress == address.ToString())
                     {
                         return box;
                     }
@@ -59,6 +50,25 @@ namespace SKYNET
             return device;
         }
 
+        public static DeviceBox GetBoxFromIP(List<IPAddress> addresses)
+        {
+            DeviceBox device = null;
+            foreach (Control item in frmMain.frm.DeviceContainer.Controls)
+            {
+                if (item is DeviceBox)
+                {
+                    DeviceBox box = (DeviceBox)item;
+                    foreach (var address in addresses)
+                    {
+                        if (box.Device.IPAddress == address.ToString())
+                        {
+                            return box;
+                        }
+                    }
+                }
+            }
+            return device;
+        }
 
         public static int GetDeviceCount()
         {
@@ -72,26 +82,6 @@ namespace SKYNET
                 }
             }
             return Count; 
-        }
-
-        public static string GetAvatarFromOrden(string name)
-        {
-            string path = "";
-
-            if (!Directory.Exists(Common.CurrentDirectory + "/Data/Images/"))
-            {
-                Directory.CreateDirectory(Common.CurrentDirectory + "/Data/Images/");
-                return "";
-            }
-            string[] files = Directory.GetFiles(Common.CurrentDirectory + "/Data/Images/");
-            foreach (var picture in files)
-            {
-                if (picture.Contains(Settings.CurrentSection + "_" + name + ".png"))
-                {
-                    path = picture;
-                }
-            }
-            return path;
         }
 
         public static ImageType GetImageType(string imageFile)
@@ -112,39 +102,43 @@ namespace SKYNET
 
         public static Image GetDeviceImage(DeviceBox device)
         {
-            Image image = (Bitmap)default;
-            string ImageFile = GetAvatarFromOrden(device.Name);
+            return GetDeviceImage(device.Device);
+        }
 
-            if (File.Exists(ImageFile))
+        public static Image GetDeviceImage(Device device)
+        {
+            string filePath = Path.Combine(Common.GetPath(), "Data", "Images", device.Guid + ".jpg");
+
+            if (File.Exists(filePath))
             {
-                ImageType type = GetImageType(ImageFile);
-                switch (type)
-                {
-                    case ImageType.JPG:
-                        image = Common.ImageFromFile(ImageFile);
-                        break;
-                    case ImageType.PNG:
-                        image = Common.ImageFromFile(ImageFile);
-                        break;
-                    case ImageType.ICO:
-                        try
-                        {
-                            image = new Icon(ImageFile, 1000, 1000).ToBitmap();
-                        }
-                        catch (Exception)
-                        {
-                            image = Bitmap.FromHicon((new Icon(ImageFile).Handle));
-                        }
-                        break;
-                    case ImageType.GIF:
-                        image = Common.ImageFromFile(ImageFile);
-                        break;
-                    default:
-                        image = Common.ImageFromFile(ImageFile);
-                        break;
-                }
+                return Common.ImageFromFile(filePath);
             }
-            return image;
+            return Resources.OfflinePC;
+        }
+
+        public static bool GetDeviceImage(Device device, out Image image)
+        {
+            var filePath = Path.Combine(Common.GetPath(), "Data", "Images", device.Guid + ".jpg");
+            image = Resources.OfflinePC; 
+
+            if (File.Exists(filePath))
+            {
+                image = Common.ImageFromFile(filePath);
+                return true;
+            }
+
+            return false;
+        }
+
+        public static string GetAvatarPath(Device device)
+        {
+            var filePath = Path.Combine(Common.GetPath(), "Data", "Images", device.Guid + ".jpg");
+
+            if (File.Exists(filePath))
+            {
+                return filePath;
+            }
+            return Path.Combine(Common.GetPath(), "Data", "Images", "Default.jpg");
         }
     }
     public enum ImageType

@@ -2,6 +2,7 @@
 {
     public enum ConnectionStatus
     {
+        Unknown,
         Online,
         Offline
     }

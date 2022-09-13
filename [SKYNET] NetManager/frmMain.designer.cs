@@ -169,6 +169,7 @@ namespace SKYNET
             this.SettingsBox.Dock = System.Windows.Forms.DockStyle.Right;
             this.SettingsBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
             this.SettingsBox.Image = null;
+            this.SettingsBox.ImageSize = 12;
             this.SettingsBox.Location = new System.Drawing.Point(227, 0);
             this.SettingsBox.MaximumSize = new System.Drawing.Size(34, 26);
             this.SettingsBox.MenuMode = true;
@@ -186,6 +187,7 @@ namespace SKYNET
             this.MinimizeBox.Dock = System.Windows.Forms.DockStyle.Right;
             this.MinimizeBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
             this.MinimizeBox.Image = global::SKYNET.Properties.Resources.minimise;
+            this.MinimizeBox.ImageSize = 10;
             this.MinimizeBox.Location = new System.Drawing.Point(261, 0);
             this.MinimizeBox.MaximumSize = new System.Drawing.Size(34, 26);
             this.MinimizeBox.MenuMode = false;
@@ -203,6 +205,7 @@ namespace SKYNET
             this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
             this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
             this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.ImageSize = 10;
             this.CloseBox.Location = new System.Drawing.Point(295, 0);
             this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
             this.CloseBox.MenuMode = false;

@@ -15,7 +15,7 @@ namespace SKYNET
         private int Max;
         private int Min;
 
-        public frmPortScan(string host, int InitPort = 20, int FinishPort = 150)
+        public frmPortScan(IPAddress host, int InitPort = 20, int FinishPort = 150)
         {
             InitializeComponent();
             base.SetMouseMove(PN_Top);
@@ -23,7 +23,7 @@ namespace SKYNET
 
             SBox.Text = InitPort.ToString();
             FBox.Text = FinishPort.ToString();
-            RemoteHost.Text = host;
+            RemoteHost.Text = host.ToString();
         }
 
         private void LaunchBtn_Click(object sender, EventArgs e)

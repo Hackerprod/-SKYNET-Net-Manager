@@ -34,6 +34,7 @@ namespace SKYNET
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmProfile));
             this.PN_Top = new System.Windows.Forms.Panel();
+            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.acceptBtn = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.DeleteProfile = new SKYNET.SKYNET_Button();
@@ -42,7 +43,6 @@ namespace SKYNET
             this.profileBox = new SKYNET.GUI.SKYNET_ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.Browser = new System.Windows.Forms.WebBrowser();
-            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.PN_Top.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
@@ -57,6 +57,24 @@ namespace SKYNET
             this.PN_Top.Name = "PN_Top";
             this.PN_Top.Size = new System.Drawing.Size(287, 26);
             this.PN_Top.TabIndex = 5;
+            // 
+            // CloseBox
+            // 
+            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.ImageSize = 12;
+            this.CloseBox.Location = new System.Drawing.Point(253, 0);
+            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.MenuMode = false;
+            this.CloseBox.MenuSeparation = 8;
+            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.Name = "CloseBox";
+            this.CloseBox.Size = new System.Drawing.Size(34, 26);
+            this.CloseBox.TabIndex = 31;
+            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
             // 
             // acceptBtn
             // 
@@ -176,23 +194,6 @@ namespace SKYNET
             this.Browser.Name = "Browser";
             this.Browser.Size = new System.Drawing.Size(31, 41);
             this.Browser.TabIndex = 19;
-            // 
-            // CloseBox
-            // 
-            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
-            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
-            this.CloseBox.Location = new System.Drawing.Point(253, 0);
-            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
-            this.CloseBox.MenuMode = false;
-            this.CloseBox.MenuSeparation = 8;
-            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
-            this.CloseBox.Name = "CloseBox";
-            this.CloseBox.Size = new System.Drawing.Size(34, 26);
-            this.CloseBox.TabIndex = 31;
-            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
             // 
             // frmProfile
             // 

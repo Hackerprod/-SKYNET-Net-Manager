@@ -21,20 +21,20 @@ namespace SKYNET
 
             if (BOX.AlertOnConnect)
             {
-                if (BOX.isWeb)
+                if (BOX.Device.TCP)
                 {
                     label1.Text = "EL EQUIPO ESTA ONLINE";
                     Avatar.Image = Properties.Resources.glob_v2;
                 }
                 else
                 {
-                    label1.Text = BOX.BoxName.ToUpper() + " ESTA ONLINE";
+                    label1.Text = BOX.Device.Name.ToUpper() + " ESTA ONLINE";
                     Avatar.Image = Properties.Resources.My_Computer_lime_copia;
                 }
 
                 Time.Text = DateTime.Now.ToShortTimeString();
 
-                message.Text = "El programa ha realizado ping con el" + Environment.NewLine + "ip " + BOX.IpName;
+                message.Text = "El programa ha realizado ping con el" + Environment.NewLine + "ip " + BOX.Device.IPAddress;
 
                 if (Settings.CustomSound)
                 {
@@ -65,20 +65,20 @@ namespace SKYNET
             }
             else if (BOX.AlertOnDisconnect)
             {
-                if (BOX.isWeb)
+                if (BOX.Device.TCP)
                 {
                     label1.Text = "EL EQUIPO ESTA OFFLINE";
                     Avatar.Image = Properties.Resources.glob_v2;
                 }
                 else
                 {
-                    label1.Text = BOX.BoxName.ToUpper() + " ESTA OFFLINE";
+                    label1.Text = BOX.Device.Name.ToUpper() + " ESTA OFFLINE";
                     Avatar.Image = Properties.Resources.My_Computer_lime_copia;
                 }
 
                 Time.Text = DateTime.Now.ToShortTimeString();
 
-                message.Text = "El programa ha dejado de dar ping" + Environment.NewLine + " con el ip " + BOX.IpName;
+                message.Text = "El programa ha dejado de dar ping" + Environment.NewLine + " con el ip " + BOX.Device.IPAddress;
 
                 if (Settings.CustomSound)
                 {
@@ -110,10 +110,7 @@ namespace SKYNET
 
             BOX.ClearAlerts();
 
-            if (BOX.CustomAvatar)
-            {
-                Avatar.Image = BOX.Avatar.Image;
-            }
+            Avatar.Image = BOX.PB_Image.Image;
 
             Common.MoveToTopMost(base.Handle);
             base.TopMost = true;

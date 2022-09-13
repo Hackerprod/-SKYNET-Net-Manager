@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 
 namespace SKYNET
 {
+    [Serializable]
     public class Device
     {
+        public string Guid { get; set; }
         public string Name { get; set; }
-        public string Ip { get; set; }
+        public string IPAddress { get; set; }
         public bool TCP { get; set; }
         public int Port { get; set; }
         public int Interval { get; set; }
         public string OpcionalLocation { get; set; }
-        public int Orden { get; set; }
-        public bool CircularAvatar { get; set; }
+        public int Order { get; set; }
+        public bool CircularImage { get; set; }
 
     }
 }

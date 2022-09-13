@@ -38,6 +38,9 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -62,6 +65,13 @@
   <ItemGroup>
     <Compile Include="frmMain.Events.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Helpers\InternetExplorerBrowserEmulation.cs" />
+    <Compile Include="GUI\Controls\SKYNET_WebChat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\SKYNET_WebChat.designer.cs">
+      <DependentUpon>SKYNET_WebChat.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Controls\SKYNET_Box.cs">
       <SubType>UserControl</SubType>
@@ -354,6 +364,9 @@
     <Compile Include="Types\Device.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\SKYNET_WebChat.resx">
+      <DependentUpon>SKYNET_WebChat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\DeviceBox.resx">
       <DependentUpon>DeviceBox.cs</DependentUpon>

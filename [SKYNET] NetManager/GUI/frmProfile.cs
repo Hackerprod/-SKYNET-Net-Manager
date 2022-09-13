@@ -18,10 +18,10 @@ namespace SKYNET
             base.SetMouseMove(PN_Top);
             CheckForIllegalCrossThreadCalls = false;  
 
-            if (!Directory.Exists(Common.CurrentDirectory + "/Data"))
-                Directory.CreateDirectory(Common.CurrentDirectory + "/Data");
+            if (!Directory.Exists(Path.Combine(Common.GetPath(), "Data")))
+                Directory.CreateDirectory(Path.Combine(Common.GetPath(), "Data"));
 
-            string[] files = Directory.GetFiles(Common.CurrentDirectory + "/Data", "*.json");
+            string[] files = Directory.GetFiles(Path.Combine(Common.GetPath(), "Data", "*.json"));
 
             foreach (var item in files)
             {
@@ -59,9 +59,9 @@ namespace SKYNET
             DialogResult result = addProfile.ShowDialog();
             if (result == DialogResult.OK)
             {
-                if (!File.Exists(Common.CurrentDirectory + "/Data/" + NewProfile + ".json"))
+                if (!File.Exists(Path.Combine(Common.GetPath(), "Data", NewProfile + ".json")))
                 {
-                    using (FileStream fileStream = new FileStream(Common.CurrentDirectory + "/Data/" + NewProfile + ".json", FileMode.OpenOrCreate)) { }
+                    using (FileStream fileStream = new FileStream(Path.Combine(Common.GetPath(), "Data", NewProfile + ".json"), FileMode.OpenOrCreate)) { }
                 }
 
                 profileBox.Items.Add(NewProfile);
@@ -81,15 +81,15 @@ namespace SKYNET
             DialogResult result = cuestion.ShowDialog();
             if (result == DialogResult.OK)
             {
-                if (!Directory.Exists(Common.CurrentDirectory + "/Data"))
-                    Directory.CreateDirectory(Common.CurrentDirectory + "/Data");
+                if (!Directory.Exists(Path.Combine(Common.GetPath(), "Data")))
+                    Directory.CreateDirectory(Path.Combine(Common.GetPath(), "Data"));
 
-                if (File.Exists(Common.CurrentDirectory + "/Data/" + profileBox.Text + ".ini"))
-                    File.Delete(Common.CurrentDirectory + "/Data/" + profileBox.Text + ".ini");
+                if (File.Exists(Path.Combine(Common.GetPath(), "Data", profileBox.Text + ".ini")))
+                    File.Delete(Path.Combine(Common.GetPath(), "Data", profileBox.Text + ".ini"));
 
                 frmMain.frm.CleanBoxControls();
 
-                string[] files = Directory.GetFiles(Common.CurrentDirectory + "/Data/Images/", "*.png");
+                string[] files = Directory.GetFiles(Path.Combine(Common.GetPath(), "Data", "Images"), "*.png");
                 for (int i = 0; i < files.Length; i++)
                 {
                     string filename = Path.GetFileNameWithoutExtension(files[i]);

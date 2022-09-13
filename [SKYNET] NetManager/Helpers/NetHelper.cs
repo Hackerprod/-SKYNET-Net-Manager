@@ -158,12 +158,12 @@ namespace SKYNET.Helpers
             return IPAddress.TryParse(iPAddress, out _);
         }
 
-        public static IEnumerable<IPAddress> GetIPAddresses()
+        public static List<IPAddress> GetIPAddresses()
         {
             List<IPAddress> list = new List<IPAddress>();
-            IEnumerable<NetworkInterface> enumerable = from nic in NetworkInterface.GetAllNetworkInterfaces()
+            List<NetworkInterface> enumerable = (from nic in NetworkInterface.GetAllNetworkInterfaces()
                                                        where nic.OperationalStatus == OperationalStatus.Up
-                                                       select nic;
+                                                       select nic).ToList();
             foreach (NetworkInterface item in enumerable)
             {
                 IPInterfaceProperties iPProperties = item.GetIPProperties();
@@ -229,5 +229,15 @@ namespace SKYNET.Helpers
                 return Enumerable.Empty<NetworkInterface>();
             }
         }
+
+        public static IPAddress ToIPAddress(this string AddressString)
+        {
+            if (!IPAddress.TryParse(AddressString, out var Address))
+            {
+                Address = IPAddress.Loopback;
+            }
+            return Address;
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using SKYNET.GUI;
+using SKYNET.Helpers;
 using SKYNET.NetUtils;
 using SKYNET.Properties;
 using System;
@@ -15,7 +16,6 @@ namespace SKYNET
     {
         private readonly DeviceBox device;
         private Image BoxImage;
-        private bool CustomAvatar;
         private AsyncHostNameResolver _nameResolver = new AsyncHostNameResolver();
         private System.Timers.Timer _timer = new System.Timers.Timer();
         private int tick = 0;
@@ -38,35 +38,28 @@ namespace SKYNET
                 {
                     AddBarGraphic(device.Values[i]);
                 }
-                CustomAvatar = device.CustomAvatar;
 
-                if (CustomAvatar)
+                BoxImage = DeviceManager.GetDeviceImage(device);
+
+                if (device.CircularImage)
                 {
-                    BoxImage = DeviceManager.GetDeviceImage(device);
-                    
-                    if (device.CircularAvatar)
-                    {
-                        Avatar.Image = Common.CropToCircle(BoxImage);
-                    }
-                    else
-                        Avatar.Image = BoxImage;
+                    Avatar.Image = Common.CropToCircle(BoxImage);
                 }
                 else
+                    Avatar.Image = BoxImage;
+
+                if (device.Device.TCP && device.Device.Port == 0)
+                    device.Device.Port = 80;
+
+                DeviceName.Text = device.Device.Name;
+
+                if (device.Device.TCP)
                 {
-                    Avatar.Image = device.Avatar.Image;
-                }
-
-                if (device.isWeb && string.IsNullOrEmpty(device.Port)) device.Port = "80";
-
-                DeviceName.Text = device.BoxName;
-
-                if (device.isWeb)
-                {
-                    DeviceIp.Text = device.IpName + ":" + device.Port;
+                    DeviceIp.Text = device.Device.IPAddress + ":" + device.Device.Port;
                 }
                 else
                 { 
-                    DeviceIp.Text = device.IpName;
+                    DeviceIp.Text = device.Device.IPAddress.ToString();
                 }
                 MAC.Text = device.MAC;
 
@@ -81,7 +74,7 @@ namespace SKYNET
                 _timer.Elapsed += _timer_Elapsed;
                 _timer.Start();
 
-                _nameResolver.ResolveHostName(IPAddress.Parse(device.IpName), StoreHostName);
+                _nameResolver.ResolveHostName(device.Device.IPAddress.ToIPAddress(), StoreHostName);
             }
             else
             {
@@ -154,12 +147,7 @@ namespace SKYNET
 
                 _Status = device.Status;
 
-                CustomAvatar = device.CustomAvatar;
-
-                if (!CustomAvatar)
-                {
-                    Avatar.Image = device.Avatar.Image;
-                }
+                //Avatar.Image = device.PB_Image.Image;
 
                 // Graphic ///////////////////////////////////////
                 if (PingCount != device.SentPackets)
@@ -189,17 +177,17 @@ namespace SKYNET
                 //////////////////////////////////////////////////
 
 
-                DeviceName.Text = device.BoxName;
+                DeviceName.Text = device.Device.Name;
 
-                if (device.isWeb)
+                if (device.Device.TCP)
                 {
-                    DeviceIp.Text = device.IpName + ":" + device.Port;
+                    DeviceIp.Text = device.Device.IPAddress + ":" + device.Device.Port;
                 }
                 else
                 {
-                    DeviceIp.Text = device.IpName;
+                    DeviceIp.Text = device.Device.IPAddress.ToString();
                 }
-                HostName.Text = device.IpName;
+                HostName.Text = device.Device.IPAddress.ToString();
                 MAC.Text = device.MAC;
 
                 StatusDevice.Text = device.Status.ToString();
@@ -207,9 +195,9 @@ namespace SKYNET
 
                 if (string.IsNullOrEmpty(HostDescription.Text) || HostDescription.Text == "Loading info...")
                 {
-                    HostDescription.Text = device.BoxName;
+                    HostDescription.Text = device.Device.Name;
                 }
-                if (device.BoxName.Length > 12)
+                if (device.Device.Name.Length > 12)
                 {
                     HostDescription.Font = new System.Drawing.Font("Segoe UI Emoji", 7.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 }

@@ -44,22 +44,21 @@ namespace SKYNET
             frmBack = back;
             _timer = new System.Timers.Timer();
 
-            if (!Directory.Exists(Common.CurrentDirectory + "/Data"))
+            Common.EnsureDirectoryExists(Path.Combine(Common.GetPath(), "Data"));
+            Common.EnsureDirectoryExists(Path.Combine(Common.GetPath(), "Data", "Images"));
+            Common.EnsureDirectoryExists(Path.Combine(Common.GetPath(), "Data", "Devices"));
+
+            string DataDirectory = Path.Combine(Common.GetPath(), "Data");
+
+            if (!File.Exists(Path.Combine(DataDirectory, "Device.json")))
             {
-                Directory.CreateDirectory(Common.CurrentDirectory + "/Data");
-                File.WriteAllText(Common.CurrentDirectory + "/Data/Device.json", "");
-
-                if (!File.Exists(Common.CurrentDirectory + "/Data/Device.json"))
-                {
-                    using (FileStream fileStream = new FileStream(Common.CurrentDirectory + "/Data/Device.json", FileMode.OpenOrCreate)) { }
-                }
-
+                using (FileStream fileStream = new FileStream(Path.Combine(DataDirectory, "Device.json"), FileMode.OpenOrCreate)) { }
                 EmptyProfile = true;
             }
-            else if (!File.Exists(Common.CurrentDirectory + "/Data/Device.json"))
+
+            if (!File.Exists(Path.Combine(DataDirectory, "Images", "Default.jpg")))
             {
-                using (FileStream fileStream = new FileStream(Common.CurrentDirectory + "/Data/Device.json", FileMode.OpenOrCreate)) { }
-                EmptyProfile = true;
+                Properties.Resources.NeutralPC.Save(Path.Combine(DataDirectory, "Images", "Default.jpg"));
             }
 
             Settings.Load();
@@ -116,16 +115,18 @@ namespace SKYNET
 
             string json = "";
 
-            if (!File.Exists(Common.CurrentDirectory + "/Data/" + currentSection + ".json"))
+            string DataDirectory = Path.Combine(Common.GetPath(), "Data");
+
+            if (File.Exists(Path.Combine(DataDirectory, currentSection + ".json")))
             {
-                if (File.Exists(Common.CurrentDirectory + "/Data/Device.json"))
-                {
-                    json = File.ReadAllText(Common.CurrentDirectory + "/Data/Device.json");
-                }
+                json = File.ReadAllText(Path.Combine(DataDirectory, currentSection + ".json"));
             }
             else
             {
-                json = File.ReadAllText(Common.CurrentDirectory + "/Data/" + currentSection + ".json");
+                if (File.Exists(Path.Combine(DataDirectory, "Device.json")))
+                {
+                    json = File.ReadAllText(Path.Combine(DataDirectory, "Device.json"));
+                }
             }
 
             List<Device> Devices = null;
@@ -147,7 +148,7 @@ namespace SKYNET
                 return;
             }
 
-            Devices.Sort((d1, d2) => d1.Orden.CompareTo(d2.Orden));
+            Devices.Sort((d1, d2) => d1.Order.CompareTo(d2.Order));
             foreach (Device device in Devices)
             {
                 AddBox(device);
@@ -165,8 +166,9 @@ namespace SKYNET
             {
                 Location = new Point(x, y),
                 Device = device,
-                Orden = DeviceManager.GetDeviceCount() + 1
             };
+
+            deviceBox.Device.Order = DeviceManager.GetDeviceCount() + 1;
 
             DeviceContainer.Controls.Add(deviceBox);
 
@@ -203,12 +205,13 @@ namespace SKYNET
                 {
                     DeviceBox deviceBox = (DeviceBox)DeviceContainer.Controls[i];
                     Device device = DeviceManager.GetDevice(deviceBox);
-
                     Devices.Add(device);
                 }
             }
-            string json = new JavaScriptSerializer().Serialize(Devices);
-            File.WriteAllText(Common.CurrentDirectory + "/Data/" + Settings.CurrentSection + ".json", json);
+
+            string json = new JavaScriptSerializer().Serialize(Devices);           
+
+            File.WriteAllText(Path.Combine(Common.GetPath(), "Data",  Settings.CurrentSection + ".json"), json);
         }
 
         private void keyboardHook_KeyDown(KeyboardHook.VKeys key)
@@ -283,8 +286,8 @@ namespace SKYNET
                 frm.enviarMensajeMenuItem.Visible = false;
 
                 Rectangle cellDisplayRectangle = box.DisplayRectangle;
-                frm.HerramientasMenuItem.Text = "Tools (" + box.BoxName + ")";
-                if (box.isWeb)
+                frm.HerramientasMenuItem.Text = "Tools (" + box.Device.Name + ")";
+                if (box.Device.TCP)
                     frm.explorarPCMenuItem.Text = "Explore web";
                 else
                 {
@@ -306,8 +309,8 @@ namespace SKYNET
                 frm.enviarMensajeMenuItem.Visible = false;
 
                 Rectangle cellDisplayRectangle = box.DisplayRectangle;
-                frm.HerramientasMenuItem.Text = "Tools (" + box.BoxName + ")";
-                if (box.isWeb)
+                frm.HerramientasMenuItem.Text = "Tools (" + box.Device.Name + ")";
+                if (box.Device.TCP)
                     frm.explorarPCMenuItem.Text = "Explore web";
                 else
                     frm.explorarPCMenuItem.Text = "Explore PC";
@@ -322,7 +325,7 @@ namespace SKYNET
             {
                 try
                 {
-                    HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create($"http://{box.IpName}:28082/onPing");
+                    HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create($"http://{box.Device.IPAddress}:28082/onPing");
                     httpWebRequest.Timeout = 500;
                     httpWebRequest.Method = "POST";
                     using (Stream newStream = httpWebRequest.GetRequestStream())
@@ -342,11 +345,10 @@ namespace SKYNET
         {
 
             string DeviceName = menuBOX.Name;
-            if (DeviceManager.GetDeviceCount() > menuBOX.Orden)
+            if (DeviceManager.GetDeviceCount() > menuBOX.Device.Order)
             {
-                menuBOX.BoxName = "No configurado";
-                menuBOX.IpName = "No configurado";
-                menuBOX.isWeb = false;
+                menuBOX.Device.Name = "No configurado";
+                menuBOX.Device.TCP = false;
 
                 UpdateAndSave();
             }
@@ -652,7 +654,7 @@ namespace SKYNET
         {
             if (menuBOX == null) return;
 
-            frmManager Manager = new frmManager(new Host() { HostName = menuBOX.BoxName, IP = menuBOX.IpName, MAC = menuBOX.MAC, Port = menuBOX.Port, Interval = menuBOX.Interval });
+            frmManager Manager = new frmManager(new Host() { HostName = menuBOX.Device.Name, IPAddress = menuBOX.Device.IPAddress.ToIPAddress(), MAC = menuBOX.MAC, Port = menuBOX.Device.Port, Interval = menuBOX.Interval });
             Manager.Show();
             
         }

@@ -4,6 +4,7 @@ using SKYNET.Helpers;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Windows.Forms;
 
 namespace SKYNET
@@ -15,10 +16,10 @@ namespace SKYNET
             if (menuBOX == null)
                 return;
 
-            if (!menuBOX.isWeb)
-                Process.Start(@"\\" + menuBOX.IpName);
+            if (!menuBOX.Device.TCP)
+                Process.Start(@"\\" + menuBOX.Device.IPAddress);
             else
-                Process.Start("https://" + menuBOX.IpName);
+                Process.Start("https://" + menuBOX.Device.IPAddress);
         }
 
         private void hacerPingPorCMDToolStripMenuItem_Click(object sender, EventArgs e)
@@ -55,15 +56,15 @@ namespace SKYNET
 
         private void CloseBoxMenuItem_Click(object sender, EventArgs e)
         {
-            frmMessage message = new frmMessage("Estas seguro que deseas eliminar al dispositivo " + menuBOX.BoxName + "?", frmMessage.TypeMessage.YesNo);
+            frmMessage message = new frmMessage("Estas seguro que deseas eliminar al dispositivo " + menuBOX.Device.Name + "?", frmMessage.TypeMessage.YesNo);
             DialogResult result = message.ShowDialog();
             if (result == DialogResult.OK)
             {
                 try
                 {
-                    if (File.Exists(Common.CurrentDirectory + "/Data/Images/" + Settings.CurrentSection + "_" + menuBOX.Name + ".png"))
+                    if (File.Exists(Path.Combine(Common.GetPath(), "Data", " Images", Settings.CurrentSection + "_" + menuBOX.Name + ".png")))
                     {
-                        File.Delete(Common.CurrentDirectory + "/Data/Images/" + Settings.CurrentSection + "_" + menuBOX.Name + ".png");
+                        File.Delete(Path.Combine(Common.GetPath(), "Data", " Images", Settings.CurrentSection + "_" + menuBOX.Name + ".png"));
                     }
                 }
                 catch { }
@@ -95,7 +96,7 @@ namespace SKYNET
 
         private void PuertosMenuItem_Click(object sender, EventArgs e)
         {
-            frmPortScan manage = new frmPortScan(menuBOX.IpName);
+            frmPortScan manage = new frmPortScan(menuBOX.Device.IPAddress.ToIPAddress());
             manage.Show();
         }
 
@@ -131,11 +132,13 @@ namespace SKYNET
         private void EnviarMensajeMenuItem_Click(object sender, EventArgs e)
         {
             var chat = new frmPrivateChat(menuBOX);
-            ChatManager.RegisterChat(menuBOX.RemoteAddress, chat);
-            if (ChatManager.GetChatHistory(menuBOX.RemoteAddress, out var chatHistory))
+            ChatManager.RegisterChat(menuBOX.Device.IPAddress.ToIPAddress(), chat);
+
+            if (ChatManager.GetChatHistory(menuBOX.Device.IPAddress.ToIPAddress(), out var chatHistory))
             {
                 chat.FillHistory(chatHistory);
             }
+
             chat.TopMost = true;
             chat.Show();
         }

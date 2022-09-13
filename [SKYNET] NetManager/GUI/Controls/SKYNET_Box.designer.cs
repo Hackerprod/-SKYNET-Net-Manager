@@ -35,9 +35,9 @@
             // PB_Image
             // 
             this.PB_Image.BackColor = System.Drawing.Color.Transparent;
-            this.PB_Image.Location = new System.Drawing.Point(10, 7);
+            this.PB_Image.Location = new System.Drawing.Point(11, 9);
             this.PB_Image.Name = "PB_Image";
-            this.PB_Image.Size = new System.Drawing.Size(13, 12);
+            this.PB_Image.Size = new System.Drawing.Size(10, 10);
             this.PB_Image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Image.TabIndex = 5;
             this.PB_Image.TabStop = false;
@@ -50,8 +50,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
             this.Controls.Add(this.PB_Image);
-            this.MaximumSize = new System.Drawing.Size(34, 26);
-            this.MinimumSize = new System.Drawing.Size(34, 26);
             this.Name = "SKYNET_Box";
             this.Size = new System.Drawing.Size(34, 26);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnClicked);

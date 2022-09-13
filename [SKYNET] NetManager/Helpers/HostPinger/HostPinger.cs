@@ -11,6 +11,8 @@ namespace SKYNET.NetUtils
 {
     public class HostPinger
     {
+        DeviceBox device;
+
         private class OnHostStatusChangeParams
         {
             public ConnectionStatus _oldState;
@@ -634,14 +636,14 @@ namespace SKYNET.NetUtils
                 this.OnHostNameChanged(this);
             }
         }
-        DeviceBox device;
+
         public HostPinger(DeviceBox boxTool)
         {
             AssignID();
 
             device = boxTool;
 
-            HostName = device.IpName;
+            HostName = device.Device.IPAddress.ToString();
 
             if (!NetHelper.IsValidIp(HostName))
             {
@@ -649,7 +651,7 @@ namespace SKYNET.NetUtils
             }
 
             HostIP = IPAddress.Parse(HostName);
-            HostDescription = device.BoxName;
+            HostDescription = device.Device.Name;
             Timeout = 2000;
             DnsQueryInterval = 60000;
             BufferSize = 32;
@@ -748,22 +750,18 @@ namespace SKYNET.NetUtils
 
         private void Pinger()
         {
-            IPAddress.TryParse(device.IpName, out IPAddress _HostIP);
-            HostIP = _HostIP;
+            HostIP = device.Device.IPAddress.ToIPAddress();
 
             if (Common.IsCableConnected())
             {
-                int PortPing = 80;
-                int.TryParse(device.Port, out PortPing);
-
-                if (device.isWeb && PortPing != 80)
+                if (device.Device.TCP && device.Device.Port != 80)
                 {
                     Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     try
                     {
                         DateTime SentDateTime = DateTime.Now;
 
-                        socket.Connect(HostIP, PortPing);
+                        socket.Connect(HostIP, device.Device.Port);
 
                         TimeSpan span = DateTime.Now - SentDateTime;
                         long RoundtripTime = span.Milliseconds;

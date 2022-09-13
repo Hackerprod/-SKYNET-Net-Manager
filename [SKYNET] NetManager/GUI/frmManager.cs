@@ -12,31 +12,41 @@ namespace SKYNET
 {
     public partial class frmManager : frmBase
     {
-        private DeviceBox Box;
-        private string SectionName;
+        private DeviceBox DeviceBox;
+        private string Guid;
 
-        public frmManager(DeviceBox tool = null)
+        public frmManager(DeviceBox box = null)
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             base.SetMouseMove(PN_Top);
 
-            if (tool != null)
+            if (box != null)
             {
-                Box = tool;
-                if (Box.isWeb && string.IsNullOrEmpty(Box.Port)) Box.Port = "80";
+                DeviceBox = box;
 
-                DeviceName.Text = Box.BoxName;
-                DeviceIp.Text = Box.IpName;
-                DeviceWeb.Checked = Box.isWeb;
-                Avatar.Image = Box.Avatar.Image;
-                SectionName = Box.Name;
-                MAC.Text = Box.MAC;
+                if (DeviceBox.Device?.Guid != null)
+                {
+                    Guid = DeviceBox.Device?.Guid;
+                }
+                else
+                {
+                    Guid = System.Guid.NewGuid().ToString();
+                }
+
+                if (DeviceBox.Device.TCP && DeviceBox.Device.Port == 0)
+                    DeviceBox.Device.Port = 80;
+
+                DeviceName.Text = DeviceBox.Device.Name;
+                DeviceIp.Text = DeviceBox.Device.IPAddress.ToString();
+                DeviceWeb.Checked = DeviceBox.Device.TCP;
+                Avatar.Image = DeviceBox.PB_Image.Image;
+                MAC.Text = DeviceBox.MAC;
                 Port.Visible = DeviceWeb.Checked;
-                Port.Text = Box.Port;
-                Interval.Text = Box.Interval.ToString();
-                OpcionalLocation.Text = Box.OpcionalLocation;
-                CircularAvatar.Checked = Box.CircularAvatar;
+                Port.Text = DeviceBox.Device.Port.ToString();
+                Interval.Text = DeviceBox.Interval.ToString();
+                OpcionalLocation.Text = DeviceBox.OpcionalLocation;
+                CircularAvatar.Checked = DeviceBox.CircularImage;
             }
             else
             {
@@ -54,15 +64,12 @@ namespace SKYNET
             if (host != null)
             {
                 DeviceName.Text = host.HostName;
-                DeviceIp.Text = host.IP;
+                DeviceIp.Text = host.IPAddress.ToString();
                 MAC.Text = host.MAC;
                 Interval.Text = host.Interval.ToString();
-                if (int.TryParse(host.Port, out int port) && port != 0)
-                {
-                    Port.Text = host.Port;
-                    DeviceWeb.Checked = true;
-                    Port.Visible = true;
-                }
+                Port.Text = host.Port.ToString(); 
+                DeviceWeb.Checked = true;
+                Port.Visible = true;
             }
             else
             {
@@ -77,64 +84,83 @@ namespace SKYNET
                 Common.Show("El número IP no es válido... por favor verifíquelo");
                 return;
             }
+
             if (Interval.Text == "0")
             {
                 Common.Show("El intervalo debe ser al menos cada 1 segundo");
                 return;
             }
+
             if (Interval.Text.Length == 0)
             {
                 Common.Show("Introduzca el intervalo de monitoreo");
                 return;
             }
+
             if (DeviceName.Text.Length == 0)
             {
                 Common.Show("Introduzca el nombre para identificar el equipo");
                 return;
             }
-            if (Box != null)
+
+            if (DeviceBox != null)
             {
-                if (Box.Device == null)
+                if (DeviceBox.Device == null)
                 {
-                    Box.Device = new Device();
+                    DeviceBox.Device = new Device()
+                    {
+                        Guid = Guid
+                    };
                 }
 
-                Box.BoxName = DeviceName.Text;
-                Box.Device.Name = DeviceName.Text;
+                if (string.IsNullOrEmpty(DeviceBox.Device.Guid))
+                {
+                    DeviceBox.Device.Guid = Guid;
+                }
 
-                Box.IpName = DeviceIp.Text;
-                Box.Device.Ip = DeviceName.Text;
+                DeviceBox.Device.Name = DeviceName.Text;
 
-                Box.isWeb = DeviceWeb.Checked;
-                Box.SetAvatar(Avatar.Image);
+                if (IPAddress.TryParse(DeviceName.Text, out _))
+                {
+                    DeviceBox.Device.IPAddress = DeviceName.Text;
+                }
+
+                DeviceBox.Device.TCP = DeviceWeb.Checked;
+                DeviceBox.SetImage(Avatar.Image);
 
                 if (int.TryParse(Interval.Text, out int interval))
                 {
-                    Box.Interval = interval;
-                    Box.Device.Interval = interval;
+                    DeviceBox.Interval = interval;
+                    DeviceBox.Device.Interval = interval;
                 }
                 else
                 {
-                    Box.Interval = 1;
-                    Box.Device.Interval = 1;
+                    DeviceBox.Interval = 1;
+                    DeviceBox.Device.Interval = 1;
                 }
-                Box.Port = Port.Text;
+
                 if (int.TryParse(Port.Text, out int port))
                 {
-                    Box.Device.Port = port;
+                    DeviceBox.Device.Port = port;
                 }
-                
 
-                Box.OpcionalLocation = OpcionalLocation.Text;
-                Box.Device.OpcionalLocation = OpcionalLocation.Text;
+                DeviceBox.OpcionalLocation = OpcionalLocation.Text;
+                DeviceBox.Device.OpcionalLocation = OpcionalLocation.Text;
+
+                DeviceBox.Device = DeviceBox.Device;
 
                 frmMain.frm.UpdateAndSave();
             }
             else
             {
                 Device device = new Device();
+                device.Guid = Guid;
                 device.Name = DeviceName.Text;
-                device.Ip = DeviceIp.Text;
+                if (IPAddress.TryParse(DeviceIp.Text, out var Address))
+                {
+                    device.IPAddress = Address.ToString();
+                }
+
                 device.TCP = DeviceWeb.Checked;
 
                 if (int.TryParse(Interval.Text, out int interval))
@@ -142,18 +168,21 @@ namespace SKYNET
                     device.Interval = interval;
                 }
                 else
+                {
                     device.Interval = 1;
+                }
 
                 if (int.TryParse(Port.Text, out int port))
                 {
                     device.Port = port;
                 }
                 else
+                {
                     device.Port = 0;
+                }
 
                 device.OpcionalLocation = OpcionalLocation.Text;
-                device.Orden = DeviceManager.GetDeviceCount() + 1;
-
+                device.Order = DeviceManager.GetDeviceCount() + 1;
 
                 frmMain.frm.AddBox(device);
                 frmMain.frm.UpdateAndSave();
@@ -178,16 +207,15 @@ namespace SKYNET
 
             OpenFileDialog ofdPhoto = new OpenFileDialog();
             ofdPhoto.FileName = string.Empty;
-            ofdPhoto.Filter = "Picture files|*.jpg;*.bmp;*.png;*.gif;*.ico|All Files|*.*";
+            ofdPhoto.Filter = "Picture files|*.jpg;*.bmp;*.jpg;*.gif;*.ico|All Files|*.*";
             ofdPhoto.Title = "Select Photo";
             ofdPhoto.RestoreDirectory = true;
             DialogResult dialogResult = ofdPhoto.ShowDialog();
-            //pctPhoto.Tag = string.Empty;
             this.Visible = false;
             WindowState = FormWindowState.Minimized;
             if (dialogResult == DialogResult.OK)
             {
-                string FileName = Common.CurrentDirectory + "/Data/Images/" + Settings.CurrentSection + "_" + SectionName + ".png";
+                string FileName = Path.Combine(Common.GetPath(), "Data", "Images", Guid + ".jpg");
                 ImageType type = DeviceManager.GetImageType(ofdPhoto.FileName);
 
                 if (type == ImageType.ICO)
@@ -218,7 +246,7 @@ namespace SKYNET
                     }
                     else
                     {
-                        frmCropEditor FrmPhoto2 = new frmCropEditor(ofdPhoto.FileName, SectionName);
+                        frmCropEditor FrmPhoto2 = new frmCropEditor(ofdPhoto.FileName, Guid);
                         FrmPhoto2.ShowDialog();
                     }
 
@@ -231,10 +259,15 @@ namespace SKYNET
 
         private void LoadImage()
         {
-            Avatar.Image = Common.ImageFromFile(Common.CurrentDirectory + "/Data/Images/" + Settings.CurrentSection + "_" + SectionName + ".png");
-            if (Box != null)
+            string filePath = Path.Combine(Common.GetPath(), "Data", "Images" + Guid + ".jpg");
+
+            if (File.Exists(filePath))
             {
-                Box.SetAvatar(Avatar.Image, true);
+                Avatar.Image = Common.ImageFromFile(filePath);
+                if (DeviceBox != null)
+                {
+                    DeviceBox.SetImage(Avatar.Image);
+                }
             }
         }
 
@@ -245,25 +278,24 @@ namespace SKYNET
 
         private void DeleteAvatar_Click(object sender, EventArgs e)
         {
-            Avatar.Image = Common.ImageFromFile(Common.CurrentDirectory + "/Data/Images/" + Settings.CurrentSection + "_" + SectionName + ".png");
+            string filePath = Path.Combine(Common.GetPath(), "Data", "Images" + Guid + ".jpg");
+            Avatar.Image = Common.ImageFromFile(filePath);
 
-            if (Box != null)
+            if (DeviceBox != null)
             {
-                if (File.Exists(Common.CurrentDirectory + "/Data/Images/" + Settings.CurrentSection + "_" + Box.Name + ".png"))
+                if (File.Exists(filePath))
                 {
-                    try { File.Delete(Common.CurrentDirectory + "/Data/Images/" + Settings.CurrentSection + "_" + Box.Name + ".png"); } catch { }
+                    try { File.Delete(filePath); } catch { }
 
-                    Box.CustomAvatar = false;
-
-                    if (Box.Status == ConnectionStatus.Online)
+                    if (DeviceBox.Status == ConnectionStatus.Online)
                     {
                         Avatar.Image = Properties.Resources.OnlinePC;
-                        Box.SetAvatar(Properties.Resources.OnlinePC);
+                        DeviceBox.SetImage(Properties.Resources.OnlinePC);
                     }
                     else
                     {
                         Avatar.Image = Properties.Resources.OfflinePC;
-                        Box.SetAvatar(Properties.Resources.OfflinePC);
+                        DeviceBox.SetImage(Properties.Resources.OfflinePC);
                     }
 
                 }
@@ -277,16 +309,10 @@ namespace SKYNET
 
         private void SearchPorts_Click(object sender, EventArgs e)
         {
-            new frmPortScan(DeviceIp.Text).ShowDialog();
-        }
-
-        private void Label3_Click(object sender, EventArgs e)
-        {
-            if (Environment.UserName == "Hackerprod")
+            if (IPAddress.TryParse(DeviceIp.Text, out var Address))
             {
-                DeviceName.Text = "Hackerprod";
-                DeviceIp.Text = "10.31.0.2";
-                DeviceWeb.Checked = false;
+                new frmPortScan(Address).ShowDialog();
+
             }
         }
 
@@ -360,16 +386,13 @@ namespace SKYNET
 
         private void CircularAvatar_CheckedChanged(object sender, bool e)
         {
-            Box.CircularAvatar = e;
-            if (Box.CustomAvatar)
+            DeviceBox.CircularImage = e;
+            if (e)
             {
-                if (e)
-                {
-                    Avatar.Image = Common.CropToCircle(Box.BoxImage);
-                }
-                else
-                    Avatar.Image = Box.BoxImage;
+                Avatar.Image = Common.CropToCircle(DeviceBox.Image);
             }
+            else
+                Avatar.Image = DeviceBox.Image;
         }
 
         private void DeviceWeb_Click(object sender, MouseEventArgs e)
