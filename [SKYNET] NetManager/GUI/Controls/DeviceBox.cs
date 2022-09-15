@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -114,11 +114,25 @@ namespace SKYNET
                 LB_Name.Text = _Device.Name;
                 LB_IPAddress.Text = _Device.IPAddress;
 
+                bool CustomImage = false;
+
                 if (DeviceManager.GetDeviceImage(_Device, out var image))
                 {
                     SetImage(image);
-                    _ImageFromFile = true;
+                    CustomImage = true;
                 }
+
+                Task.Run(delegate 
+                {
+                    var ImageDownloaded = Common.GetDeviceImage($"http://{_Device.IPAddress}:28082/Avatar");
+                    if (ImageDownloaded.Result != null)
+                    {
+                        _ImageFromFile = false;
+                        SetImage(ImageDownloaded.Result);
+                        _ImageFromFile = true;
+                        return;
+                    }
+                });
             }
         }
 
@@ -345,7 +359,7 @@ namespace SKYNET
             try
             {
 
-                if (/*modCommon.IsCableConnected() && */ IPAddress.TryParse(Device.IPAddress, out var Address))
+                if (IPAddress.TryParse(Device.IPAddress, out var Address) /* && modCommon.IsCableConnected()*/ )
                 {
                     if (Device.TCP && Device.Port != 80)
                     {

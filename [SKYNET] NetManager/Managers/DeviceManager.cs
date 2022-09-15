@@ -50,7 +50,7 @@ namespace SKYNET
             return device;
         }
 
-        public static DeviceBox GetBoxFromIP(List<IPAddress> addresses)
+        public static DeviceBox GetBoxFromIP(List<string> addresses)
         {
             DeviceBox device = null;
             foreach (Control item in frmMain.frm.DeviceContainer.Controls)
@@ -60,7 +60,8 @@ namespace SKYNET
                     DeviceBox box = (DeviceBox)item;
                     foreach (var address in addresses)
                     {
-                        if (box.Device.IPAddress == address.ToString())
+
+                        if (box.Device.IPAddress == address)
                         {
                             return box;
                         }

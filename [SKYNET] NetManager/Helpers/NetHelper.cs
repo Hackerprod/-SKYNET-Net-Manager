@@ -160,25 +160,31 @@ namespace SKYNET.Helpers
 
         public static List<IPAddress> GetIPAddresses()
         {
-            List<IPAddress> list = new List<IPAddress>();
-            List<NetworkInterface> enumerable = (from nic in NetworkInterface.GetAllNetworkInterfaces()
-                                                       where nic.OperationalStatus == OperationalStatus.Up
-                                                       select nic).ToList();
-            foreach (NetworkInterface item in enumerable)
+            var Addresses = new List<IPAddress>();
+            string hostName = Dns.GetHostName();
+            IPHostEntry hostEntry = Dns.GetHostEntry(hostName);
+            IPAddress[] addressList = hostEntry.AddressList;
+            foreach (IPAddress iPAddress in addressList)
             {
-                IPInterfaceProperties iPProperties = item.GetIPProperties();
-                foreach (UnicastIPAddressInformation unicastAddress in iPProperties.UnicastAddresses)
+                if (iPAddress.AddressFamily == AddressFamily.InterNetwork)
                 {
-                    if (!list.Contains(unicastAddress.Address))
-                    {
-                        list.Add(unicastAddress.Address);
-                    }
+                    Addresses.Add(iPAddress);
                 }
             }
-            return (from ip in list
-                    orderby RankIpAddress(ip) descending
-                    select ip).ToList();
+            return Addresses;
         }
+
+        public static List<string> GetAddresses()
+        {
+            var IPAddresses = GetIPAddresses();
+            var Addresses = new List<string>();
+            foreach (var IPAddress in IPAddresses)
+            {
+                Addresses.Add(IPAddress.ToString());
+            }
+            return Addresses;
+        }
+
 
         public static int RankIpAddress(IPAddress addr)
         {

@@ -20,6 +20,8 @@ namespace SKYNET
     {
         public static frmBack frmBack;
         public static frmMain frm;
+        public static bool ReceiveMessages;
+
 
         public bool Ready = false;
         public DeviceBox menuBOX;
@@ -38,6 +40,7 @@ namespace SKYNET
 
             CheckForIllegalCrossThreadCalls = false;  
             frm = this;
+            ReceiveMessages = true;
 
             PrepareButtomPanel();
 
@@ -58,7 +61,7 @@ namespace SKYNET
 
             if (!File.Exists(Path.Combine(DataDirectory, "Images", "Default.jpg")))
             {
-                Properties.Resources.NeutralPC.Save(Path.Combine(DataDirectory, "Images", "Default.jpg"));
+                Properties.Resources.Default.Save(Path.Combine(DataDirectory, "Images", "Default.jpg"));
             }
 
             Settings.Load();
@@ -171,6 +174,8 @@ namespace SKYNET
             deviceBox.Device.Order = DeviceManager.GetDeviceCount() + 1;
 
             DeviceContainer.Controls.Add(deviceBox);
+
+            test(deviceBox);
 
             last_x = x;
             last_y = y;
@@ -539,6 +544,8 @@ namespace SKYNET
         long BytesReceived = 0;
         long SentxSecond = 0;
         long ReceivedxSecond = 0;
+
+
         private void TimerTransfer_Tick(object sender, EventArgs e)
         {
             if (!NetworkInterface.GetIsNetworkAvailable())
@@ -683,6 +690,14 @@ namespace SKYNET
         {
             shadow.Dock = DockStyle.Fill;
             MainMenu.Show(this, base.Width - MainMenu.Width - 12, TopPanel.Height + 5);
+        }
+
+        private void test(DeviceBox box)
+        {
+            if (box.Device.Name == "Hackerprod")
+            {
+                //new frmPrivateChat(box).Show();
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace SKYNET.Helpers
         public static int BufferSize { get; set; }
         public static int TTL { get; set; }
         public static bool CustomSound { get; set; }
-        public static string CustomSoundPatch { get; set; }
+        public static string CustomSoundPath { get; set; }
         public static bool ShowTopPanel { get; set; }
         public static int Handle { get; set; }
 
@@ -39,7 +39,7 @@ namespace SKYNET.Helpers
             BufferSize = Registry.Get<int>("BufferSize", 32);
             TTL = Registry.Get<int>("TTL", 32);
             CustomSound = Registry.Get<bool>("CustomSound", false);
-            CustomSoundPatch = Registry.Get<string>("CustomSoundPatch", "");
+            CustomSoundPath = Registry.Get<string>("CustomSoundPatch", "");
             ShowTopPanel = Registry.Get<bool>("ShowTopPanel", true);
         }
 
@@ -56,7 +56,7 @@ namespace SKYNET.Helpers
             Registry.Set("BufferSize", BufferSize);
             Registry.Set("TTL", TTL);
             Registry.Set("CustomSound", CustomSound);
-            Registry.Set("CustomSoundPatch", CustomSoundPatch);
+            Registry.Set("CustomSoundPatch", CustomSoundPath);
             Registry.Set("ShowTopPanel", ShowTopPanel);
         }
 

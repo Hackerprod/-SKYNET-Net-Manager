@@ -1,240 +1,211 @@
-// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for details.
-
+﻿using Microsoft.Win32;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Globalization;
 using System.IO;
-using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
-namespace SKYNET
+namespace SKYNET.Helpers
 {
-    public delegate Bitmap ImageFilter(Bitmap bitmap);
-
-    /// <summary>
-    /// Helper functions for working with Images
-    /// </summary>
     public class ImageHelper
     {
-        private const int JPEG_QUALITY = 93;
-
-        /// <summary>
-        /// Overlays a bitmap onto another bitmap.
-        /// </summary>
-        /// <param name="bitmap">the base bit map that will have the overlay applied to it</param>
-        /// <param name="overlay">the bitmap that will be overlayed (the top layer)</param>
-        /// <param name="location">the location where the overlay should be placed.</param>
-        public static void OverlayBitmap(Bitmap bitmap, Bitmap overlay, LOCATION location)
-        {
-            Graphics g = Graphics.FromImage(bitmap);
-
-            Rectangle bitmapRectangle;
-            if (location == LOCATION.TOP_LEFT)
-                bitmapRectangle = new Rectangle(0, 0, overlay.Width, overlay.Height);
-            else if (location == LOCATION.BOTTOM_LEFT)
-                bitmapRectangle = new Rectangle(0, bitmap.Height - overlay.Height, overlay.Width, overlay.Height);
-            else if (location == LOCATION.TOP_RIGHT)
-                bitmapRectangle = new Rectangle(bitmap.Width - overlay.Width, 0, overlay.Width, overlay.Height);
-            else if (location == LOCATION.BOTTOM_RIGHT)
-                bitmapRectangle = new Rectangle(bitmap.Width - overlay.Width, bitmap.Height - overlay.Height, overlay.Width, overlay.Height);
-            else
-            {
-                Debug.Fail("Unsupported location: " + location);
-                bitmapRectangle = new Rectangle(0, 0, overlay.Width, overlay.Height);
-            }
-
-            g.DrawImageUnscaled(overlay,
-                bitmapRectangle.Left,
-                bitmapRectangle.Top);
-        }
-        public enum LOCATION { TOP_LEFT = 1, BOTTOM_LEFT = 2, TOP_RIGHT = 3, BOTTOM_RIGHT = 4 };
-
-        /// <summary>
-        /// Shifts the alpha value of a bitmap by a specified percentage (ex: .85 decreases by 15%, 1.15 increase by 15%).
-        /// </summary>
-        /// <param name="bitmap">the bitmap whose pixels will be updated with the new alpha settings</param>
-        /// <param name="alphaPercentage">a fraction designating the % increase/decrease in each pixel's alpha value</param>
-        public static void ApplyAlphaShift(Bitmap bitmap, double alphaPercentage)
-        {
-            for (int y = 0; y < bitmap.Height; y++)
-            {
-                for (int x = 0; x < bitmap.Width; x++)
-                {
-                    Color c = bitmap.GetPixel(x, y);
-                    if (c.A > 0) //never make transparent pixels non-transparent
-                    {
-                        int newAlphaValue = (int)(c.A * alphaPercentage);
-                        newAlphaValue = Math.Max(0, Math.Min(255, newAlphaValue)); //value must be between 0 and 255
-                        bitmap.SetPixel(x, y, Color.FromArgb(newAlphaValue, c));
-                    }
-                    else
-                        bitmap.SetPixel(x, y, c);
-                }
-            }
-        }
-
-        public static bool IsTransparentGif(string imagePath)
-        {
-            if (Path.GetExtension(imagePath).ToUpperInvariant() != ".GIF")
-                return false;
-
-            using (Bitmap bitmap = new Bitmap(imagePath))
-            {
-                return IsIndexedWithTransparency(bitmap, ImageFormat.Gif);
-            }
-        }
-
-        public static bool IsAnimated(string imagePath)
-        {
-            if (Path.GetExtension(imagePath).ToUpperInvariant() != ".GIF")
-                return false;
-
-            using (Bitmap bitmap = new Bitmap(imagePath))
-            {
-                return IsAnimated(bitmap);
-            }
-        }
-
-        public static bool IsAnimated(Image image)
-        {
-            return image.RawFormat.Guid == ImageFormat.Gif.Guid && image.GetFrameCount(FrameDimension.Time) > 1;
-        }
-
-        public static bool IsMetafile(string path)
-        {
-            switch ((Path.GetExtension(path) ?? "").ToUpperInvariant())
-            {
-                case ".WMF":
-                case ".EMF":
-                    return true;
-            }
-
-            return false;
-        }
-
-        private const string BMP = ".bmp";
-        private const string GIF = ".gif";
-        private const string JPG = ".jpg";
-        private const string PNG = ".png";
-        private const string ICO = ".ico";
-
-
-        public static Image SafeFromFile(string path)
-        {
-            try
-            {
-                return Image.FromFile(path);
-            }
-            catch (OutOfMemoryException ex)
-            {
-                Debug.WriteLine("Invalid image file:" + ex);
-                return null;
-            }
-            catch (Exception ex)
-            {
-                Trace.Fail("Failed to load image:" + ex);
-                return null;
-            }
-        }
-
         public static Bitmap CreateResizedBitmap(Bitmap image, int width, int height, ImageFormat format)
         {
             return ImageResizer.ResizeBitmap(image, width, height, format);
         }
 
-        /// <summary>
-        /// Returns a scaled thumbnail imaged based upon a maximum set of dimensions
-        /// </summary>
-        /// <param name="maxWidth">The maximum width of the thumbnail</param>
-        /// <param name="maxHeight">The maximum height of the thumbnail</param>
-        /// <param name="image">The image to provide a thumbnail of</param>
-        /// <returns>The scaled size that best fit the maximum dimensions</returns>
-        public static Size SaveScaledThumbnailImage(int maxWidth, int maxHeight, Bitmap image, ImageFormat format, Stream thumbOut)
+        public static Bitmap CaptureScreen()
         {
-            return SaveScaledThumbnailImage(maxWidth, maxHeight, image, format, thumbOut, null);
+            Bitmap result = null;
+            try
+            {
+                Rectangle bounds = Screen.GetBounds(Point.Empty);
+                using (Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height))
+                {
+                    using (Graphics graphics = Graphics.FromImage(bitmap))
+                    {
+                        graphics.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                    }
+                    result = bitmap;
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Exception ex2 = ex;
+                return result;
+            }
         }
 
-        public static Size SaveScaledThumbnailImage(int maxWidth, int maxHeight, Bitmap image, ImageFormat format, Stream thumbOut, ImageFilter imageFilter)
+
+        public static Bitmap Resize(Bitmap image, int width, int height)
         {
-            // The dimensions of the image from which the thumbnail is needed
-            float width = image.Width;
-            float height = image.Height;
-            float imageRatio = width / height;
-
-            // The width/height ratio of the maximum thumbnail dimensions
-            float maxRatio = (float)maxWidth / (float)maxHeight;
-
-            // The dimensions of the thumbnail that we'll request
-            float requestedWidth;
-            float requestedHeight;
-
-            if (imageRatio >= maxRatio)
+            Rectangle destRect = new Rectangle(0, 0, width, height);
+            Bitmap bitmap = new Bitmap(width, height);
+            bitmap.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+            using (Graphics graphics = Graphics.FromImage(bitmap))
             {
-                // the image's width is the determinant in scaling, scale based upon that
-                requestedWidth = maxWidth;
-                requestedHeight = (requestedWidth * height) / width;
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                using (ImageAttributes imageAttributes = new ImageAttributes())
+                {
+                    imageAttributes.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, imageAttributes);
+                    return bitmap;
+                }
+            }
+        }
+
+        public static Image CreateCopy(Image image)
+        {
+            byte[] sourceImage = ImageToBytes(image);
+            return ImageFromBytes(sourceImage);
+        }
+
+        public static byte[] ImageToBytes(Image image)
+        {
+            byte[] imageArray = new byte[0];
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                image.Save(stream, ImageFormat.Png);
+                stream.Close();
+                imageArray = stream.ToArray();
+            }
+            return imageArray;
+        }
+        
+        public static byte[] ConvertToRGBA(Bitmap image)
+        {
+            byte[] rgbaB = new byte[4 * (image.Width * image.Height)];
+            int i = 0;
+            for (var y = 0; y < image.Width; y++)
+            {
+                for (var x = 0; x < image.Height; x++)
+                {
+                    Color pix = image.GetPixel(x, y);
+                    rgbaB[i++] = pix.R;
+                    rgbaB[i++] = pix.G;
+                    rgbaB[i++] = pix.B;
+                    rgbaB[i++] = pix.A;
+                }
+            }
+            return rgbaB;
+        }
+
+        public static Bitmap RotateBitmap_NoPadding(Bitmap image, double degrees, Color? bgColor)
+        {
+            PointF[] points = new PointF[] {
+                new PointF(0, 0),
+                new PointF(image.Width, 0),
+                new PointF(0, image.Height),
+                new PointF(image.Width, image.Height),
+                };
+
+            double angle = PolarPoint.ToRadians(degrees);
+
+            float minX = int.MaxValue, minY = int.MaxValue, maxX = int.MinValue, maxY = int.MinValue;
+            for (int i = 0; i < points.Length; i++)
+            {
+                PolarPoint p = new PolarPoint(points[i]);
+                p.Angle += angle;
+                points[i] = p.ToPointF();
+
+                minX = Math.Min(minX, points[i].X);
+                minY = Math.Min(minY, points[i].Y);
+                maxX = Math.Max(maxX, points[i].X);
+                maxY = Math.Max(maxY, points[i].Y);
+            }
+
+            Size size = Size.Ceiling(new SizeF(maxX - minX, maxY - minY));
+            Bitmap target = new Bitmap(size.Width, size.Height);
+            using (Graphics g = Graphics.FromImage(target))
+            {
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+                if (bgColor != null && bgColor != Color.Transparent)
+                {
+                    using (Brush b = new SolidBrush(bgColor.Value))
+                        g.FillRectangle(b, 0, 0, size.Width, size.Height);
+                }
+
+                g.TranslateTransform(-minX, -minY);
+                g.DrawImage(image, new PointF[] { points[0], points[1], points[2] });
+            }
+            return target;
+        }
+
+        public static Bitmap GetDesktopWallpaper(bool Aspect4x4 = false)
+        {
+            try
+            {
+                RegistryKey Key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
+                if (Key == null) return null;
+                string filePath = (string)Key.GetValue("WallPaper");
+                if (string.IsNullOrEmpty(filePath)) return null;
+                if (!File.Exists(filePath)) return null;
+                if (Aspect4x4)
+                {
+                    return (Bitmap)AspectRatio4x4((Bitmap)Bitmap.FromFile(filePath));
+                }
+                return (Bitmap)Bitmap.FromFile(filePath);
+            }
+            catch 
+            {
+                return null;
+            }
+        }
+
+        public static Image AspectRatio4x4(Image img)
+        {
+            // 4:3 Aspect Ratio. You can also add it as parameters
+            double aspectRatio_X = 4;
+            double aspectRatio_Y = 4;
+
+            double imgWidth = Convert.ToDouble(img.Width);
+            double imgHeight = Convert.ToDouble(img.Height);
+
+            if (imgWidth / imgHeight > (aspectRatio_X / aspectRatio_Y))
+            {
+                double extraWidth = imgWidth - (imgHeight * (aspectRatio_X / aspectRatio_Y));
+                double cropStartFrom = extraWidth / 2;
+                Bitmap bmp = new Bitmap((int)(img.Width - extraWidth), img.Height);
+                Graphics grp = Graphics.FromImage(bmp);
+                grp.DrawImage(img, new Rectangle(0, 0, (int)(img.Width - extraWidth), img.Height), new Rectangle((int)cropStartFrom, 0, (int)(imgWidth - extraWidth), img.Height), GraphicsUnit.Pixel);
+                return bmp;
             }
             else
-            {
-                // the image's height is the determinant in scaling, scale based upon that
-                requestedHeight = maxHeight;
-                requestedWidth = (requestedHeight * width) / height;
-            }
-
-            Size scaledSize = new Size((int)requestedWidth, (int)requestedHeight);
-
-            //save the thumbnail in the requested format using the scaled sizes.
-            SaveThumbnailImage(scaledSize.Width, scaledSize.Height, image, format, thumbOut, imageFilter);
-
-            return scaledSize;
+                return null;
         }
 
-        /// <summary>
-        /// Saves a thumbnailed image to a stream using the specified image format.
-        /// </summary>
-        /// <param name="width">the width of thumbnail to create</param>
-        /// <param name="height">the height of thumbnail to create</param>
-        /// <param name="image">the source image to generate the thumbnail from</param>
-        /// <param name="newFormat">the format to save the thumbnail as (supported formats: Jpeg, Gif, Png)</param>
-        /// <param name="thumbOut">the stream to save the thumbnail to</param>
-        public static void SaveThumbnailImage(int width, int height, Bitmap image, ImageFormat newFormat, Stream thumbOut)
+        //public static Bitmap ConvertHexToImage(string v)
+        //{
+        //    byte[] bytes = BitConverter.GetBytes(v);
+        //}
+
+        //public static string ConvertImageToHex(Bitmap bitmap)
+        //{
+        //    byte[] bytes = ImageToBytes(bitmap);
+        //    return BitConverter.ToString(bytes).Replace("-", "");
+        //}
+
+        public static Image ImageFromBytes(byte[] bytes)
         {
-            SaveThumbnailImage(width, height, image, newFormat, thumbOut, null);
-        }
-        public static void SaveThumbnailImage(int width, int height, Bitmap image, ImageFormat newFormat, Stream thumbOut, ImageFilter filter)
-        {
-            ThumbMaker thumb = new ThumbMaker(image, newFormat);
-            if (newFormat == ImageFormat.Jpeg)
-            {
-                //note: supports high quality JPEG thumbnailing
-                thumb.ResizeToJpeg(width, height, JPEG_QUALITY, thumbOut, filter);
-            }
-            else if (newFormat == ImageFormat.Gif)
-            {
-                //note: supports transparent images
-                thumb.ResizeToGif(width, height, thumbOut, filter);
-            }
-            else if (newFormat == ImageFormat.Png)
-            {
-                //note: nothing special needs to be done here since PNG format rules!
-                thumb.ResizeToPng(width, height, thumbOut, filter);
-            }
-            else if (newFormat == ImageFormat.Bmp)
-            {
-                thumb.ResizeToBmp(width, height, thumbOut, filter);
-            }
-            else
-            {
-                throw new Exception("unsupported image format detected");
-            }
+            MemoryStream stream = new MemoryStream(bytes);
+            return Image.FromStream(stream);
         }
 
-        /// <summary>
-        /// Utility class for managing image manipulation.
-        /// </summary>
+        public static Image ImageFromStream(Stream stream)
+        {
+            return Image.FromStream(stream);
+        }
+
         public class ImageResizer
         {
             internal static void AdjustSizes(Bitmap bitmap, ref int xSize, ref int ySize)
@@ -374,7 +345,7 @@ namespace SKYNET
                         //Warning:  aborted execution of IndexedResize has been seen to cause
                         //"object in use" errors downstream when using the source bitmap.
                         //Avoid the use of this method for this image!
-                        Trace.Fail("An error while using the indexed image resize algorithm", e.ToString());
+                        //Trace.Fail("An error while using the indexed image resize algorithm", e.ToString());
                     }
                 }
 
@@ -384,56 +355,57 @@ namespace SKYNET
                     case PixelFormat.Format32bppArgb:
                     case PixelFormat.Format32bppPArgb:
                     case PixelFormat.Format32bppRgb:
-                        //return RGBResize(bitmap, xSize, ySize);
+                    //return RGBResize(bitmap, xSize, ySize);
                     default:
                         return StandardResize(bitmap, xSize, ySize);
                 }
             }
         }
 
-        public static Bitmap RotateBitmap_NoPadding(Bitmap image, double degrees, Color? bgColor)
+        public static Bitmap ImageFromBase64(string base64Image)
         {
-            PointF[] points = new PointF[] {
-                new PointF(0, 0),
-                new PointF(image.Width, 0),
-                new PointF(0, image.Height),
-                new PointF(image.Width, image.Height),
-                };
-
-            double angle = PolarPoint.ToRadians(degrees);
-
-            float minX = int.MaxValue, minY = int.MaxValue, maxX = int.MinValue, maxY = int.MinValue;
-            for (int i = 0; i < points.Length; i++)
+            try
             {
-                PolarPoint p = new PolarPoint(points[i]);
-                p.Angle += angle;
-                points[i] = p.ToPointF();
-
-                minX = Math.Min(minX, points[i].X);
-                minY = Math.Min(minY, points[i].Y);
-                maxX = Math.Max(maxX, points[i].X);
-                maxY = Math.Max(maxY, points[i].Y);
+                var imageBytes = Convert.FromBase64String(base64Image);
+                return (Bitmap)ImageFromBytes(imageBytes);
             }
-
-            Size size = Size.Ceiling(new SizeF(maxX - minX, maxY - minY));
-            Bitmap target = new Bitmap(size.Width, size.Height);
-            using (Graphics g = Graphics.FromImage(target))
+            catch
             {
-                g.SmoothingMode = SmoothingMode.HighQuality;
-                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-                if (bgColor != null && bgColor != Color.Transparent)
-                {
-                    using (Brush b = new SolidBrush(bgColor.Value))
-                        g.FillRectangle(b, 0, 0, size.Width, size.Height);
-                }
-
-                g.TranslateTransform(-minX, -minY);
-                g.DrawImage(image, new PointF[] { points[0], points[1], points[2] });
+                return new Bitmap(200, 200);
             }
-            return target;
         }
 
+        public static string ImageToBase64(Image image)
+        {
+            var Base64 = "";
+            try
+            {
+                var imageBytes = ImageToBytes(image);
+                Base64 = Convert.ToBase64String(imageBytes);
+            }
+            catch { }
+            return Base64;
+        }
+
+        public static Image FromFile(string imagePath)
+        {
+            byte[] bytes = File.ReadAllBytes(imagePath);
+            Image image = ImageFromBytes(bytes);
+            return image;
+        }
+
+        public static void ToFile(string imagePath, Image image)
+        {
+            try
+            {
+                byte[] bytes = ImageToBytes(image);
+                using (FileStream stream = new FileStream(imagePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                {
+                    stream.Write(bytes, 0, bytes.Length);
+                }
+            }
+            catch { }
+        }
 
         /// <summary>
         /// Use indexed resize if we are dealing with a transparent, indexed format.
@@ -458,255 +430,38 @@ namespace SKYNET
             return false;
         }
 
-        /// <summary>
-        /// Utility class for managing image manipulation.
-        ///
-        ///Based on code obtained from:
-        /// http://www.c-sharpcorner.com/Code/2003/March/ThumbnailImages.asp
-        ///
-        /// LICENSE: http://www.c-sharpcorner.com/terms.asp
-        ///
-        /// </summary>
-        internal class ImageSaver
+        internal struct PolarPoint
         {
-            Bitmap bitmap;
+            /// <summary>
+            /// Angle in radians
+            /// </summary>
+            public double Angle;
+            public double Radius;
 
-            private ImageSaver(Bitmap image)
+            public PolarPoint(PointF p)
             {
-                bitmap = image;
+                Angle = Math.Atan2(p.Y, p.X);
+                Radius = Math.Sqrt(p.X * p.X + p.Y * p.Y);
             }
 
-
-            void SaveJpeg(Stream stream, long jQuality, ImageFormat format)
+            public PointF ToPointF()
             {
-                ImageCodecInfo jpegCodecInfo = GetEncoderInfo("image/jpeg");
-                Encoder qualityEncoder = Encoder.Quality;
-                EncoderParameters encoderParams = new EncoderParameters(1);
-                EncoderParameter qualityEncoderParam = new EncoderParameter(qualityEncoder, jQuality);
-                encoderParams.Param[0] = qualityEncoderParam;
-                bitmap.Save(stream, jpegCodecInfo, encoderParams);
+                return new PointF(
+                    (float)(Radius * Math.Cos(Angle)),
+                    (float)(Radius * Math.Sin(Angle)));
             }
 
-            ImageCodecInfo GetEncoderInfo(String mimeType)
+            public static double ToRadians(double degrees)
             {
-                int j;
-                ImageCodecInfo[] encoders;
-                encoders = ImageCodecInfo.GetImageEncoders();
-                for (j = 0; j < encoders.Length; ++j)
-                {
-                    if (encoders[j].MimeType.ToUpper(CultureInfo.InvariantCulture) == mimeType.ToUpper(CultureInfo.InvariantCulture))
-                        return encoders[j];
-                }
-                return null;
+                return Math.PI / 180 * degrees;
+            }
+
+            public static double ToDegrees(double radians)
+            {
+                return radians * 180 / Math.PI;
             }
         }
 
-        /// <summary>
-        /// Utility class for managing image manipulation.
-        ///
-        /// Code obtained from:
-        /// http://www.c-sharpcorner.com/Code/2003/March/ThumbnailImages.asp
-        ///
-        /// LICENSE: http://www.c-sharpcorner.com/terms.asp
-        ///
-        /// </summary>
-        internal class ThumbMaker
-        {
-            Bitmap scaledBitmap, bitmap;
-            ImageFormat targetImageFormat;
-
-            internal ThumbMaker(Bitmap image, ImageFormat targetImageFormat)
-            {
-                this.bitmap = image;
-                this.targetImageFormat = targetImageFormat;
-            }
-
-            void Resize(int xSize, int ySize)
-            {
-                scaledBitmap = ImageResizer.ResizeBitmap(bitmap, xSize, ySize, targetImageFormat);
-            }
-
-            void Save(string fileName, ImageFormat format)
-            {
-                scaledBitmap.Save(fileName, format);
-            }
-
-            void Save(string fileName, long jQuality, ImageFormat format)
-            {
-                ImageCodecInfo jpegCodecInfo = GetEncoderInfo("image/jpeg");
-                Encoder qualityEncoder = Encoder.Quality;
-                EncoderParameters encoderParams = new EncoderParameters(1);
-                EncoderParameter qualityEncoderParam = new EncoderParameter(qualityEncoder, jQuality);
-                encoderParams.Param[0] = qualityEncoderParam;
-                scaledBitmap.Save(fileName, jpegCodecInfo, encoderParams);
-            }
-
-            void Save(Stream stream, ImageFormat format)
-            {
-                scaledBitmap.Save(stream, format);
-            }
-
-            void Save(Stream stream, long jQuality, ImageFormat format)
-            {
-                ImageCodecInfo jpegCodecInfo = GetEncoderInfo("image/jpeg");
-                Encoder qualityEncoder = Encoder.Quality;
-                EncoderParameters encoderParams = new EncoderParameters(1);
-                EncoderParameter qualityEncoderParam = new EncoderParameter(qualityEncoder, jQuality);
-                encoderParams.Param[0] = qualityEncoderParam;
-                scaledBitmap.Save(stream, jpegCodecInfo, encoderParams);
-            }
-
-            ImageCodecInfo GetEncoderInfo(String mimeType)
-            {
-                int j;
-                ImageCodecInfo[] encoders;
-                encoders = ImageCodecInfo.GetImageEncoders();
-                for (j = 0; j < encoders.Length; ++j)
-                {
-                    if (encoders[j].MimeType.ToUpper(CultureInfo.InvariantCulture) == mimeType.ToUpper(CultureInfo.InvariantCulture))
-                        return encoders[j];
-                }
-                return null;
-            }
-
-            internal void ResizeToJpeg(int xSize, int ySize, string fileName, ImageFilter imageFilter)
-            {
-                Resize(xSize, ySize);
-                ApplyFilter(imageFilter);
-                this.Save(fileName, ImageFormat.Jpeg);
-            }
-
-            internal void ResizeToJpeg(int xSize, int ySize, Stream stream, ImageFilter imageFilter)
-            {
-                Resize(xSize, ySize);
-                ApplyFilter(imageFilter);
-                this.Save(stream, ImageFormat.Jpeg);
-            }
-
-            internal void ResizeToJpeg(int xSize, int ySize, long jQuality, string fileName, ImageFilter imageFilter)
-            {
-                Resize(xSize, ySize);
-                ApplyFilter(imageFilter);
-                this.Save(fileName, jQuality, ImageFormat.Jpeg);
-            }
-
-            internal void ResizeToJpeg(int xSize, int ySize, long jQuality, Stream stream, ImageFilter imageFilter)
-            {
-                Resize(xSize, ySize);
-                ApplyFilter(imageFilter);
-                this.Save(stream, jQuality, ImageFormat.Jpeg);
-            }
-
-            internal void ResizeToBmp(int xSize, int ySize, Stream stream, ImageFilter imageFilter)
-            {
-                Resize(xSize, ySize);
-                ApplyFilter(imageFilter);
-                this.Save(stream, ImageFormat.Bmp);
-            }
-
-            internal void ResizeToGif(int xSize, int ySize, string fileName, ImageFilter imageFilter)
-            {
-                Resize(xSize, ySize);
-                ApplyFilter(imageFilter);
-                this.Save(fileName, ImageFormat.Gif);
-            }
-
-            internal void ResizeToGif(int xSize, int ySize, Stream stream, ImageFilter imageFilter)
-            {
-                Resize(xSize, ySize);
-                ApplyFilter(imageFilter);
-                this.Save(stream, ImageFormat.Gif);
-            }
-
-            internal void ResizeToPng(int xSize, int ySize, string fileName, ImageFilter imageFilter)
-            {
-                Resize(xSize, ySize);
-                ApplyFilter(imageFilter);
-                this.Save(fileName, ImageFormat.Png);
-            }
-
-            internal void ResizeToPng(int xSize, int ySize, Stream stream, ImageFilter imageFilter)
-            {
-                Resize(xSize, ySize);
-                ApplyFilter(imageFilter);
-                this.Save(stream, ImageFormat.Png);
-            }
-
-            private void ApplyFilter(ImageFilter imageFilter)
-            {
-                if (imageFilter != null)
-                    scaledBitmap = imageFilter(scaledBitmap);
-            }
-        }
-
-        public static void GetImageFormat(string srcFileName, out string extension, out ImageFormat imageFormat)
-        {
-            extension = Path.GetExtension(srcFileName).ToLower(CultureInfo.InvariantCulture);
-            if (extension == ".jpg" || extension == ".jpeg")
-            {
-                imageFormat = ImageFormat.Jpeg;
-                extension = ".jpg";
-            }
-            else if (extension == ".gif")
-            {
-                imageFormat = ImageFormat.Gif;
-            }
-            else
-            {
-                imageFormat = ImageFormat.Png;
-                extension = ".png";
-            }
-        }
-
-        public static Bitmap CropBitmap(Bitmap bitmap, Rectangle rectangle)
-        {
-            Bitmap newBitmap = new Bitmap(rectangle.Width, rectangle.Height, PixelFormat.Format32bppArgb);
-            using (Graphics g = Graphics.FromImage(newBitmap))
-            {
-                g.DrawImage(bitmap, new Rectangle(0, 0, newBitmap.Width, newBitmap.Height), rectangle, GraphicsUnit.Pixel);
-            }
-            return newBitmap;
-        }
-
-    }
-
-    [Flags]
-    public enum ImageClassification
-    {
-        Normal = 0,
-        TransparentGif = 1,
-        AnimatedGif = 2
-    };
-    public struct PolarPoint
-    {
-        /// <summary>
-        /// Angle in radians
-        /// </summary>
-        public double Angle;
-        public double Radius;
-
-        public PolarPoint(PointF p)
-        {
-            Angle = Math.Atan2(p.Y, p.X);
-            Radius = Math.Sqrt(p.X * p.X + p.Y * p.Y);
-        }
-
-        public PointF ToPointF()
-        {
-            return new PointF(
-                (float)(Radius * Math.Cos(Angle)),
-                (float)(Radius * Math.Sin(Angle)));
-        }
-
-        public static double ToRadians(double degrees)
-        {
-            return Math.PI / 180 * degrees;
-        }
-
-        public static double ToDegrees(double radians)
-        {
-            return radians * 180 / Math.PI;
-        }
 
     }
 }

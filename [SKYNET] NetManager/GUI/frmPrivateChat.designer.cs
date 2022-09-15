@@ -35,11 +35,11 @@ namespace SKYNET
             this._accept = new System.Windows.Forms.Button();
             this.ok = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.WebChat = new SKYNET.GUI.SKYNET_WebChat();
             this.TB_Message = new SKYNET.Controls.SKYNET_TextBox();
             this.PN_Top = new System.Windows.Forms.Panel();
             this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.label2 = new System.Windows.Forms.Label();
-            this.skyneT_WebChat1 = new SKYNET.GUI.SKYNET_WebChat();
             this.panel1.SuspendLayout();
             this.PN_Top.SuspendLayout();
             this.SuspendLayout();
@@ -67,14 +67,22 @@ namespace SKYNET
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panel1.Controls.Add(this.skyneT_WebChat1);
+            this.panel1.Controls.Add(this.WebChat);
             this.panel1.Controls.Add(this.TB_Message);
             this.panel1.Controls.Add(this.PN_Top);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(554, 361);
+            this.panel1.Size = new System.Drawing.Size(535, 540);
             this.panel1.TabIndex = 25;
+            // 
+            // WebChat
+            // 
+            this.WebChat.Location = new System.Drawing.Point(10, 38);
+            this.WebChat.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.WebChat.Name = "WebChat";
+            this.WebChat.Size = new System.Drawing.Size(511, 439);
+            this.WebChat.TabIndex = 25;
             // 
             // TB_Message
             // 
@@ -83,14 +91,14 @@ namespace SKYNET
             this.TB_Message.Color = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(51)))));
             this.TB_Message.ForeColor = System.Drawing.Color.White;
             this.TB_Message.IsPassword = false;
-            this.TB_Message.Location = new System.Drawing.Point(10, 314);
+            this.TB_Message.Location = new System.Drawing.Point(10, 493);
             this.TB_Message.Logo = null;
             this.TB_Message.LogoCursor = System.Windows.Forms.Cursors.Default;
             this.TB_Message.Multiline = true;
             this.TB_Message.Name = "TB_Message";
             this.TB_Message.OnlyNumbers = false;
             this.TB_Message.ShowLogo = false;
-            this.TB_Message.Size = new System.Drawing.Size(532, 35);
+            this.TB_Message.Size = new System.Drawing.Size(511, 35);
             this.TB_Message.TabIndex = 0;
             this.TB_Message.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.TB_Message.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TB_Message_KeyUp);
@@ -104,7 +112,7 @@ namespace SKYNET
             this.PN_Top.ForeColor = System.Drawing.Color.White;
             this.PN_Top.Location = new System.Drawing.Point(0, 0);
             this.PN_Top.Name = "PN_Top";
-            this.PN_Top.Size = new System.Drawing.Size(554, 26);
+            this.PN_Top.Size = new System.Drawing.Size(535, 26);
             this.PN_Top.TabIndex = 24;
             // 
             // CloseBox
@@ -115,7 +123,7 @@ namespace SKYNET
             this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
             this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
             this.CloseBox.ImageSize = 10;
-            this.CloseBox.Location = new System.Drawing.Point(520, 0);
+            this.CloseBox.Location = new System.Drawing.Point(501, 0);
             this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
             this.CloseBox.MenuMode = false;
             this.CloseBox.MenuSeparation = 8;
@@ -135,20 +143,12 @@ namespace SKYNET
             this.label2.TabIndex = 29;
             this.label2.Text = "Message to ";
             // 
-            // skyneT_WebChat1
-            // 
-            this.skyneT_WebChat1.Location = new System.Drawing.Point(10, 33);
-            this.skyneT_WebChat1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.skyneT_WebChat1.Name = "skyneT_WebChat1";
-            this.skyneT_WebChat1.Size = new System.Drawing.Size(532, 274);
-            this.skyneT_WebChat1.TabIndex = 25;
-            // 
             // frmPrivateChat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(164)))), ((int)(((byte)(245)))));
-            this.ClientSize = new System.Drawing.Size(554, 361);
+            this.ClientSize = new System.Drawing.Size(535, 540);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.ok);
             this.Controls.Add(this._accept);
@@ -175,6 +175,6 @@ namespace SKYNET
         private Label label2;
         private SKYNET_TextBox TB_Message;
         private SKYNET_Box CloseBox;
-        private GUI.SKYNET_WebChat skyneT_WebChat1;
+        private GUI.SKYNET_WebChat WebChat;
     }
 }

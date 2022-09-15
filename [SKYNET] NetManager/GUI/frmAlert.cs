@@ -38,11 +38,11 @@ namespace SKYNET
 
                 if (Settings.CustomSound)
                 {
-                    if (File.Exists(Settings.CustomSoundPatch))
+                    if (File.Exists(Settings.CustomSoundPath))
                     {
                         try
                         {
-                            SoundPlayer beep = new SoundPlayer(Settings.CustomSoundPatch);
+                            SoundPlayer beep = new SoundPlayer(Settings.CustomSoundPath);
                             beep.Play();
                         }
                         catch
@@ -82,11 +82,11 @@ namespace SKYNET
 
                 if (Settings.CustomSound)
                 {
-                    if (File.Exists(Settings.CustomSoundPatch))
+                    if (File.Exists(Settings.CustomSoundPath))
                     {
                         try
                         {
-                            SoundPlayer beep = new SoundPlayer(Settings.CustomSoundPatch);
+                            SoundPlayer beep = new SoundPlayer(Settings.CustomSoundPath);
                             beep.Play();
                         }
                         catch

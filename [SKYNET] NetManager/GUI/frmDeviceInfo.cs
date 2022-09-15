@@ -5,7 +5,6 @@ using SKYNET.Properties;
 using System;
 using System.Drawing;
 using System.Media;
-using System.Net;
 using System.Text;
 using System.Timers;
 using System.Windows.Forms;
@@ -14,7 +13,7 @@ namespace SKYNET
 {
     public partial class frmDeviceInfo : frmBase
     {
-        private readonly DeviceBox device;
+        private readonly DeviceBox DeviceBox;
         private Image BoxImage;
         private AsyncHostNameResolver _nameResolver = new AsyncHostNameResolver();
         private System.Timers.Timer _timer = new System.Timers.Timer();
@@ -23,63 +22,62 @@ namespace SKYNET
         private ConnectionStatus LastStatus;
 
 
-        public frmDeviceInfo(DeviceBox tool = null)
+        public frmDeviceInfo(DeviceBox deviceBox = null)
         {
             InitializeComponent();
             base.SetMouseMove(PN_Top);
             CheckForIllegalCrossThreadCalls = false;  
             StatusLabel.Text = "";
 
-            if (tool != null)
+            if (deviceBox != null)
             {
-                device = tool;
+                DeviceBox = deviceBox;
 
-                for (int i = 1; i < device.Values.Count; i++)
+                for (int i = 1; i < DeviceBox.Values.Count; i++)
                 {
-                    AddBarGraphic(device.Values[i]);
+                    AddBarGraphic(DeviceBox.Values[i]);
                 }
 
-                BoxImage = DeviceManager.GetDeviceImage(device);
+                BoxImage = DeviceBox.PB_Image.Image;
 
-                if (device.CircularImage)
+                if (DeviceBox.CircularImage)
                 {
                     Avatar.Image = Common.CropToCircle(BoxImage);
                 }
                 else
                     Avatar.Image = BoxImage;
 
-                if (device.Device.TCP && device.Device.Port == 0)
-                    device.Device.Port = 80;
+                if (DeviceBox.Device.TCP && DeviceBox.Device.Port == 0)
+                    DeviceBox.Device.Port = 80;
 
-                DeviceName.Text = device.Device.Name;
+                DeviceName.Text = DeviceBox.Device.Name;
 
-                if (device.Device.TCP)
+                if (DeviceBox.Device.TCP)
                 {
-                    DeviceIp.Text = device.Device.IPAddress + ":" + device.Device.Port;
+                    DeviceIp.Text = DeviceBox.Device.IPAddress + ":" + DeviceBox.Device.Port;
                 }
                 else
                 { 
-                    DeviceIp.Text = device.Device.IPAddress.ToString();
+                    DeviceIp.Text = DeviceBox.Device.IPAddress.ToString();
                 }
-                MAC.Text = device.MAC;
+                MAC.Text = DeviceBox.MAC;
 
-                D_Status.Image = GetImageFromStatus(device.Status);
+                D_Status.Image = GetImageFromStatus(DeviceBox.Status);
 
-                StatusDevice.Text = device.Status.ToString();
+                StatusDevice.Text = DeviceBox.Status.ToString();
                 CenterDeviceInfo();
-
-                device = tool;
 
                 _timer.AutoReset = false;
                 _timer.Elapsed += _timer_Elapsed;
                 _timer.Start();
 
-                _nameResolver.ResolveHostName(device.Device.IPAddress.ToIPAddress(), StoreHostName);
+                _nameResolver.ResolveHostName(DeviceBox.Device.IPAddress.ToIPAddress(), StoreHostName);
             }
             else
             {
                 Close();
             }
+
             D_Status.Parent = Avatar;
         }
 
@@ -145,21 +143,21 @@ namespace SKYNET
             try
             {
 
-                _Status = device.Status;
+                _Status = DeviceBox.Status;
 
                 //Avatar.Image = device.PB_Image.Image;
 
                 // Graphic ///////////////////////////////////////
-                if (PingCount != device.SentPackets)
+                if (PingCount != DeviceBox.SentPackets)
                 {
 
-                    int GraphicTime = (int)device.CurrentResponseTime;
+                    int GraphicTime = (int)DeviceBox.CurrentResponseTime;
                     AddBarGraphic(GraphicTime);
 
-                    if (LastStatus != device.Status)
+                    if (LastStatus != DeviceBox.Status)
                     {
                         SoundPlayer beep = null;
-                        switch (device.Status)
+                        switch (DeviceBox.Status)
                         {
                             case ConnectionStatus.Online:
                                 beep = new SoundPlayer(Resources.Online1);
@@ -169,66 +167,66 @@ namespace SKYNET
                                 break;
                         }
                         beep.Play();
-                        LastStatus = device.Status;
+                        LastStatus = DeviceBox.Status;
                     }
                 }
                 else
-                    LastStatus = device.Status;
+                    LastStatus = DeviceBox.Status;
                 //////////////////////////////////////////////////
 
 
-                DeviceName.Text = device.Device.Name;
+                DeviceName.Text = DeviceBox.Device.Name;
 
-                if (device.Device.TCP)
+                if (DeviceBox.Device.TCP)
                 {
-                    DeviceIp.Text = device.Device.IPAddress + ":" + device.Device.Port;
+                    DeviceIp.Text = DeviceBox.Device.IPAddress + ":" + DeviceBox.Device.Port;
                 }
                 else
                 {
-                    DeviceIp.Text = device.Device.IPAddress.ToString();
+                    DeviceIp.Text = DeviceBox.Device.IPAddress.ToString();
                 }
-                HostName.Text = device.Device.IPAddress.ToString();
-                MAC.Text = device.MAC;
+                HostName.Text = DeviceBox.Device.IPAddress.ToString();
+                MAC.Text = DeviceBox.MAC;
 
-                StatusDevice.Text = device.Status.ToString();
-                D_Status.Image = GetImageFromStatus(device.Status);
+                StatusDevice.Text = DeviceBox.Status.ToString();
+                D_Status.Image = GetImageFromStatus(DeviceBox.Status);
 
                 if (string.IsNullOrEmpty(HostDescription.Text) || HostDescription.Text == "Loading info...")
                 {
-                    HostDescription.Text = device.Device.Name;
+                    HostDescription.Text = DeviceBox.Device.Name;
                 }
-                if (device.Device.Name.Length > 12)
+                if (DeviceBox.Device.Name.Length > 12)
                 {
                     HostDescription.Font = new System.Drawing.Font("Segoe UI Emoji", 7.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 }
 
-                Status.Text = device.Status.ToString();
-                SentPackets.Text = device.SentPackets.ToString();
-                ReceivedPackets.Text = device.ReceivedPackets.ToString();
-                ReceivedPacketsPercent.Text = PercentToString(GetPacketsPercent(device.ReceivedPackets, device.SentPackets));
-                LostPackets.Text = device.LostPackets.ToString();
-                LostPacketsPercent.Text = PercentToString(GetPacketsPercent(device.LostPackets, device.SentPackets));
+                Status.Text = DeviceBox.Status.ToString();
+                SentPackets.Text = DeviceBox.SentPackets.ToString();
+                ReceivedPackets.Text = DeviceBox.ReceivedPackets.ToString();
+                ReceivedPacketsPercent.Text = PercentToString(GetPacketsPercent(DeviceBox.ReceivedPackets, DeviceBox.SentPackets));
+                LostPackets.Text = DeviceBox.LostPackets.ToString();
+                LostPacketsPercent.Text = PercentToString(GetPacketsPercent(DeviceBox.LostPackets, DeviceBox.SentPackets));
 
-                if (device.LastPacketLost)
+                if (DeviceBox.LastPacketLost)
                     LastPacketLost.Text = "Si";
                 else
                     LastPacketLost.Text = "No";
 
-                ConsecutivePacketsLost.Text = device.ConsecutivePacketsLost.ToString();
-                CurrentResponseTime.Text = device.CurrentResponseTime + " ms";
-                AverageResponseTime.Text = ToString(GetAverageResponseTime(device.ReceivedPackets, device.TotalResponseTime)) + " ms";
+                ConsecutivePacketsLost.Text = DeviceBox.ConsecutivePacketsLost.ToString();
+                CurrentResponseTime.Text = DeviceBox.CurrentResponseTime + " ms";
+                AverageResponseTime.Text = ToString(GetAverageResponseTime(DeviceBox.ReceivedPackets, DeviceBox.TotalResponseTime)) + " ms";
 
-                if (device.MinResponseTime == 9223372036854775807L)
+                if (DeviceBox.MinResponseTime == 9223372036854775807L)
                     MinResponseTime.Text = "1000" + " ms";
                 else
-                    MinResponseTime.Text = device.MinResponseTime + " ms";
+                    MinResponseTime.Text = DeviceBox.MinResponseTime + " ms";
 
-                MaxResponseTime.Text = device.MaxResponseTime + " ms";
-                CurrentStatusDuration.Text = DurationToString(DateTime.Now.Subtract(device._statusReachedAt));
+                MaxResponseTime.Text = DeviceBox.MaxResponseTime + " ms";
+                CurrentStatusDuration.Text = DurationToString(DateTime.Now.Subtract(DeviceBox._statusReachedAt));
 
-                GetAliveDuration.Text = device.OnlineStatusDuration;
-                GetDeadDuration.Text = device.OfflineStatusDuration;
-                TotalTime.Text = GetTotalTime(device.StartTime);
+                GetAliveDuration.Text = DeviceBox.OnlineStatusDuration;
+                GetDeadDuration.Text = DeviceBox.OfflineStatusDuration;
+                TotalTime.Text = GetTotalTime(DeviceBox.StartTime);
                 //HostAvailability.Text = Box.HostAvailability;
             }
             catch
@@ -243,7 +241,7 @@ namespace SKYNET
 
         private void AddBarGraphic(int GraphicTime)
         {
-            if (device.Status == ConnectionStatus.Offline)
+            if (DeviceBox.Status == ConnectionStatus.Offline)
                 GraphicTime = 200;
             
             deviceHistory1.Add(GraphicTime);

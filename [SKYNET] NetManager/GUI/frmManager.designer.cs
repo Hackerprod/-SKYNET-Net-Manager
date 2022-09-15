@@ -33,37 +33,35 @@ namespace SKYNET
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmManager));
             this.PN_Top = new System.Windows.Forms.Panel();
+            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.acceptBtn = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.Container = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.CircularAvatar = new SKYNET.Controls.SKYNET_Check();
+            this.CB_CircularImage = new SKYNET.Controls.SKYNET_Check();
             this.PanelInterval = new System.Windows.Forms.Panel();
-            this.Interval = new SKYNET.Controls.SKYNET_TextBox();
+            this.TB_Interval = new SKYNET.Controls.SKYNET_TextBox();
             this.PanelDeviceIp = new System.Windows.Forms.Panel();
-            this.DeviceIp = new SKYNET.Controls.SKYNET_TextBox();
+            this.TB_IPAddress = new SKYNET.Controls.SKYNET_TextBox();
             this.Save = new SKYNET.SKYNET_Button();
-            this.OpcionalLocation = new SKYNET.Controls.SKYNET_TextBox();
+            this.TB_OpcionalLocation = new SKYNET.Controls.SKYNET_TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.SearchPorts = new SKYNET.SKYNET_Button();
-            this.DeviceName = new SKYNET.Controls.SKYNET_TextBox();
-            this.MAC = new SKYNET.Controls.SKYNET_TextBox();
+            this.TB_Name = new SKYNET.Controls.SKYNET_TextBox();
+            this.PB_MAC = new SKYNET.Controls.SKYNET_TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.Port = new SKYNET.Controls.SKYNET_TextBox();
-            this.DeleteAvatar = new System.Windows.Forms.PictureBox();
-            this.DeviceWeb = new SKYNET.Controls.SKYNET_Check();
-            this.Avatar = new System.Windows.Forms.PictureBox();
+            this.TB_Port = new SKYNET.Controls.SKYNET_TextBox();
+            this.TB_TCP = new SKYNET.Controls.SKYNET_Check();
+            this.PB_Image = new System.Windows.Forms.PictureBox();
             this.Browser = new System.Windows.Forms.WebBrowser();
-            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.PN_Top.SuspendLayout();
             this.Container.SuspendLayout();
             this.PanelInterval.SuspendLayout();
             this.PanelDeviceIp.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DeleteAvatar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Avatar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Image)).BeginInit();
             this.SuspendLayout();
             // 
             // PN_Top
@@ -76,6 +74,24 @@ namespace SKYNET
             this.PN_Top.Name = "PN_Top";
             this.PN_Top.Size = new System.Drawing.Size(470, 26);
             this.PN_Top.TabIndex = 5;
+            // 
+            // CloseBox
+            // 
+            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.ImageSize = 10;
+            this.CloseBox.Location = new System.Drawing.Point(436, 0);
+            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.MenuMode = false;
+            this.CloseBox.MenuSeparation = 8;
+            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.Name = "CloseBox";
+            this.CloseBox.Size = new System.Drawing.Size(34, 26);
+            this.CloseBox.TabIndex = 0;
+            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
             // 
             // acceptBtn
             // 
@@ -114,21 +130,20 @@ namespace SKYNET
             this.Container.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(51)))));
             this.Container.Controls.Add(this.label6);
             this.Container.Controls.Add(this.label5);
-            this.Container.Controls.Add(this.CircularAvatar);
+            this.Container.Controls.Add(this.CB_CircularImage);
             this.Container.Controls.Add(this.PanelInterval);
             this.Container.Controls.Add(this.PanelDeviceIp);
             this.Container.Controls.Add(this.Save);
-            this.Container.Controls.Add(this.OpcionalLocation);
+            this.Container.Controls.Add(this.TB_OpcionalLocation);
             this.Container.Controls.Add(this.label4);
             this.Container.Controls.Add(this.label2);
             this.Container.Controls.Add(this.SearchPorts);
-            this.Container.Controls.Add(this.DeviceName);
-            this.Container.Controls.Add(this.MAC);
+            this.Container.Controls.Add(this.TB_Name);
+            this.Container.Controls.Add(this.PB_MAC);
             this.Container.Controls.Add(this.label1);
-            this.Container.Controls.Add(this.Port);
-            this.Container.Controls.Add(this.DeleteAvatar);
-            this.Container.Controls.Add(this.DeviceWeb);
-            this.Container.Controls.Add(this.Avatar);
+            this.Container.Controls.Add(this.TB_Port);
+            this.Container.Controls.Add(this.TB_TCP);
+            this.Container.Controls.Add(this.PB_Image);
             this.Container.Controls.Add(this.label8);
             this.Container.Controls.Add(this.label10);
             this.Container.Dock = System.Windows.Forms.DockStyle.Top;
@@ -162,20 +177,20 @@ namespace SKYNET
             // 
             // CircularAvatar
             // 
-            this.CircularAvatar.BackColor = System.Drawing.Color.Transparent;
-            this.CircularAvatar.Checked = false;
-            this.CircularAvatar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.CircularAvatar.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.CircularAvatar.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.CircularAvatar.Location = new System.Drawing.Point(123, 166);
-            this.CircularAvatar.Name = "CircularAvatar";
-            this.CircularAvatar.Size = new System.Drawing.Size(39, 22);
-            this.CircularAvatar.TabIndex = 266;
-            this.CircularAvatar.CheckedChanged += new System.EventHandler<bool>(this.CircularAvatar_CheckedChanged);
+            this.CB_CircularImage.BackColor = System.Drawing.Color.Transparent;
+            this.CB_CircularImage.Checked = false;
+            this.CB_CircularImage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CB_CircularImage.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.CB_CircularImage.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.CB_CircularImage.Location = new System.Drawing.Point(123, 166);
+            this.CB_CircularImage.Name = "CircularAvatar";
+            this.CB_CircularImage.Size = new System.Drawing.Size(39, 22);
+            this.CB_CircularImage.TabIndex = 266;
+            this.CB_CircularImage.CheckedChanged += new System.EventHandler<bool>(this.CircularAvatar_CheckedChanged);
             // 
             // PanelInterval
             // 
-            this.PanelInterval.Controls.Add(this.Interval);
+            this.PanelInterval.Controls.Add(this.TB_Interval);
             this.PanelInterval.Location = new System.Drawing.Point(297, 128);
             this.PanelInterval.Name = "PanelInterval";
             this.PanelInterval.Padding = new System.Windows.Forms.Padding(0, 0, 0, 1);
@@ -184,27 +199,27 @@ namespace SKYNET
             // 
             // Interval
             // 
-            this.Interval.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.Interval.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.Interval.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.Interval.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Interval.ForeColor = System.Drawing.Color.White;
-            this.Interval.IsPassword = false;
-            this.Interval.Location = new System.Drawing.Point(0, 0);
-            this.Interval.Logo = null;
-            this.Interval.LogoCursor = System.Windows.Forms.Cursors.Default;
-            this.Interval.Multiline = false;
-            this.Interval.Name = "Interval";
-            this.Interval.OnlyNumbers = false;
-            this.Interval.ShowLogo = false;
-            this.Interval.Size = new System.Drawing.Size(153, 26);
-            this.Interval.TabIndex = 261;
-            this.Interval.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.Interval.TextChanged += new System.EventHandler(this.Interval_TextChanged);
+            this.TB_Interval.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_Interval.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_Interval.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_Interval.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TB_Interval.ForeColor = System.Drawing.Color.White;
+            this.TB_Interval.IsPassword = false;
+            this.TB_Interval.Location = new System.Drawing.Point(0, 0);
+            this.TB_Interval.Logo = null;
+            this.TB_Interval.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.TB_Interval.Multiline = false;
+            this.TB_Interval.Name = "Interval";
+            this.TB_Interval.OnlyNumbers = false;
+            this.TB_Interval.ShowLogo = false;
+            this.TB_Interval.Size = new System.Drawing.Size(153, 26);
+            this.TB_Interval.TabIndex = 261;
+            this.TB_Interval.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.TB_Interval.TextChanged += new System.EventHandler(this.Interval_TextChanged);
             // 
             // PanelDeviceIp
             // 
-            this.PanelDeviceIp.Controls.Add(this.DeviceIp);
+            this.PanelDeviceIp.Controls.Add(this.TB_IPAddress);
             this.PanelDeviceIp.Location = new System.Drawing.Point(297, 53);
             this.PanelDeviceIp.Name = "PanelDeviceIp";
             this.PanelDeviceIp.Padding = new System.Windows.Forms.Padding(0, 0, 0, 1);
@@ -213,23 +228,23 @@ namespace SKYNET
             // 
             // DeviceIp
             // 
-            this.DeviceIp.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.DeviceIp.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.DeviceIp.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.DeviceIp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DeviceIp.ForeColor = System.Drawing.Color.White;
-            this.DeviceIp.IsPassword = false;
-            this.DeviceIp.Location = new System.Drawing.Point(0, 0);
-            this.DeviceIp.Logo = null;
-            this.DeviceIp.LogoCursor = System.Windows.Forms.Cursors.Default;
-            this.DeviceIp.Multiline = false;
-            this.DeviceIp.Name = "DeviceIp";
-            this.DeviceIp.OnlyNumbers = false;
-            this.DeviceIp.ShowLogo = false;
-            this.DeviceIp.Size = new System.Drawing.Size(153, 26);
-            this.DeviceIp.TabIndex = 259;
-            this.DeviceIp.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.DeviceIp.TextChanged += new System.EventHandler(this.DeviceIp_TextChanged);
+            this.TB_IPAddress.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_IPAddress.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_IPAddress.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_IPAddress.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TB_IPAddress.ForeColor = System.Drawing.Color.White;
+            this.TB_IPAddress.IsPassword = false;
+            this.TB_IPAddress.Location = new System.Drawing.Point(0, 0);
+            this.TB_IPAddress.Logo = null;
+            this.TB_IPAddress.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.TB_IPAddress.Multiline = false;
+            this.TB_IPAddress.Name = "DeviceIp";
+            this.TB_IPAddress.OnlyNumbers = false;
+            this.TB_IPAddress.ShowLogo = false;
+            this.TB_IPAddress.Size = new System.Drawing.Size(153, 26);
+            this.TB_IPAddress.TabIndex = 259;
+            this.TB_IPAddress.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.TB_IPAddress.TextChanged += new System.EventHandler(this.DeviceIp_TextChanged);
             // 
             // Save
             // 
@@ -253,22 +268,22 @@ namespace SKYNET
             // 
             // OpcionalLocation
             // 
-            this.OpcionalLocation.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.OpcionalLocation.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.OpcionalLocation.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.OpcionalLocation.ForeColor = System.Drawing.Color.White;
-            this.OpcionalLocation.IsPassword = false;
-            this.OpcionalLocation.Location = new System.Drawing.Point(297, 166);
-            this.OpcionalLocation.Logo = null;
-            this.OpcionalLocation.LogoCursor = System.Windows.Forms.Cursors.Default;
-            this.OpcionalLocation.Multiline = false;
-            this.OpcionalLocation.Name = "OpcionalLocation";
-            this.OpcionalLocation.OnlyNumbers = false;
-            this.OpcionalLocation.ShowLogo = false;
-            this.OpcionalLocation.Size = new System.Drawing.Size(153, 26);
-            this.OpcionalLocation.TabIndex = 263;
-            this.OpcionalLocation.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.OpcionalLocation.DoubleClick += new System.EventHandler(this.OpcionalLocation_DoubleClick);
+            this.TB_OpcionalLocation.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_OpcionalLocation.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_OpcionalLocation.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_OpcionalLocation.ForeColor = System.Drawing.Color.White;
+            this.TB_OpcionalLocation.IsPassword = false;
+            this.TB_OpcionalLocation.Location = new System.Drawing.Point(297, 166);
+            this.TB_OpcionalLocation.Logo = null;
+            this.TB_OpcionalLocation.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.TB_OpcionalLocation.Multiline = false;
+            this.TB_OpcionalLocation.Name = "OpcionalLocation";
+            this.TB_OpcionalLocation.OnlyNumbers = false;
+            this.TB_OpcionalLocation.ShowLogo = false;
+            this.TB_OpcionalLocation.Size = new System.Drawing.Size(153, 26);
+            this.TB_OpcionalLocation.TabIndex = 263;
+            this.TB_OpcionalLocation.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.TB_OpcionalLocation.DoubleClick += new System.EventHandler(this.OpcionalLocation_DoubleClick);
             // 
             // label4
             // 
@@ -314,40 +329,40 @@ namespace SKYNET
             // 
             // DeviceName
             // 
-            this.DeviceName.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.DeviceName.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.DeviceName.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.DeviceName.ForeColor = System.Drawing.Color.White;
-            this.DeviceName.IsPassword = false;
-            this.DeviceName.Location = new System.Drawing.Point(297, 15);
-            this.DeviceName.Logo = null;
-            this.DeviceName.LogoCursor = System.Windows.Forms.Cursors.Default;
-            this.DeviceName.Multiline = false;
-            this.DeviceName.Name = "DeviceName";
-            this.DeviceName.OnlyNumbers = false;
-            this.DeviceName.ShowLogo = false;
-            this.DeviceName.Size = new System.Drawing.Size(153, 26);
-            this.DeviceName.TabIndex = 258;
-            this.DeviceName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.TB_Name.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_Name.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_Name.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_Name.ForeColor = System.Drawing.Color.White;
+            this.TB_Name.IsPassword = false;
+            this.TB_Name.Location = new System.Drawing.Point(297, 15);
+            this.TB_Name.Logo = null;
+            this.TB_Name.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.TB_Name.Multiline = false;
+            this.TB_Name.Name = "DeviceName";
+            this.TB_Name.OnlyNumbers = false;
+            this.TB_Name.ShowLogo = false;
+            this.TB_Name.Size = new System.Drawing.Size(153, 26);
+            this.TB_Name.TabIndex = 258;
+            this.TB_Name.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
             // MAC
             // 
-            this.MAC.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.MAC.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.MAC.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.MAC.ForeColor = System.Drawing.Color.White;
-            this.MAC.IsPassword = false;
-            this.MAC.Location = new System.Drawing.Point(297, 91);
-            this.MAC.Logo = null;
-            this.MAC.LogoCursor = System.Windows.Forms.Cursors.Default;
-            this.MAC.Multiline = false;
-            this.MAC.Name = "MAC";
-            this.MAC.OnlyNumbers = false;
-            this.MAC.ShowLogo = false;
-            this.MAC.Size = new System.Drawing.Size(153, 26);
-            this.MAC.TabIndex = 257;
-            this.MAC.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.MAC.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MAC_KeyDown);
+            this.PB_MAC.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.PB_MAC.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.PB_MAC.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.PB_MAC.ForeColor = System.Drawing.Color.White;
+            this.PB_MAC.IsPassword = false;
+            this.PB_MAC.Location = new System.Drawing.Point(297, 91);
+            this.PB_MAC.Logo = null;
+            this.PB_MAC.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.PB_MAC.Multiline = false;
+            this.PB_MAC.Name = "MAC";
+            this.PB_MAC.OnlyNumbers = false;
+            this.PB_MAC.ShowLogo = false;
+            this.PB_MAC.Size = new System.Drawing.Size(153, 26);
+            this.PB_MAC.TabIndex = 257;
+            this.PB_MAC.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.PB_MAC.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MAC_KeyDown);
             // 
             // label1
             // 
@@ -362,58 +377,45 @@ namespace SKYNET
             // 
             // Port
             // 
-            this.Port.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.Port.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.Port.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
-            this.Port.ForeColor = System.Drawing.Color.White;
-            this.Port.IsPassword = false;
-            this.Port.Location = new System.Drawing.Point(12, 222);
-            this.Port.Logo = null;
-            this.Port.LogoCursor = System.Windows.Forms.Cursors.Default;
-            this.Port.Multiline = false;
-            this.Port.Name = "Port";
-            this.Port.OnlyNumbers = false;
-            this.Port.ShowLogo = false;
-            this.Port.Size = new System.Drawing.Size(148, 26);
-            this.Port.TabIndex = 24;
-            this.Port.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.Port.Visible = false;
-            // 
-            // DeleteAvatar
-            // 
-            this.DeleteAvatar.BackColor = System.Drawing.Color.Transparent;
-            this.DeleteAvatar.Image = global::SKYNET.Properties.Resources._1__154_;
-            this.DeleteAvatar.Location = new System.Drawing.Point(105, 105);
-            this.DeleteAvatar.Name = "DeleteAvatar";
-            this.DeleteAvatar.Size = new System.Drawing.Size(26, 28);
-            this.DeleteAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.DeleteAvatar.TabIndex = 253;
-            this.DeleteAvatar.TabStop = false;
-            this.DeleteAvatar.Click += new System.EventHandler(this.DeleteAvatar_Click);
+            this.TB_Port.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_Port.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_Port.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.TB_Port.ForeColor = System.Drawing.Color.White;
+            this.TB_Port.IsPassword = false;
+            this.TB_Port.Location = new System.Drawing.Point(12, 222);
+            this.TB_Port.Logo = null;
+            this.TB_Port.LogoCursor = System.Windows.Forms.Cursors.Default;
+            this.TB_Port.Multiline = false;
+            this.TB_Port.Name = "Port";
+            this.TB_Port.OnlyNumbers = false;
+            this.TB_Port.ShowLogo = false;
+            this.TB_Port.Size = new System.Drawing.Size(148, 26);
+            this.TB_Port.TabIndex = 24;
+            this.TB_Port.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.TB_Port.Visible = false;
             // 
             // DeviceWeb
             // 
-            this.DeviceWeb.BackColor = System.Drawing.Color.Transparent;
-            this.DeviceWeb.Checked = false;
-            this.DeviceWeb.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.DeviceWeb.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.DeviceWeb.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.DeviceWeb.Location = new System.Drawing.Point(123, 194);
-            this.DeviceWeb.Name = "DeviceWeb";
-            this.DeviceWeb.Size = new System.Drawing.Size(37, 22);
-            this.DeviceWeb.TabIndex = 252;
-            this.DeviceWeb.MouseClick += new System.Windows.Forms.MouseEventHandler(this.DeviceWeb_Click);
+            this.TB_TCP.BackColor = System.Drawing.Color.Transparent;
+            this.TB_TCP.Checked = false;
+            this.TB_TCP.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.TB_TCP.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.TB_TCP.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.TB_TCP.Location = new System.Drawing.Point(123, 194);
+            this.TB_TCP.Name = "DeviceWeb";
+            this.TB_TCP.Size = new System.Drawing.Size(37, 22);
+            this.TB_TCP.TabIndex = 252;
+            this.TB_TCP.MouseClick += new System.Windows.Forms.MouseEventHandler(this.DeviceWeb_Click);
             // 
             // Avatar
             // 
-            this.Avatar.Image = global::SKYNET.Properties.Resources.NeutralPC;
-            this.Avatar.Location = new System.Drawing.Point(29, 14);
-            this.Avatar.Name = "Avatar";
-            this.Avatar.Size = new System.Drawing.Size(133, 133);
-            this.Avatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.Avatar.TabIndex = 29;
-            this.Avatar.TabStop = false;
-            this.Avatar.Click += new System.EventHandler(this.Avatar_Click);
+            this.PB_Image.Image = global::SKYNET.Properties.Resources.NeutralPC;
+            this.PB_Image.Location = new System.Drawing.Point(29, 14);
+            this.PB_Image.Name = "Avatar";
+            this.PB_Image.Size = new System.Drawing.Size(133, 133);
+            this.PB_Image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PB_Image.TabIndex = 29;
+            this.PB_Image.TabStop = false;
             // 
             // Browser
             // 
@@ -421,23 +423,6 @@ namespace SKYNET
             this.Browser.Name = "Browser";
             this.Browser.Size = new System.Drawing.Size(31, 41);
             this.Browser.TabIndex = 19;
-            // 
-            // CloseBox
-            // 
-            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
-            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
-            this.CloseBox.Location = new System.Drawing.Point(436, 0);
-            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
-            this.CloseBox.MenuMode = false;
-            this.CloseBox.MenuSeparation = 8;
-            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
-            this.CloseBox.Name = "CloseBox";
-            this.CloseBox.Size = new System.Drawing.Size(34, 26);
-            this.CloseBox.TabIndex = 0;
-            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
             // 
             // frmManager
             // 
@@ -457,14 +442,12 @@ namespace SKYNET
             this.Name = "frmManager";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Net Manager";
-            this.Load += new System.EventHandler(this.FrmManager_Load);
             this.PN_Top.ResumeLayout(false);
             this.Container.ResumeLayout(false);
             this.Container.PerformLayout();
             this.PanelInterval.ResumeLayout(false);
             this.PanelDeviceIp.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.DeleteAvatar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Avatar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Image)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -477,22 +460,21 @@ namespace SKYNET
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label8;
         private new System.Windows.Forms.Panel Container;
-        private System.Windows.Forms.PictureBox Avatar;
-        private SKYNET_Check DeviceWeb;
-        private System.Windows.Forms.PictureBox DeleteAvatar;
-        public SKYNET_TextBox Port;
-        private SKYNET_TextBox MAC;
+        private System.Windows.Forms.PictureBox PB_Image;
+        private SKYNET_Check TB_TCP;
+        public SKYNET_TextBox TB_Port;
+        private SKYNET_TextBox PB_MAC;
         private System.Windows.Forms.Label label1;
-        private SKYNET_TextBox DeviceName;
-        private SKYNET_TextBox DeviceIp;
+        private SKYNET_TextBox TB_Name;
+        private SKYNET_TextBox TB_IPAddress;
         private SKYNET_Button SearchPorts;
-        private SKYNET_TextBox Interval;
+        private SKYNET_TextBox TB_Interval;
         private System.Windows.Forms.Label label2;
-        private SKYNET_TextBox OpcionalLocation;
+        private SKYNET_TextBox TB_OpcionalLocation;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel PanelDeviceIp;
         private System.Windows.Forms.Panel PanelInterval;
-        private SKYNET_Check CircularAvatar;
+        private SKYNET_Check CB_CircularImage;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private SKYNET_Box CloseBox;

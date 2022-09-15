@@ -1,14 +1,9 @@
 ﻿using Microsoft.VisualBasic;
-using Microsoft.Win32;
 using SKYNET.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SKYNET
@@ -35,6 +30,8 @@ namespace SKYNET
         [STAThread]
         static void Main()
         {
+            //new Form1().ShowDialog(); return;
+
             if (!IsAdmin())
             {
                 RestartAsAdmin();

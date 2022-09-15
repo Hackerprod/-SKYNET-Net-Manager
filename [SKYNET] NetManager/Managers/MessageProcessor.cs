@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SKYNET.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace SKYNET
             server.OnGet += OnMessage;
             server.OnPost += OnMessage;
         }
+
         private void OnMessage(object sender, HttpRequestEventArgs e)
         {
             string EndPoint = e.Request.Url.AbsolutePath;
@@ -29,6 +31,12 @@ namespace SKYNET
             {
                 case "/onMessage":
                     {
+                        if (!frmMain.ReceiveMessages)
+                        {
+                            e.Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                            return;
+                        }
+
                         byte[] body = GetBody(e.Request.InputStream);
                         var Remote = e.Request.RemoteEndPoint;
 
@@ -48,12 +56,62 @@ namespace SKYNET
                     }
                     break;
                 case "/onPing":
-                    e.Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
-                    e.Response.OutputStream.Flush();
+                    {
+                        if (!frmMain.ReceiveMessages)
+                        {
+                            e.Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                            return;
+                        }
+                        e.Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                        e.Response.OutputStream.Flush();
+                    }
+                    break;
+                case "/Avatar":
+                    ResponseAvatar(e);
                     break;
                 default:
                     e.Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                     break;
+            }
+        }
+
+        private void ResponseAvatar(HttpRequestEventArgs e)
+        {
+            string avatarPath = Path.Combine(Common.GetPath(), "Data", "Images", "Avatar.jpg");
+            if (!File.Exists(avatarPath))
+            {
+                var Avatar = ImageHelper.GetDesktopWallpaper(true);
+                Avatar.Save(avatarPath);
+            }
+
+            if (!File.Exists(avatarPath))
+            {
+                e.Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                return;
+            }
+
+            try
+            {
+                Stream input = new FileStream(avatarPath, FileMode.Open);
+
+                e.Response.ContentType = "image/jpeg";
+                e.Response.ContentLength64 = input.Length;
+
+                byte[] buffer = new byte[input.Length];
+                int nbytes;
+                while ((nbytes = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    e.Response.OutputStream.Write(buffer, 0, nbytes);
+                    e.Response.ContentLength64 = buffer.Length;
+                }
+                input.Close();
+
+                e.Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                e.Response.OutputStream.Flush();
+            }
+            catch
+            {
+                e.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
             }
         }
 

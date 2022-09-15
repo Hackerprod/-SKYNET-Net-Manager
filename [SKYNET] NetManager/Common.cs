@@ -15,10 +15,26 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 public class Common
 {
+
+    public static async Task<Bitmap> GetDeviceImage(string URL)
+    {
+        try
+        {
+            var WebClient = new WebClient();
+            var Data = await WebClient.DownloadDataTaskAsync(URL);
+            return (Bitmap)ImageHelper.ImageFromBytes(Data);
+        }
+        catch 
+        {
+            return null;
+        }
+    }
+
     public static void EnsureDirectoryExists(string filePath, bool isFile = false)
     {
         if (!string.IsNullOrEmpty(filePath))

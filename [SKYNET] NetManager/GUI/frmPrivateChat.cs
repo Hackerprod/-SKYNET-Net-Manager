@@ -80,7 +80,7 @@ namespace SKYNET
 
         private void WriteChat(ChatMessage message)
         {
-            skyneT_WebChat1.WriteChat(message);
+            WebChat.WriteChat(message);
         }
 
         public void FillHistory(List<ChatMessage> messages)
@@ -136,7 +136,7 @@ namespace SKYNET
                         Sender = Environment.UserName,
                         Message = msg,
                         Time = DateTime.Now,
-                        Addresses = NetHelper.GetIPAddresses()
+                        Addresses = NetHelper.GetAddresses()
                     };
 
                     WriteChat(message);
@@ -145,6 +145,8 @@ namespace SKYNET
                 }
                 catch (Exception ex)
                 {
+                    Common.Show(ex);
+
                     //TB_Chat.Text += "Error sending: " + msg + Environment.NewLine;
                 }
             });
