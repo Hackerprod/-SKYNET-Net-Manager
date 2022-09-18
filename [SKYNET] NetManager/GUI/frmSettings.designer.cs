@@ -63,20 +63,18 @@ namespace SKYNET
             this.CB_CustomSound = new SKYNET.Controls.SKYNET_Check();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.CB_MinimizeWhenClose = new SKYNET.Controls.SKYNET_Check();
             this.CB_ShowTopPanel = new SKYNET.Controls.SKYNET_Check();
-            this.CB_ShowInLeft = new SKYNET.Controls.SKYNET_Check();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
             this.PB_Avatar = new System.Windows.Forms.PictureBox();
             this.TB_UserName = new SKYNET.Controls.SKYNET_TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label15 = new System.Windows.Forms.Label();
             this.CB_ReceiveMessages = new SKYNET.Controls.SKYNET_Check();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.KeyContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OpacityBar)).BeginInit();
             this.PN_Top.SuspendLayout();
@@ -108,7 +106,7 @@ namespace SKYNET
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.label2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label2.Location = new System.Drawing.Point(19, 326);
+            this.label2.Location = new System.Drawing.Point(19, 285);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(250, 19);
             this.label2.TabIndex = 254;
@@ -118,7 +116,7 @@ namespace SKYNET
             // 
             this.KeyContainer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
             this.KeyContainer.Controls.Add(this.TB_Key);
-            this.KeyContainer.Location = new System.Drawing.Point(275, 323);
+            this.KeyContainer.Location = new System.Drawing.Point(275, 282);
             this.KeyContainer.Name = "KeyContainer";
             this.KeyContainer.Size = new System.Drawing.Size(54, 25);
             this.KeyContainer.TabIndex = 255;
@@ -248,7 +246,7 @@ namespace SKYNET
             this.SearhSound.ForeColorMouseOver = System.Drawing.Color.White;
             this.SearhSound.ImageAlignment = SKYNET.SKYNET_Button._ImgAlign.Left;
             this.SearhSound.ImageIcon = null;
-            this.SearhSound.Location = new System.Drawing.Point(574, 274);
+            this.SearhSound.Location = new System.Drawing.Point(574, 277);
             this.SearhSound.MenuMode = false;
             this.SearhSound.Name = "SearhSound";
             this.SearhSound.Rounded = false;
@@ -264,7 +262,7 @@ namespace SKYNET
             this.TB_CustomSoundPath.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.TB_CustomSoundPath.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.TB_CustomSoundPath.IsPassword = false;
-            this.TB_CustomSoundPath.Location = new System.Drawing.Point(362, 274);
+            this.TB_CustomSoundPath.Location = new System.Drawing.Point(362, 277);
             this.TB_CustomSoundPath.Logo = null;
             this.TB_CustomSoundPath.LogoCursor = System.Windows.Forms.Cursors.Default;
             this.TB_CustomSoundPath.Multiline = false;
@@ -366,7 +364,7 @@ namespace SKYNET
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.label9.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label9.Location = new System.Drawing.Point(358, 240);
+            this.label9.Location = new System.Drawing.Point(358, 243);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(174, 19);
             this.label9.TabIndex = 275;
@@ -377,7 +375,7 @@ namespace SKYNET
             this.CB_CustomSound.BackColor = System.Drawing.Color.Transparent;
             this.CB_CustomSound.Checked = false;
             this.CB_CustomSound.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.CB_CustomSound.Location = new System.Drawing.Point(633, 240);
+            this.CB_CustomSound.Location = new System.Drawing.Point(633, 243);
             this.CB_CustomSound.Name = "CB_CustomSound";
             this.CB_CustomSound.Size = new System.Drawing.Size(34, 25);
             this.CB_CustomSound.TabIndex = 276;
@@ -405,23 +403,12 @@ namespace SKYNET
             this.label11.TabIndex = 278;
             this.label11.Text = "Minimizar al cerrar";
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label12.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label12.Location = new System.Drawing.Point(19, 242);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(206, 19);
-            this.label12.TabIndex = 279;
-            this.label12.Text = "Mostrar programa a la izquierda";
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.label13.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label13.Location = new System.Drawing.Point(19, 281);
+            this.label13.Location = new System.Drawing.Point(19, 240);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(206, 19);
             this.label13.TabIndex = 280;
@@ -442,21 +429,10 @@ namespace SKYNET
             this.CB_ShowTopPanel.BackColor = System.Drawing.Color.Transparent;
             this.CB_ShowTopPanel.Checked = false;
             this.CB_ShowTopPanel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.CB_ShowTopPanel.Location = new System.Drawing.Point(294, 279);
+            this.CB_ShowTopPanel.Location = new System.Drawing.Point(294, 238);
             this.CB_ShowTopPanel.Name = "CB_ShowTopPanel";
             this.CB_ShowTopPanel.Size = new System.Drawing.Size(34, 25);
             this.CB_ShowTopPanel.TabIndex = 282;
-            // 
-            // CB_ShowInLeft
-            // 
-            this.CB_ShowInLeft.BackColor = System.Drawing.Color.Transparent;
-            this.CB_ShowInLeft.Checked = false;
-            this.CB_ShowInLeft.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.CB_ShowInLeft.Location = new System.Drawing.Point(294, 239);
-            this.CB_ShowInLeft.Name = "CB_ShowInLeft";
-            this.CB_ShowInLeft.Size = new System.Drawing.Size(34, 25);
-            this.CB_ShowInLeft.TabIndex = 283;
-            this.CB_ShowInLeft.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ShowInLeft_MouseClick);
             // 
             // panel2
             // 
@@ -465,22 +441,6 @@ namespace SKYNET
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(305, 2);
             this.panel2.TabIndex = 284;
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panel3.Location = new System.Drawing.Point(23, 231);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(305, 2);
-            this.panel3.TabIndex = 285;
-            // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panel4.Location = new System.Drawing.Point(23, 271);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(305, 2);
-            this.panel4.TabIndex = 286;
             // 
             // PB_Avatar
             // 
@@ -525,7 +485,7 @@ namespace SKYNET
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panel1.Location = new System.Drawing.Point(23, 310);
+            this.panel1.Location = new System.Drawing.Point(23, 269);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(305, 2);
             this.panel1.TabIndex = 290;
@@ -551,6 +511,22 @@ namespace SKYNET
             this.CB_ReceiveMessages.Size = new System.Drawing.Size(34, 25);
             this.CB_ReceiveMessages.TabIndex = 292;
             // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.panel3.Location = new System.Drawing.Point(23, 231);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(305, 2);
+            this.panel3.TabIndex = 285;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.panel4.Location = new System.Drawing.Point(23, 230);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(305, 2);
+            this.panel4.TabIndex = 286;
+            // 
             // frmSettings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -565,11 +541,9 @@ namespace SKYNET
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.CB_ShowInLeft);
             this.Controls.Add(this.CB_ShowTopPanel);
             this.Controls.Add(this.CB_MinimizeWhenClose);
             this.Controls.Add(this.label13);
-            this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.CB_CustomSound);
@@ -637,14 +611,10 @@ namespace SKYNET
         private SKYNET_Check CB_CustomSound;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private SKYNET_Check CB_MinimizeWhenClose;
         private SKYNET_Check CB_ShowTopPanel;
-        private SKYNET_Check CB_ShowInLeft;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
         private SKYNET_Box CloseBox;
         private System.Windows.Forms.PictureBox PB_Avatar;
         private SKYNET_TextBox TB_UserName;
@@ -652,5 +622,7 @@ namespace SKYNET
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label15;
         private SKYNET_Check CB_ReceiveMessages;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel4;
     }
 }

@@ -13,7 +13,6 @@ namespace SKYNET
         public int Port { get; set; }
         public int Interval { get; set; }
         public string OpcionalLocation { get; set; }
-        public int Order { get; set; }
         public bool CircularImage { get; set; }
 
     }

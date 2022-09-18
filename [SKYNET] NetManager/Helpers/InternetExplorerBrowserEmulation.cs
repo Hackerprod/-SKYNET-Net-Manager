@@ -5,7 +5,7 @@ using System.Security;
 using Microsoft.VisualBasic.CompilerServices;
 using Microsoft.Win32;
 
-namespace SkynetChat
+namespace SKYNET
 {
   internal sealed class InternetExplorerBrowserEmulation
   {

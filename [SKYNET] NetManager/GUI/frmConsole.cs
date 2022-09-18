@@ -74,14 +74,14 @@ namespace SKYNET
                     {
                         if (txtConsole.Lines[i].Contains("Media = "))
                         {
-                            BOXmenu._Ping = txtConsole.Lines[i].Split('=')[3].Replace("ms", " ms");
+                            BOXmenu.Ping = txtConsole.Lines[i].Split('=')[3].Replace("ms", " ms");
                             BOXmenu.Status =  ConnectionStatus.Online;
                         }
                     }
                 }
                 catch
                 {
-                    BOXmenu._Ping = "3" + " ms";
+                    BOXmenu.Ping = "3" + " ms";
                     BOXmenu.Status = ConnectionStatus.Online;
 
                     BOXmenu.Status = ConnectionStatus.Online;

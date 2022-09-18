@@ -96,6 +96,7 @@ namespace SKYNET
             // 
             // StatusPNL
             // 
+            this.StatusPNL.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(7)))), ((int)(((byte)(41)))));
             this.StatusPNL.Location = new System.Drawing.Point(145, -4);
             this.StatusPNL.Name = "StatusPNL";
             this.StatusPNL.Size = new System.Drawing.Size(10, 60);
@@ -145,7 +146,6 @@ namespace SKYNET
             this.Controls.Add(this.PB_Image);
             this.Name = "DeviceBox";
             this.Size = new System.Drawing.Size(151, 44);
-            this.Load += new System.EventHandler(this.Device_Load);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Box_MouseClick);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Box_MouseDoubleClick);
             this.MouseLeave += new System.EventHandler(this.Box_MouseLeave);

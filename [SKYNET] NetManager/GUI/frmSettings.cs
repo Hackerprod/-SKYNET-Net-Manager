@@ -31,7 +31,6 @@ namespace SKYNET
             CB_MinimizeWhenClose.Checked = Settings.MinimizeWhenClose;
             CB_LaunchWindowsStart.Checked = Settings.LaunchWindowsStart;
             TB_Key.Text = Settings.Key;
-            CB_ShowInLeft.Checked = Settings.ShowInLeft;
             TB_TimeOut.Text = Settings.Timeout.ToString();
             TB_TTL.Text = Settings.TTL.ToString();
             TB_BufferSize.Text = Settings.BufferSize.ToString();
@@ -47,8 +46,6 @@ namespace SKYNET
 
             int maximum = 100;
             int minimum = 80;
-            string opacity = frmBack.frm.Opacity.ToString();
-            opacity = opacity.Replace("0,", "").Replace("0.", "");
 
             string avatarPath = Path.Combine(Common.GetPath(), "Data", "Images", "Avatar.jpg");
             try
@@ -60,7 +57,7 @@ namespace SKYNET
                 }
                 else
                 {
-                    var Avatar = ImageHelper.GetDesktopWallpaper(true);
+                    var Avatar = ImageHelper.Resize(ImageHelper.GetDesktopWallpaper(true), 200, 200);
                     Avatar.Save(avatarPath);
                     PB_Avatar.Image = Avatar;
                 }
@@ -69,12 +66,9 @@ namespace SKYNET
             {
             }
 
-            int value = Convert.ToInt32(opacity);
-            if (value == 1) value = 100;
 
             OpacityBar.Minimum = minimum;
             OpacityBar.Maximum = maximum;
-            OpacityBar.Value = value;
         }
 
         private void AceptarBtn_Click(object sender, EventArgs e)
@@ -122,7 +116,6 @@ namespace SKYNET
                 value = value / 100;
             }
 
-            frmBack.frm.Opacity = value;
             Settings.OpacityForm = value;
         }
 
@@ -145,12 +138,6 @@ namespace SKYNET
         {
             TB_CustomSoundPath.Visible = CB_CustomSound.Checked;
             SearhSound.Visible = CB_CustomSound.Checked;
-        }
-
-        private void ShowInLeft_MouseClick(object sender, MouseEventArgs e)
-        {
-            Settings.ShowInLeft = CB_ShowInLeft.Checked;
-            frmMain.frm.Maximize(CB_ShowInLeft.Checked);
         }
 
         private void CloseBox_BoxClicked(object sender, EventArgs e)

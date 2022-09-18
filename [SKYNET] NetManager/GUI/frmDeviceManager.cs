@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace SKYNET
 {
-    public partial class frmManager : frmBase
+    public partial class frmDeviceManager : frmBase
     {
         private DeviceBox DeviceBox;
         private string Guid;
 
-        public frmManager(DeviceBox box = null)
+        public frmDeviceManager(DeviceBox box = null)
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
@@ -38,13 +38,13 @@ namespace SKYNET
                     DeviceBox.Device.Port = 80;
 
                 TB_Name.Text = DeviceBox.Device.Name;
-                TB_IPAddress.Text = DeviceBox.Device.IPAddress.ToString();
-                TB_TCP.Checked = DeviceBox.Device.TCP;
+                TB_IPAddress.Text = DeviceBox.Device.IPAddress?.ToString();
+                CB_TCP.Checked = DeviceBox.Device.TCP;
                 PB_Image.Image = DeviceBox.PB_Image.Image;
-                PB_MAC.Text = DeviceBox.MAC;
-                TB_Port.Visible = TB_TCP.Checked;
+                TB_MAC.Text = DeviceBox.MAC;
+                TB_Port.Visible = CB_TCP.Checked;
                 TB_Port.Text = DeviceBox.Device.Port.ToString();
-                TB_Interval.Text = DeviceBox.Interval.ToString();
+                TB_Interval.Text = DeviceBox.Device.Interval.ToString();
                 TB_OpcionalLocation.Text = DeviceBox.OpcionalLocation;
                 CB_CircularImage.Checked = DeviceBox.CircularImage;
             }
@@ -53,10 +53,10 @@ namespace SKYNET
                 /*sectionNumber = modCommon.GetNextSection();
                 SectionName = frmMain.CurrentSection + sectionNumber;*/
             }
-            Check(TB_TCP.Checked);
+            Check(CB_TCP.Checked);
         }
 
-        public frmManager(Host host)
+        public frmDeviceManager(Host host)
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;  
@@ -65,11 +65,12 @@ namespace SKYNET
             {
                 TB_Name.Text = host.HostName;
                 TB_IPAddress.Text = host.IPAddress.ToString();
-                PB_MAC.Text = host.MAC;
+                TB_MAC.Text = host.MAC;
                 TB_Interval.Text = host.Interval.ToString();
                 TB_Port.Text = host.Port.ToString(); 
-                TB_TCP.Checked = true;
+                CB_TCP.Checked = true;
                 TB_Port.Visible = true;
+                Guid = System.Guid.NewGuid().ToString();
             }
             else
             {
@@ -105,51 +106,46 @@ namespace SKYNET
 
             if (DeviceBox != null)
             {
-                if (DeviceBox.Device == null)
+                var Device = new Device()
                 {
-                    DeviceBox.Device = new Device()
-                    {
-                        Guid = Guid
-                    };
-                }
+                    Guid = Guid
+                };
 
-                if (string.IsNullOrEmpty(DeviceBox.Device.Guid))
+                if (string.IsNullOrEmpty(DeviceBox.Device?.Guid))
                 {
                     DeviceBox.Device.Guid = Guid;
                 }
 
-                DeviceBox.Device.Name = TB_Name.Text;
+                Device.Name = TB_Name.Text;
 
-                if (IPAddress.TryParse(TB_Name.Text, out _))
+                if (IPAddress.TryParse(TB_IPAddress.Text, out _))
                 {
-                    DeviceBox.Device.IPAddress = TB_Name.Text;
+                    Device.IPAddress = TB_IPAddress.Text;
                 }
 
-                DeviceBox.Device.TCP = TB_TCP.Checked;
-                DeviceBox.SetImage(PB_Image.Image);
+                Device.TCP = CB_TCP.Checked;
 
                 if (int.TryParse(TB_Interval.Text, out int interval))
                 {
-                    DeviceBox.Interval = interval;
-                    DeviceBox.Device.Interval = interval;
+                    Device.Interval = interval;
                 }
                 else
                 {
-                    DeviceBox.Interval = 1;
-                    DeviceBox.Device.Interval = 1;
+                    Device.Interval = 1;
                 }
 
                 if (int.TryParse(TB_Port.Text, out int port))
                 {
-                    DeviceBox.Device.Port = port;
+                    Device.Port = port;
                 }
 
-                DeviceBox.OpcionalLocation = TB_OpcionalLocation.Text;
-                DeviceBox.Device.OpcionalLocation = TB_OpcionalLocation.Text;
+                Device.OpcionalLocation = TB_OpcionalLocation.Text;
+                Device.OpcionalLocation = TB_OpcionalLocation.Text;
+                Device.CircularImage = CB_CircularImage.Checked;
 
-                DeviceBox.Device = DeviceBox.Device;
+                DeviceBox.Device = Device;
 
-                frmMain.frm.UpdateAndSave();
+                frmMain.frm.SaveDevices();
             }
             else
             {
@@ -161,7 +157,7 @@ namespace SKYNET
                     device.IPAddress = Address.ToString();
                 }
 
-                device.TCP = TB_TCP.Checked;
+                device.TCP = CB_TCP.Checked;
 
                 if (int.TryParse(TB_Interval.Text, out int interval))
                 {
@@ -182,12 +178,10 @@ namespace SKYNET
                 }
 
                 device.OpcionalLocation = TB_OpcionalLocation.Text;
-                device.Order = DeviceManager.GetDeviceCount() + 1;
 
                 frmMain.frm.AddBox(device);
-                frmMain.frm.UpdateAndSave();
+                frmMain.frm.SaveDevices();
             }
-
 
             frmMain.frm.SaveDevices();
             Close();
@@ -195,7 +189,7 @@ namespace SKYNET
 
         private void Check(bool _checked)
         {
-            TB_Port.Visible = TB_TCP.Checked;
+            TB_Port.Visible = CB_TCP.Checked;
         }
 
         private void MAC_KeyDown(object sender, KeyEventArgs e)
@@ -293,7 +287,7 @@ namespace SKYNET
 
         private void DeviceWeb_Click(object sender, MouseEventArgs e)
         {
-            Check(TB_TCP.Checked);
+            Check(CB_TCP.Checked);
         }
 
         private void CloseBox_BoxClicked(object sender, EventArgs e)

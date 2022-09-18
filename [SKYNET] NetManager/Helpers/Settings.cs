@@ -9,7 +9,6 @@ namespace SKYNET.Helpers
         public static bool LaunchWindowsStart { get; set; }
         public static string CurrentSection { get; set; }
         public static string Key { get; set; }
-        public static bool ShowInLeft { get; set; }
         public static double OpacityForm { get; set; }
         public static int Timeout { get; set; }
         public static int BufferSize { get; set; }
@@ -33,7 +32,6 @@ namespace SKYNET.Helpers
             LaunchWindowsStart = Registry.Get<bool>("LaunchWindowsStart", false);
             CurrentSection = Registry.Get<string>("CurrentSection", "Device");
             Key = Registry.Get<string>("Key", "F8");
-            ShowInLeft = Registry.Get<bool>("ShowInLeft", false);
             OpacityForm = Registry.Get<int>("OpacityForm", 100);
             Timeout = Registry.Get<int>("Timeout", 2000);
             BufferSize = Registry.Get<int>("BufferSize", 32);
@@ -50,7 +48,6 @@ namespace SKYNET.Helpers
             Registry.Set("LaunchWindowsStart", LaunchWindowsStart);
             Registry.Set("CurrentSection", CurrentSection);
             Registry.Set("Key", Key);
-            Registry.Set("ShowInLeft", ShowInLeft);
             Registry.Set("OpacityForm", OpacityForm);
             Registry.Set("Timeout", Timeout);
             Registry.Set("BufferSize", BufferSize);

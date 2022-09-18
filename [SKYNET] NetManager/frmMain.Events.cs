@@ -4,6 +4,7 @@ using SKYNET.Helpers;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 
@@ -54,22 +55,33 @@ namespace SKYNET
             Process.GetCurrentProcess().Kill();
         }
 
-        private void CloseBoxMenuItem_Click(object sender, EventArgs e)
+        private void RemoveDeviceMenuItem_Click(object sender, EventArgs e)
         {
             frmMessage message = new frmMessage("Estas seguro que deseas eliminar al dispositivo " + menuBOX.Device.Name + "?", frmMessage.TypeMessage.YesNo);
             DialogResult result = message.ShowDialog();
             if (result == DialogResult.OK)
             {
-                try
+                for (int i = 0; i < DeviceContainer.Controls.Count; i++)
                 {
-                    if (File.Exists(Path.Combine(Common.GetPath(), "Data", " Images", Settings.CurrentSection + "_" + menuBOX.Name + ".png")))
+                    var control = DeviceContainer.Controls[i];
+                    if (control is DeviceBox && ((DeviceBox)control).Device.Guid == menuBOX.Device.Guid)
                     {
-                        File.Delete(Path.Combine(Common.GetPath(), "Data", " Images", Settings.CurrentSection + "_" + menuBOX.Name + ".png"));
+                        if (i == DeviceContainer.Controls.Count - 1)
+                        {
+                            DeviceContainer.Controls.Remove(control);
+                        }
+                        else
+                        {
+                            var device = menuBOX.Device;
+                            device.Name = "Unknown";
+                            device.IPAddress = "";
+
+                            menuBOX.Device = device;
+                        }
                     }
                 }
-                catch { }
 
-                RemoveDevice(menuBOX);
+                SaveDevices();
             }
         }
 

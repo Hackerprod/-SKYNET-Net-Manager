@@ -2,6 +2,7 @@
 using SKYNET.Helpers;
 using SKYNET.NetUtils;
 using SKYNET.Properties;
+using SKYNET.Types;
 using System;
 using System.Drawing;
 using System.Media;
@@ -13,7 +14,9 @@ namespace SKYNET
 {
     public partial class frmDeviceInfo : frmBase
     {
-        private readonly DeviceBox DeviceBox;
+        private DeviceBox DeviceBox;
+        private DeviceStats DeviceStats => DeviceBox.DeviceStats;
+
         private Image BoxImage;
         private AsyncHostNameResolver _nameResolver = new AsyncHostNameResolver();
         private System.Timers.Timer _timer = new System.Timers.Timer();
@@ -148,10 +151,10 @@ namespace SKYNET
                 //Avatar.Image = device.PB_Image.Image;
 
                 // Graphic ///////////////////////////////////////
-                if (PingCount != DeviceBox.SentPackets)
+                if (PingCount != DeviceStats.SentPackets)
                 {
 
-                    int GraphicTime = (int)DeviceBox.CurrentResponseTime;
+                    int GraphicTime = (int)DeviceStats.CurrentResponseTime;
                     AddBarGraphic(GraphicTime);
 
                     if (LastStatus != DeviceBox.Status)
@@ -201,32 +204,32 @@ namespace SKYNET
                 }
 
                 Status.Text = DeviceBox.Status.ToString();
-                SentPackets.Text = DeviceBox.SentPackets.ToString();
-                ReceivedPackets.Text = DeviceBox.ReceivedPackets.ToString();
-                ReceivedPacketsPercent.Text = PercentToString(GetPacketsPercent(DeviceBox.ReceivedPackets, DeviceBox.SentPackets));
-                LostPackets.Text = DeviceBox.LostPackets.ToString();
-                LostPacketsPercent.Text = PercentToString(GetPacketsPercent(DeviceBox.LostPackets, DeviceBox.SentPackets));
+                SentPackets.Text = DeviceStats.SentPackets.ToString();
+                ReceivedPackets.Text = DeviceStats.ReceivedPackets.ToString();
+                ReceivedPacketsPercent.Text = PercentToString(GetPacketsPercent(DeviceStats.ReceivedPackets, DeviceStats.SentPackets));
+                LostPackets.Text = DeviceStats.LostPackets.ToString();
+                LostPacketsPercent.Text = PercentToString(GetPacketsPercent(DeviceStats.LostPackets, DeviceStats.SentPackets));
 
-                if (DeviceBox.LastPacketLost)
+                if (DeviceStats.LastPacketLost)
                     LastPacketLost.Text = "Si";
                 else
                     LastPacketLost.Text = "No";
 
-                ConsecutivePacketsLost.Text = DeviceBox.ConsecutivePacketsLost.ToString();
-                CurrentResponseTime.Text = DeviceBox.CurrentResponseTime + " ms";
-                AverageResponseTime.Text = ToString(GetAverageResponseTime(DeviceBox.ReceivedPackets, DeviceBox.TotalResponseTime)) + " ms";
+                ConsecutivePacketsLost.Text = DeviceStats.ConsecutivePacketsLost.ToString();
+                CurrentResponseTime.Text = DeviceStats.CurrentResponseTime + " ms";
+                AverageResponseTime.Text = ToString(GetAverageResponseTime(DeviceStats.ReceivedPackets, DeviceStats.TotalResponseTime)) + " ms";
 
-                if (DeviceBox.MinResponseTime == 9223372036854775807L)
+                if (DeviceStats.MinResponseTime == 9223372036854775807L)
                     MinResponseTime.Text = "1000" + " ms";
                 else
-                    MinResponseTime.Text = DeviceBox.MinResponseTime + " ms";
+                    MinResponseTime.Text = DeviceStats.MinResponseTime + " ms";
 
-                MaxResponseTime.Text = DeviceBox.MaxResponseTime + " ms";
-                CurrentStatusDuration.Text = DurationToString(DateTime.Now.Subtract(DeviceBox._statusReachedAt));
+                MaxResponseTime.Text = DeviceStats.MaxResponseTime + " ms";
+                CurrentStatusDuration.Text = DurationToString(DateTime.Now.Subtract(DeviceStats.StatusReachedAt));
 
-                GetAliveDuration.Text = DeviceBox.OnlineStatusDuration;
-                GetDeadDuration.Text = DeviceBox.OfflineStatusDuration;
-                TotalTime.Text = GetTotalTime(DeviceBox.StartTime);
+                GetAliveDuration.Text = DeviceStats.OnlineStatusDuration;
+                GetDeadDuration.Text = DeviceStats.OfflineStatusDuration;
+                TotalTime.Text = GetTotalTime(DeviceStats.StartTime);
                 //HostAvailability.Text = Box.HostAvailability;
             }
             catch
@@ -292,10 +295,10 @@ namespace SKYNET
 
         public TimeSpan GetStatusDuration(ConnectionStatus status, DeviceBox Box)
         {
-            TimeSpan timeSpan = Box._statusDurations[(int)Box.Status];
+            TimeSpan timeSpan = DeviceStats.StatusDurations[Box.Status];
             if (Box.Status == status)
             {
-                timeSpan += DateTime.Now - Box._statusReachedAt;
+                timeSpan += DateTime.Now - DeviceStats.StatusReachedAt;
             }
             return timeSpan;
         }

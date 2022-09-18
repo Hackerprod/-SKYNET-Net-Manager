@@ -1,39 +1,31 @@
 ﻿using SKYNET.Helpers;
+using SKYNET.Types;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows.Forms;
 
 namespace SKYNET
 {
     public partial class DeviceBox : UserControl
     {
-        private int              _Interval;
-        private Device           _Device;
-        private DateTime         _StartTime;
-        public TimeSpan[]        _statusDurations;
-        public DateTime          _statusReachedAt;
-        private int              _SentPackets;
-        private int              _ReceivedPackets;
-        private int              _LostPackets;
-        private int              _ConsecutivePacketsLost;
-        private bool             _LastPacketLost;
-        private int              _ConsecutivePacketsLostReceived;
-        private bool             _circularAvatar;
-        private ConnectionStatus _Status;
-        private int              _Orden;
-        private int              _Timeout;
-        private bool             _ImageFromFile;
+        public DeviceStats DeviceStats;
+        public PingHelper  PingHelper;
+        public string Ping;
+        public Dictionary<int, int> Values;
 
-        public string _Ping;
+        public string OpcionalLocation { get; set; }
+        public bool AlertOnConnect { get; set; }
+        public bool AlertOnDisconnect { get; set; }
+        public string MAC { get; set; }
+
+        private Device _Device;
+        private bool _circularAvatar;
+        private bool _ExternalImage;
+
 
         public Image Image
         {
@@ -47,54 +39,6 @@ namespace SKYNET
             }
         }
 
-        public int Interval
-        {
-            get
-            {
-                if (_Interval == 0)
-                    return 1;
-                else
-                    return _Interval;
-            }
-            set
-            {
-                _Interval = value;
-            }
-        }
-
-
-        //Ping Manager
-        private readonly System.Timers.Timer _timer = new System.Timers.Timer();
-        private PingOptions _pingerOptions;
-        private readonly Ping _pinger = new Ping();
-        private readonly byte[] _buffer;
-
-        //Ping History
-        public int SentPackets { get { return _SentPackets; } set { _SentPackets = value; } }
-        public int ReceivedPackets { get { return _ReceivedPackets; } set { _ReceivedPackets = value; } }
-        public int LostPackets { get { return _LostPackets; } set { _LostPackets = value; } }
-        public int ConsecutivePacketsLost { get { return _ConsecutivePacketsLost; } set { _ConsecutivePacketsLost = value; } }
-        public bool LastPacketLost { get { return _LastPacketLost; } set { _LastPacketLost = value; } }
-
-        //DeviceInfo
-        public long CurrentResponseTime { get; set; }
-        public long TotalResponseTime { get; set; }
-        public long MinResponseTime { get; set; }
-        public long MaxResponseTime { get; set; }
-
-        public DateTime StartTime { get { return _StartTime; } set { _StartTime = value; } }
-
-        public string OpcionalLocation { get; set; }
-        public string HostName { get; set; }
-        public bool AlertOnConnect { get; set; }
-        public bool AlertOnDisconnect { get; set; }
-        public string MAC { get; set; }
-        PingOptions PingOption { get; set; }
-        byte[] Buffer { get; set; }
-        public bool Running { get; set; }
-
-        public Dictionary<int, int> Values;
-
         public Device Device 
         { 
             get { return _Device; } 
@@ -107,29 +51,30 @@ namespace SKYNET
                     return;
                 }
 
-                Interval = _Device.Interval;
+                PingHelper.Initialize(value);
+
                 OpcionalLocation = _Device.OpcionalLocation;
                 CircularImage = _Device.CircularImage;
                 
                 LB_Name.Text = _Device.Name;
-                LB_IPAddress.Text = _Device.IPAddress;
-
-                bool CustomImage = false;
+                LB_IPAddress.Text = _Device.IPAddress == null ? "" : _Device.IPAddress;
 
                 if (DeviceManager.GetDeviceImage(_Device, out var image))
                 {
                     SetImage(image);
-                    CustomImage = true;
+                    _ExternalImage = true;
                 }
 
                 Task.Run(delegate 
                 {
+                    if (_Device.IPAddress == null) return;
+
                     var ImageDownloaded = Common.GetDeviceImage($"http://{_Device.IPAddress}:28082/Avatar");
                     if (ImageDownloaded.Result != null)
                     {
-                        _ImageFromFile = false;
+                        _ExternalImage = false;
                         SetImage(ImageDownloaded.Result);
-                        _ImageFromFile = true;
+                        _ExternalImage = true;
                         return;
                     }
                 });
@@ -140,133 +85,76 @@ namespace SKYNET
         {
             InitializeComponent();
 
-            SentPackets = 0;
-            ReceivedPackets = 0;
-            LostPackets = 0;
-            CurrentResponseTime = 0L;
-            MinResponseTime = 9223372036854775807L;
-            MaxResponseTime = 0L;
-            _ConsecutivePacketsLostReceived = 0;
-            ConsecutivePacketsLost = 0;
-            TotalResponseTime = 0L;
-            _statusDurations = new TimeSpan[2];
-            _statusReachedAt = DateTime.Now;
+            PingHelper = new PingHelper();
+            PingHelper.OnPingSuccess += PingHelper_OnPingSuccess;
+            PingHelper.OnPingFailed += PingHelper_OnPingFailed;
 
-            _ImageFromFile = false;
+            _ExternalImage = false;
+
             Values = new Dictionary<int, int>();
             for (int i = 1; i < 31; i++)
             {
                 Values.Add(i, 0);
             }
-
-            if (Settings.TTL == 0) Settings.TTL = 32;
-            _pingerOptions = new PingOptions(Settings.TTL, false);
-            _buffer = new byte[Settings.BufferSize];
-
-            InitTimer();
         }
 
-        private void Device_Load(object sender, EventArgs e)
+        private void PingHelper_OnPingFailed(object sender, long RoundtripTime)
         {
-            _Timeout = 2000;
-            PingOption = new PingOptions(32, true);
-            Buffer = new byte[4];
+            Status = ConnectionStatus.Offline;
 
-            if (Common.IsCableConnected())
+            if (AlertOnDisconnect)
             {
-                try
+                new Thread(() =>
                 {
-                    new Thread(() =>
-                    {
-                        Thread.CurrentThread.IsBackground = true;
-
-                        if (Device.IPAddress == null)
-                            return;
-
-                        if (Device.TCP && Device.Port != 80)
-                        {
-                            IPEndPoint EndPoint = new IPEndPoint(Device.IPAddress.ToIPAddress(), Device.Port);
-                            Socket sockets = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                            try
-                            {
-                                DateTime SentDateTime = DateTime.Now;
-
-                                IAsyncResult asyncResult = sockets.BeginConnect(EndPoint, new AsyncCallback((IAsyncResult ar) => { try { ((Socket)ar.AsyncState).EndConnect(ar); } catch { } }), sockets);
-
-                                if (asyncResult.AsyncWaitHandle.WaitOne(Settings.Timeout, false))
-                                {
-                                    TimeSpan span = DateTime.Now - SentDateTime;
-
-                                    long RoundtripTime = span.Milliseconds;
-                                    _Ping = RoundtripTime + " ms";
-
-                                    MAC = NetHelper.GetMACAddress(((IPEndPoint)sockets.RemoteEndPoint).Address);
-
-                                    Status = ConnectionStatus.Online;
-                                    sockets.Close();
-                                }
-                                else
-                                {
-                                    sockets.Close();
-                                    Status = ConnectionStatus.Offline;
-                                }
-
-                            }
-                            catch
-                            {
-                                Status = ConnectionStatus.Offline;
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                PingReply reply = new Ping().Send(Device.IPAddress, _Timeout, Buffer, PingOption);
-                                if (reply.Status == IPStatus.Success)
-                                {
-                                    _Ping = reply.RoundtripTime + " ms";
-                                    Status = ConnectionStatus.Online;
-                                    MAC = NetHelper.GetMACAddress(reply.Address);
-                                }
-                                else
-                                {
-                                    Status = ConnectionStatus.Offline;
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                Status = ConnectionStatus.Offline;
-                            }
-                        }
-                    }).Start();
+                    frmAlert alerta = new frmAlert(this);
+                    alerta.ShowDialog();
                 }
-                catch { }
+                ).Start();
             }
 
-            StartTime = DateTime.Now;
-            this.Refresh();
-            _timer.Interval = (double)Interval * 1000;
-            _timer.Start();
+            DeviceStats?.PingLost();
+            AddValue(200);
         }
 
+        private void PingHelper_OnPingSuccess(object sender, long RoundtripTime)
+        {
+            if (string.IsNullOrEmpty(MAC))
+            {
+                MAC = NetHelper.GetMACAddress(Device.IPAddress.ToIPAddress());
+            }
+
+            Ping = RoundtripTime + " ms";
+            Status = ConnectionStatus.Online;
+
+            DeviceStats?.PingSuccess(RoundtripTime);
+            AddValue((int)RoundtripTime);
+
+            if (AlertOnConnect)
+            {
+                new Thread(() =>
+                {
+                    frmAlert alerta = new frmAlert(this);
+                    alerta.ShowDialog();
+                }).Start();
+            }
+        }
 
         public ConnectionStatus Status
         {
             get
             {
-                return _Status;
+                return DeviceStats.CurrentStatus;
             }
             set
             {
-                if (_Status != value)
+                if (DeviceStats != null)
                 {
-                    DateTime now = DateTime.Now;
-                    TimeSpan timeSpan = now - _statusReachedAt;
-                    _statusDurations[(int)_Status] += timeSpan;
-                    _statusReachedAt = now;
+                    if (DeviceStats.CurrentStatus != value)
+                    {
+                        DeviceStats.StatusChanged(value);
+                    }
+                    DeviceStats.CurrentStatus = value;
                 }
-                _Status = value;
-
 
                 if (value == ConnectionStatus.Online)
                 {
@@ -275,7 +163,7 @@ namespace SKYNET
                         this.StatusICON.Image = Properties.Resources.online;
                         StatusPNL.BackColor = Color.FromArgb(7, 164, 245);
                         SetImage(Properties.Resources.OnlinePC);
-                        status.Text = value.ToString() + " " + _Ping;
+                        status.Text = value.ToString() + " " + Ping;
                     }
                     catch { }
                 }
@@ -294,165 +182,32 @@ namespace SKYNET
             }
         }
 
-        public string OnlineStatusDuration
-        {
-            get { return DurationToString(GetStatusDuration(ConnectionStatus.Online)); }
-        }
-
-        public string OfflineStatusDuration
-        {
-            get { return DurationToString(GetStatusDuration(ConnectionStatus.Offline)); }
-        }
-
-        private string DurationToString(TimeSpan duration)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            if (duration.Days > 0)
-            {
-                stringBuilder.Append(duration.Days);
-                stringBuilder.Append((duration.Days > 1) ? " days " : " day ");
-            }
-            stringBuilder.AppendFormat("{0:d2} : {1:d2} : {2:d2}", duration.Hours, duration.Minutes, duration.Seconds);
-            return stringBuilder.ToString();
-        }
-
-        public TimeSpan GetStatusDuration(ConnectionStatus status)
-        {
-            TimeSpan timeSpan = _statusDurations[(int)status];
-            if (_Status == status)
-            {
-                timeSpan += DateTime.Now - _statusReachedAt;
-            }
-            return timeSpan;
-        }
-
         public bool CircularImage
         {
-            get { return _circularAvatar; }
+            get
+            {
+                return _circularAvatar;
+            }
             set
             {
                 _circularAvatar = value;
-                if (_circularAvatar)
+
+                try
                 {
-                    PB_Image.Image = Common.CropToCircle(Image);
+                    //PB_Image.Refresh();
+                    //if (_circularAvatar)
+                    //{
+                    //    PB_Image.Image = Common.CropToCircle(Image);
+                    //}
+                    //else
+                    //{
+                    //    PB_Image.Image = Image;
+                    //}
                 }
-                else
+                catch (Exception)
                 {
-                    PB_Image.Image = Image;
-                }
-            }
-        }
-
-        private void InitTimer()
-        {
-            _timer.AutoReset = false;
-            _timer.Elapsed += _timer_Elapsed;
-        }
-
-        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            DoPing();
-        }
-
-        private void DoPing()
-        {
-            try
-            {
-
-                if (IPAddress.TryParse(Device.IPAddress, out var Address) /* && modCommon.IsCableConnected()*/ )
-                {
-                    if (Device.TCP && Device.Port != 80)
-                    {
-                        IPEndPoint EndPoint = new IPEndPoint(Address, Device.Port);
-                        Socket sockets = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                        try
-                        {
-                            DateTime SentDateTime = DateTime.Now;
-
-                            IAsyncResult asyncResult = sockets.BeginConnect(EndPoint, new AsyncCallback((IAsyncResult ar) => { try { ((Socket)ar.AsyncState).EndConnect(ar); } catch { } }), sockets);
-
-                            if (asyncResult.AsyncWaitHandle.WaitOne(Settings.Timeout, false))
-                            {
-                                TimeSpan span = DateTime.Now - SentDateTime;
-                                long RoundtripTime = span.Milliseconds;
-                                IncluyeReceived(RoundtripTime);
-                                sockets.Close();
-                            }
-                            else
-                            {
-                                sockets.Close();
-                                IncluyeLost();
-                            }
-                        }
-                        catch
-                        {
-                            IncluyeLost();
-                        }
-                        Running = true;
-                    }
-                    else
-                    {
-
-                        if (Settings.TTL == 0) Settings.TTL = 32;
-                        _pingerOptions = new PingOptions(Settings.TTL, false);
-
-                        try
-                        {
-                            PingReply pingReply = _pinger.Send(Device.IPAddress, Settings.Timeout, _buffer, _pingerOptions);
-                            {
-                                switch (pingReply.Status)
-                                {
-                                    case IPStatus.Success:
-                                        IncluyeReceived(pingReply.RoundtripTime);
-                                        break;
-                                    default:
-                                        IncluyeLost();
-                                        break;
-                                }
-                            }
-                        }
-                        catch
-                        {
-                            IncluyeLost();
-
-                        }
-                        Running = true;
-                    }
-                }
-                else
-                {
-                    IncluyeLost();
-                    Running = true;
                 }
             }
-            catch (Exception)
-            {
-                IncluyeLost();
-            }
-            _timer.Interval = (double)Interval * 1000;
-            _timer.Start();
-        }
-
-        private void IncluyeLost()
-        {
-
-            Status = ConnectionStatus.Offline;
-            if (AlertOnDisconnect)
-            {
-                new Thread(() =>
-                {
-                    frmAlert alerta = new frmAlert(this);
-                    alerta.ShowDialog();
-                }
-                ).Start();
-            }
-
-            _SentPackets++;
-            _LostPackets++;
-            _ConsecutivePacketsLost++;
-            _LastPacketLost = true;
-
-            AddValue(200);
         }
 
         private void AddValue(int val)
@@ -490,53 +245,20 @@ namespace SKYNET
 
         }
 
-        private void IncluyeReceived(long RoundtripTime)
-        {
-
-            MAC = NetHelper.GetMACAddress(Device.IPAddress.ToIPAddress());
-            _Ping = RoundtripTime + " ms";
-            Status = ConnectionStatus.Online;
-
-            if (AlertOnConnect)
-            {
-                new Thread(() =>
-                {
-                    frmAlert alerta = new frmAlert(this);
-                    alerta.ShowDialog();
-                }).Start();
-            }
-
-            long time = RoundtripTime;
-            _SentPackets++;
-            _ReceivedPackets++;
-            _ConsecutivePacketsLost = 0;
-            _LastPacketLost = false;
-            TotalResponseTime += time;
-            CurrentResponseTime = time;
-            if (time > MaxResponseTime)
-            {
-                MaxResponseTime = time;
-            }
-            if (time < MinResponseTime)
-            {
-                MinResponseTime = time;
-            }
-            AddValue((int)time);
-        }
-
         public void SetImage(Image image)
         {
-            if (_ImageFromFile) return;
+            if (_ExternalImage) return;
+
+            Image = image;
 
             if (CircularImage)
             {
-                PB_Image.Image = Common.CropToCircle(image);
+                InvokeAction(PB_Image, delegate { PB_Image.Image = Common.CropToCircle(image); });
             }
             else
             {
-                PB_Image.Image = image;
+                InvokeAction(PB_Image, delegate { PB_Image.Image = image; });
             }
-            Image = image;
         }
 
         private void Box_MouseClick(object sender, MouseEventArgs e)
@@ -560,13 +282,11 @@ namespace SKYNET
                     if (!string.IsNullOrEmpty(OpcionalLocation))
                     {
                         Process.Start(OpcionalLocation);
-
                     }
                     else
                     {
                         if (Status == ConnectionStatus.Online)
                         {
-
                             if (!Device.TCP)
                                 Process.Start(@"\\" + Device.IPAddress);
                             else
@@ -613,6 +333,11 @@ namespace SKYNET
         private void StatusICON_MouseUp(object sender, MouseEventArgs e)
         {
             base.OnMouseUp(e);
+        }
+
+        public static void InvokeAction(Control control, Action Action)
+        {
+            control.Invoke(Action);
         }
     }
 }

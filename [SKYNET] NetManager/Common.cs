@@ -65,7 +65,6 @@ public class Common
     [DllImport("user32.dll", CharSet = CharSet.Ansi, SetLastError = true)]
     private static extern IntPtr GetForegroundWindow();
 
-
     public static bool IsActiveMainWindow()
     {
         return (IntPtr)GetForegroundwindowHandle() == frmMain.frm.Handle;
@@ -621,18 +620,23 @@ public class Common
     static frmSplashScreen splashScreenForm;
     internal static void InitialiceApplication()
     {
-        splashScreen = null;
-        splashScreenForm = new frmSplashScreen();
-        splashScreenForm.ShowSplashScreen();
-        splashScreen = new FormSplashScreen(splashScreenForm);
+        try
+        {
+            splashScreen = null;
+            splashScreenForm = new frmSplashScreen();
+            splashScreenForm.ShowSplashScreen();
+            splashScreen = new FormSplashScreen(splashScreenForm);
 
-        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-        timer.Interval = 100;
-        timer.Tick += Timer_Tick;
-        timer.Enabled = true;
-        timer.Start();
-        Application.Run(new frmBack());
-
+            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+            timer.Interval = 100;
+            timer.Tick += Timer_Tick;
+            timer.Enabled = true;
+            timer.Start();
+            Application.Run(new frmMain());
+        }
+        catch (Exception ex)
+        {
+        }
     }
 
     private static void Timer_Tick(object sender, EventArgs e)

@@ -18,7 +18,6 @@ namespace SKYNET
 {
     public partial class frmMain : frmBase
     {
-        public static frmBack frmBack;
         public static frmMain frm;
         public static bool ReceiveMessages;
 
@@ -26,26 +25,38 @@ namespace SKYNET
         public bool Ready = false;
         public DeviceBox menuBOX;
 
-        private int x = 5;
-        private int y = 5;
-        private int last_x = 4;
-        private int last_y = 5;
         private KeyboardHook keyboardHook;
-        private System.Timers.Timer _timer;
         private bool EmptyProfile = false;
 
-        public frmMain(frmBack back)
+        private long BytesSent = 0;
+        private long BytesReceived = 0;
+        private long SentxSecond = 0;
+        private long ReceivedxSecond = 0;
+
+        public frmMain()
         {
             InitializeComponent();
 
             CheckForIllegalCrossThreadCalls = false;  
             frm = this;
             ReceiveMessages = true;
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            Settings.Load();
+            Settings.SetHandle(Handle.ToInt64());
+
+            if (EmptyProfile)
+            {
+                Settings.CurrentSection = "Device";
+            }
+
+            ChatManager.Initialize();
+
+            LoadProfile(Settings.CurrentSection);
 
             PrepareButtomPanel();
-
-            frmBack = back;
-            _timer = new System.Timers.Timer();
 
             Common.EnsureDirectoryExists(Path.Combine(Common.GetPath(), "Data"));
             Common.EnsureDirectoryExists(Path.Combine(Common.GetPath(), "Data", "Images"));
@@ -64,32 +75,6 @@ namespace SKYNET
                 Properties.Resources.Default.Save(Path.Combine(DataDirectory, "Images", "Default.jpg"));
             }
 
-            Settings.Load();
-            Settings.SetHandle(Handle.ToInt64());
-
-            if (EmptyProfile)
-            {
-                Settings.CurrentSection = "Device";
-            }
-
-            InitTimer();
-            _timer.Interval = 100;
-            _timer.Start();
-
-            ChatManager.Initialize();
-        }
-
-        private void SetTransparency()
-        {
-            TransparencyKey = this.BackColor;
-        }
-
-        private void frmMain_Load(object sender, EventArgs e)
-        {
-            Maximize(Settings.ShowInLeft);
-
-            LoadProfile(Settings.CurrentSection);
-
             keyboardHook = new KeyboardHook();
             keyboardHook.KeyDown += new KeyboardHook.KeyboardHookCallback(keyboardHook_KeyDown);
             keyboardHook.Install();
@@ -97,24 +82,27 @@ namespace SKYNET
             DeviceContainer.AutoScroll = true;
             DeviceContainer.VerticalScrollbar = true;
 
-            SetTransparency();
+            TransparencyKey = this.BackColor;
+            Maximize(false);
         }
 
         public void Maximize(bool inLeft)
         {
-            frmBack.Maximize(inLeft);
-            if (!inLeft)
-               DeviceContainer.Height = this.Height - 250;
+            Rectangle workingArea = Screen.FromHandle(base.Handle).WorkingArea;
+            try
+            {
+                base.Location = new Point(workingArea.Width - Width, 0);
+                Height = workingArea.Height;
+            }
+            catch
+            {
+            }
         }
 
         public void LoadProfile(string currentSection)
         {
             Settings.CurrentSection = currentSection;
             frm.CleanBoxControls();
-            x = 5;
-            y = 5;
-            last_x = 5;
-            last_y = 5;
 
             string json = "";
 
@@ -146,12 +134,10 @@ namespace SKYNET
             if (Devices == null)
             {
                 Opacity = 100;
-                frmBack.Opacity = Settings.OpacityForm;
                 Common.CloseSplash = true;
                 return;
             }
 
-            Devices.Sort((d1, d2) => d1.Order.CompareTo(d2.Order));
             foreach (Device device in Devices)
             {
                 AddBox(device);
@@ -159,46 +145,50 @@ namespace SKYNET
 
             ProfileSelected.Text = "Current profile: " + currentSection;
             Opacity = 100;
-            frmBack.Opacity = Settings.OpacityForm;
             Common.CloseSplash = true;
         }
 
         public void AddBox(Device device)
         {
+            GetNextBoxLocation(out var X, out var Y);
+
             var deviceBox = new DeviceBox()
             {
-                Location = new Point(x, y),
+                Location = new Point(X, Y),
                 Device = device,
+                DeviceStats = new Types.DeviceStats(device.IPAddress)
             };
 
-            deviceBox.Device.Order = DeviceManager.GetDeviceCount() + 1;
-
             DeviceContainer.Controls.Add(deviceBox);
+        }
 
-            test(deviceBox);
+        private void GetNextBoxLocation(out int X, out int Y)
+        {
+            X = 5;
+            Y = 5;
 
-            last_x = x;
-            last_y = y;
-
-            if (x == 5)
+            if (DeviceContainer.Controls.Count > 0)
             {
-                x += 160;
-            }
-            else
-            {
-                x = 5;
-                y += 49;
+                var Control = DeviceContainer.Controls[DeviceContainer.Controls.Count - 1];
+                if (Control is DeviceBox)
+                {
+                    if (Control.Location.X == 5)
+                    {
+                        X += 160;
+                        Y = Control.Location.Y;
+                    }
+                    else
+                    {
+                        X = 5;
+                        Y = Control.Location.Y + 49;
+                    }
+                }
             }
         }
 
         public void Write(object obj)
         {
             ProfileSelected.Text = obj.ToString();
-        }
-
-        public void UpdateAndSave()
-        {
-            SaveDevices();
         }
        
         public void SaveDevices()
@@ -209,13 +199,11 @@ namespace SKYNET
                 if (DeviceContainer.Controls[i] is DeviceBox)
                 {
                     DeviceBox deviceBox = (DeviceBox)DeviceContainer.Controls[i];
-                    Device device = DeviceManager.GetDevice(deviceBox);
-                    Devices.Add(device);
+                    Devices.Add(deviceBox.Device);
                 }
             }
 
             string json = new JavaScriptSerializer().Serialize(Devices);           
-
             File.WriteAllText(Path.Combine(Common.GetPath(), "Data",  Settings.CurrentSection + ".json"), json);
         }
 
@@ -233,11 +221,11 @@ namespace SKYNET
                 }
                 if (WindowState == FormWindowState.Minimized)
                 {
-                    WindowState = FormWindowState.Maximized;
+                    WindowState = FormWindowState.Normal;
                     Activate();
                     SetVisible(true);
                 }
-                if (WindowState == FormWindowState.Maximized && !WinMod.IsActiveMainWindow())
+                if (WindowState == FormWindowState.Normal && !WinMod.IsActiveMainWindow())
                 {
                     Activate();
                     SetVisible(true);
@@ -250,15 +238,7 @@ namespace SKYNET
         private void SetVisible(bool value)
         {
             Visible = value;
-            frmBack.Visible = value;
-            frmBack.Activate();
             Activate();
-        }
-
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            notifyIcon1.Visible = false;
-            SaveDevices();
         }
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
@@ -267,7 +247,7 @@ namespace SKYNET
             {
                 if (WindowState == FormWindowState.Minimized || WindowState == FormWindowState.Normal)
                 {
-                    this.WindowState = FormWindowState.Maximized;
+                    this.WindowState = FormWindowState.Normal;
                     SetVisible(true);
                 }
                 else
@@ -346,45 +326,6 @@ namespace SKYNET
             });
         }
 
-        private void RemoveDevice(DeviceBox menuBOX)
-        {
-
-            string DeviceName = menuBOX.Name;
-            if (DeviceManager.GetDeviceCount() > menuBOX.Device.Order)
-            {
-                menuBOX.Device.Name = "No configurado";
-                menuBOX.Device.TCP = false;
-
-                UpdateAndSave();
-            }
-            else
-            {
-                RemoveControlInPanel(DeviceName);
-
-                x = last_x;
-                y = last_y;
-
-            }
-            SaveDevices();
-        }
-
-        private void RemoveControlInPanel(string name)
-        {
-            try
-            {
-                Control control = DeviceContainer.Controls.Find(name, searchAllChildren: true).FirstOrDefault();
-                if (control != null)
-                {
-                    DeviceContainer.Controls.Remove(control);
-                }
-            }
-            catch
-            {
-
-            }
-        }
-
-
         private void PingConstante_Click(object sender, EventArgs e)
         {
             if (menuBOX == null)
@@ -396,22 +337,8 @@ namespace SKYNET
 
         public void ShowManager(DeviceBox menuBOX = null)
         {
-            frmManager manage = new frmManager(menuBOX);
+            frmDeviceManager manage = new frmDeviceManager(menuBOX);
             manage.ShowDialog();
-        }
-
-        internal static DeviceBox GetBoxFromName(string device)
-        {
-            for (int i = 0; i < frmMain.frm.DeviceContainer.Controls.Count; i++)
-            {
-                if (frmMain.frm.DeviceContainer.Controls[i] is DeviceBox)
-                {
-                    DeviceBox box = (DeviceBox)frmMain.frm.DeviceContainer.Controls[i];
-                    if (box.Name == device)
-                        return box;
-                }
-            }
-            return null;
         }
 
         private void Settings_Click(object sender, EventArgs e)
@@ -467,37 +394,9 @@ namespace SKYNET
             }));
         }
 
-        private void InitTimer()
+        private void PanelBottom_MouseMove(object sender, EventArgs e)
         {
-            _timer.AutoReset = false;
-            _timer.Elapsed += _timer_Elapsed;
-        }
-
-        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            bool ContainDevice = false;
-            foreach (Control item in DeviceContainer.Controls)
-            {
-                if (item is DeviceBox)
-                {
-                    ContainDevice = true;
-                    break;
-                }
-            }
-            if (ContainDevice)
-                WelcomeBox.Visible = false;
-            else
-                WelcomeBox.Visible = true;
-        }
-        private void DeviceContainer_ControlModifiqued(object sender, ControlEventArgs e)
-        {
-            _timer.Interval = 100;
-            _timer.Start();
-        }
-
-        private void PanelBottom_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (PanelBottom.Height < 50)
+            while (PanelBottom.Height < 50)
             {
                 PanelBottom.Height++;
                 ProfileSelected.Visible = false;
@@ -517,10 +416,6 @@ namespace SKYNET
             }
         }
 
-        private void PanelBottom_MouseLeave(object sender, EventArgs e)
-        {
-
-        }
         private void PrepareButtomPanel()
         {
             PanelBottom.Height = 17;
@@ -528,7 +423,7 @@ namespace SKYNET
             ProfileSelected.Location = new Point(0, 0);
             PanelBottom.Controls.Add(PanelTransfer);
             PanelTransfer.Dock = DockStyle.Fill;
-            PanelTransfer.MouseMove += PanelBottom_MouseMove;
+            PanelTransfer.MouseHover += PanelBottom_MouseMove;
 
             panelSent.Visible = false;
             panelReceived.Visible = false;
@@ -540,21 +435,11 @@ namespace SKYNET
             label8.Visible = false;
 
         }
-        long BytesSent = 0;
-        long BytesReceived = 0;
-        long SentxSecond = 0;
-        long ReceivedxSecond = 0;
-
 
         private void TimerTransfer_Tick(object sender, EventArgs e)
         {
             if (!NetworkInterface.GetIsNetworkAvailable())
                 return;
-
-            bool First = false;
-
-            if (BytesSent == 0)
-                First = true;
 
             NetworkInterface interfaces = NetworkInterface.GetAllNetworkInterfaces()[0];
 
@@ -564,17 +449,11 @@ namespace SKYNET
             SentxSecond = interfaces.GetIPv4Statistics().BytesSent - BytesSent;
             ReceivedxSecond = interfaces.GetIPv4Statistics().BytesReceived - BytesReceived;
 
-            SentPerSecond.Text = Common.LongToMbytes(SentxSecond) + "/Segundos";
-            ReceivedPerSecond.Text = Common.LongToMbytes(ReceivedxSecond) + "/Segundos";
+            SentPerSecond.Text = Common.LongToMbytes(SentxSecond) + "/Seconds";
+            ReceivedPerSecond.Text = Common.LongToMbytes(ReceivedxSecond) + "/Seconds";
 
             BytesSent = interfaces.GetIPv4Statistics().BytesSent;
             BytesReceived = interfaces.GetIPv4Statistics().BytesReceived;
-
-        }
-
-        private void ClearLabel_Tick(object sender, EventArgs e)
-        {
-
         }
 
         private void DeviceContainer_MouseLeave(object sender, EventArgs e)
@@ -588,7 +467,6 @@ namespace SKYNET
             {
                 ProfileSelected.Visible = true;
                 byHackerprod.Visible = true;
-
 
                 panelSent.Visible = false;
                 panelReceived.Visible = false;
@@ -632,7 +510,7 @@ namespace SKYNET
 
         private void menu_AddDevice_Click(object sender, EventArgs e)
         {
-            frmMain.frm.ShowManager();
+            ShowManager();
         }
 
         private void menu_Profiles_Click(object sender, EventArgs e)
@@ -661,9 +539,8 @@ namespace SKYNET
         {
             if (menuBOX == null) return;
 
-            frmManager Manager = new frmManager(new Host() { HostName = menuBOX.Device.Name, IPAddress = menuBOX.Device.IPAddress.ToIPAddress(), MAC = menuBOX.MAC, Port = menuBOX.Device.Port, Interval = menuBOX.Interval });
+            frmDeviceManager Manager = new frmDeviceManager(new Host() { HostName = menuBOX.Device.Name, IPAddress = menuBOX.Device.IPAddress.ToIPAddress(), MAC = menuBOX.MAC, Port = menuBOX.Device.Port, Interval = menuBOX.Device.Interval });
             Manager.Show();
-            
         }
 
         private void CloseBox_BoxClicked(object sender, EventArgs e)
@@ -677,6 +554,7 @@ namespace SKYNET
             Settings.Save();
             Settings.SetHandle(0);
             SaveDevices();
+            notifyIcon1.Visible = false;
             Process.GetCurrentProcess().Kill();
         }
 
@@ -692,12 +570,15 @@ namespace SKYNET
             MainMenu.Show(this, base.Width - MainMenu.Width - 12, TopPanel.Height + 5);
         }
 
-        private void test(DeviceBox box)
+        private void DeviceContainer_ControlModifiqued(object sender, ControlEventArgs e)
         {
-            if (box.Device.Name == "Hackerprod")
+            bool ContainsBox = false;
+            for (int i = 0; i < DeviceContainer.Controls.Count; i++)
             {
-                //new frmPrivateChat(box).Show();
+                if (DeviceContainer.Controls[i] is DeviceBox) ContainsBox = true;
             }
+
+            WelcomeBox.Visible = !ContainsBox;
         }
     }
 }

@@ -320,7 +320,7 @@ namespace SKYNET
                 string Host = _lvAliveHosts.SelectedItems[0].SubItems[4].Text;
                 string mac = _lvAliveHosts.SelectedItems[0].SubItems[5].Text;
 
-                frmManager Manager = new frmManager(new Host() { HostName = Host, IPAddress = IPAddress.Parse(IP), MAC = mac });
+                frmDeviceManager Manager = new frmDeviceManager(new Host() { HostName = Host, IPAddress = IPAddress.Parse(IP), MAC = mac });
                 Manager.Show();
             }
             catch {}
@@ -351,7 +351,7 @@ namespace SKYNET
             string Host = _lvAliveHosts.SelectedItems[0].SubItems[4].Text;
             string mac = _lvAliveHosts.SelectedItems[0].SubItems[5].Text;
 
-            frmManager Manager = new frmManager(new Host() { HostName = Host, IPAddress = IPAddress.Parse(IP), MAC = mac, Interval = 1 });
+            frmDeviceManager Manager = new frmDeviceManager(new Host() { HostName = Host, IPAddress = IPAddress.Parse(IP), MAC = mac, Interval = 1 });
             Manager.Show();
 
         }

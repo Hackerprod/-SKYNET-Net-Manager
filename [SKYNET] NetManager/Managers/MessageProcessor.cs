@@ -1,12 +1,8 @@
 ﻿using SKYNET.Helpers;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
-using WebSocketSharp.Net;
 using WebSocketSharp.Server;
 
 namespace SKYNET
@@ -57,6 +53,7 @@ namespace SKYNET
                     break;
                 case "/onPing":
                     {
+                        Common.Show("Ping");
                         if (!frmMain.ReceiveMessages)
                         {
                             e.Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
@@ -80,7 +77,7 @@ namespace SKYNET
             string avatarPath = Path.Combine(Common.GetPath(), "Data", "Images", "Avatar.jpg");
             if (!File.Exists(avatarPath))
             {
-                var Avatar = ImageHelper.GetDesktopWallpaper(true);
+                var Avatar = ImageHelper.Resize(ImageHelper.GetDesktopWallpaper(true), 200, 200);
                 Avatar.Save(avatarPath);
             }
 

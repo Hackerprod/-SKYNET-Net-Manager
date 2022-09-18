@@ -135,7 +135,6 @@ namespace SKYNET
             // 
             this.ClearLabel.Enabled = true;
             this.ClearLabel.Interval = 60000;
-            this.ClearLabel.Tick += new System.EventHandler(this.ClearLabel_Tick);
             // 
             // LB_Tittle
             // 
@@ -237,7 +236,6 @@ namespace SKYNET
             this.PanelBottom.Name = "PanelBottom";
             this.PanelBottom.Size = new System.Drawing.Size(329, 50);
             this.PanelBottom.TabIndex = 249;
-            this.PanelBottom.MouseLeave += new System.EventHandler(this.PanelBottom_MouseLeave);
             this.PanelBottom.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PanelBottom_MouseMove);
             // 
             // PanelTransfer
@@ -261,7 +259,7 @@ namespace SKYNET
             this.panelReceived.Controls.Add(this.label5);
             this.panelReceived.Location = new System.Drawing.Point(4, 34);
             this.panelReceived.Name = "panelReceived";
-            this.panelReceived.Size = new System.Drawing.Size(54, 12);
+            this.panelReceived.Size = new System.Drawing.Size(48, 12);
             this.panelReceived.TabIndex = 14;
             // 
             // label5
@@ -271,9 +269,9 @@ namespace SKYNET
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(1, -2);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(49, 14);
+            this.label5.Size = new System.Drawing.Size(46, 14);
             this.label5.TabIndex = 1;
-            this.label5.Text = "Recibidos";
+            this.label5.Text = "Receiced";
             // 
             // panelSent
             // 
@@ -281,7 +279,7 @@ namespace SKYNET
             this.panelSent.Controls.Add(this.label6);
             this.panelSent.Location = new System.Drawing.Point(4, 19);
             this.panelSent.Name = "panelSent";
-            this.panelSent.Size = new System.Drawing.Size(54, 12);
+            this.panelSent.Size = new System.Drawing.Size(48, 12);
             this.panelSent.TabIndex = 10;
             // 
             // label6
@@ -291,9 +289,9 @@ namespace SKYNET
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(1, -2);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(46, 14);
+            this.label6.Size = new System.Drawing.Size(26, 14);
             this.label6.TabIndex = 0;
-            this.label6.Text = "Enviados";
+            this.label6.Text = "Sent";
             // 
             // ReceivedPerSecond
             // 
@@ -529,21 +527,21 @@ namespace SKYNET
             // 
             this.EditarMenuItem.Name = "EditarMenuItem";
             this.EditarMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.EditarMenuItem.Text = "Editar dispositivo";
+            this.EditarMenuItem.Text = "Edit Device Info";
             this.EditarMenuItem.Click += new System.EventHandler(this.EditarMenuItem_Click);
             // 
             // PuertosMenuItem
             // 
             this.PuertosMenuItem.Name = "PuertosMenuItem";
             this.PuertosMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.PuertosMenuItem.Text = "Escanear puertos abiertos";
+            this.PuertosMenuItem.Text = "Search opened ports";
             this.PuertosMenuItem.Click += new System.EventHandler(this.PuertosMenuItem_Click);
             // 
             // explorarPCMenuItem
             // 
             this.explorarPCMenuItem.Name = "explorarPCMenuItem";
             this.explorarPCMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.explorarPCMenuItem.Text = "Explorar PC";
+            this.explorarPCMenuItem.Text = "Open PC in explorer";
             this.explorarPCMenuItem.Click += new System.EventHandler(this.explorarPCToolStripMenuItem_Click);
             // 
             // hacerPingPorCMDMenuItem
@@ -578,14 +576,14 @@ namespace SKYNET
             // 
             this.cloneDevice.Name = "cloneDevice";
             this.cloneDevice.Size = new System.Drawing.Size(208, 22);
-            this.cloneDevice.Text = "Clonar equipo";
+            this.cloneDevice.Text = "Clone Device";
             this.cloneDevice.Click += new System.EventHandler(this.cloneDevice_Click);
             // 
             // enviarMensajeMenuItem
             // 
             this.enviarMensajeMenuItem.Name = "enviarMensajeMenuItem";
             this.enviarMensajeMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.enviarMensajeMenuItem.Text = "Enviar mensaje";
+            this.enviarMensajeMenuItem.Text = "Send message";
             this.enviarMensajeMenuItem.Click += new System.EventHandler(this.EnviarMensajeMenuItem_Click);
             // 
             // CloseBoxMenuItem
@@ -593,8 +591,8 @@ namespace SKYNET
             this.CloseBoxMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.CloseBoxMenuItem.Name = "CloseBoxMenuItem";
             this.CloseBoxMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.CloseBoxMenuItem.Text = "Eliminar dispositivo";
-            this.CloseBoxMenuItem.Click += new System.EventHandler(this.CloseBoxMenuItem_Click);
+            this.CloseBoxMenuItem.Text = "Remove Device";
+            this.CloseBoxMenuItem.Click += new System.EventHandler(this.RemoveDeviceMenuItem_Click);
             // 
             // notifyIcon1
             // 
@@ -736,12 +734,11 @@ namespace SKYNET
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(1360, 728);
+            this.MaximumSize = new System.Drawing.Size(329, 689);
             this.Name = "frmMain";
             this.Opacity = 0D;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.TopPanel.ResumeLayout(false);
             this.TopPanel.PerformLayout();

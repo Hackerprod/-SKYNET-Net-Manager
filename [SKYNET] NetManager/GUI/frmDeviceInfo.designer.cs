@@ -36,6 +36,7 @@ namespace SKYNET
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDeviceInfo));
             this.PN_Top = new System.Windows.Forms.Panel();
+            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.label3 = new System.Windows.Forms.Label();
             this.DeviceInfo = new System.Windows.Forms.Panel();
             this.deviceHistory1 = new SKYNET.GUI.DeviceHistory();
@@ -105,7 +106,6 @@ namespace SKYNET
             this.panel1 = new System.Windows.Forms.Panel();
             this.label28 = new System.Windows.Forms.Label();
             this.HostName = new System.Windows.Forms.Label();
-            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.PN_Top.SuspendLayout();
             this.DeviceInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.D_Status)).BeginInit();
@@ -143,6 +143,24 @@ namespace SKYNET
             this.PN_Top.Name = "PN_Top";
             this.PN_Top.Size = new System.Drawing.Size(520, 26);
             this.PN_Top.TabIndex = 5;
+            // 
+            // CloseBox
+            // 
+            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.ImageSize = 10;
+            this.CloseBox.Location = new System.Drawing.Point(486, 0);
+            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.MenuMode = false;
+            this.CloseBox.MenuSeparation = 8;
+            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.Name = "CloseBox";
+            this.CloseBox.Size = new System.Drawing.Size(34, 26);
+            this.CloseBox.TabIndex = 8;
+            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
             // 
             // label3
             // 
@@ -616,9 +634,9 @@ namespace SKYNET
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(222)))));
             this.label1.Location = new System.Drawing.Point(3, 1);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 16);
+            this.label1.Size = new System.Drawing.Size(43, 16);
             this.label1.TabIndex = 261;
-            this.label1.Text = "Dispositivo";
+            this.label1.Text = "Device";
             // 
             // panel12
             // 
@@ -808,9 +826,9 @@ namespace SKYNET
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(222)))));
             this.label7.Location = new System.Drawing.Point(3, 1);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(107, 16);
+            this.label7.Size = new System.Drawing.Size(98, 16);
             this.label7.TabIndex = 264;
-            this.label7.Text = "Paquetes recibidos";
+            this.label7.Text = "Received Packets";
             // 
             // panel5
             // 
@@ -840,9 +858,9 @@ namespace SKYNET
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(222)))));
             this.label6.Location = new System.Drawing.Point(3, 1);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(106, 16);
+            this.label6.Size = new System.Drawing.Size(74, 16);
             this.label6.TabIndex = 263;
-            this.label6.Text = "Paquetes enviados";
+            this.label6.Text = "Sent Packets";
             // 
             // panel4
             // 
@@ -872,9 +890,9 @@ namespace SKYNET
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(222)))));
             this.label5.Location = new System.Drawing.Point(3, 1);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(43, 16);
+            this.label5.Size = new System.Drawing.Size(40, 16);
             this.label5.TabIndex = 262;
-            this.label5.Text = "Estado";
+            this.label5.Text = "Status";
             // 
             // panel1
             // 
@@ -893,9 +911,9 @@ namespace SKYNET
             this.label28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(222)))));
             this.label28.Location = new System.Drawing.Point(3, 1);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(71, 16);
+            this.label28.Size = new System.Drawing.Size(63, 16);
             this.label28.TabIndex = 284;
-            this.label28.Text = "Dirección IP";
+            this.label28.Text = "IP Address";
             // 
             // HostName
             // 
@@ -907,23 +925,6 @@ namespace SKYNET
             this.HostName.Size = new System.Drawing.Size(84, 16);
             this.HostName.TabIndex = 10;
             this.HostName.Text = "Loading info...";
-            // 
-            // CloseBox
-            // 
-            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
-            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
-            this.CloseBox.Location = new System.Drawing.Point(486, 0);
-            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
-            this.CloseBox.MenuMode = false;
-            this.CloseBox.MenuSeparation = 8;
-            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
-            this.CloseBox.Name = "CloseBox";
-            this.CloseBox.Size = new System.Drawing.Size(34, 26);
-            this.CloseBox.TabIndex = 8;
-            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
             // 
             // frmDeviceInfo
             // 

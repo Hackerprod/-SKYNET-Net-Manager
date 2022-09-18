@@ -1,9 +1,13 @@
 ﻿using Microsoft.VisualBasic;
 using SKYNET.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SKYNET
@@ -30,7 +34,8 @@ namespace SKYNET
         [STAThread]
         static void Main()
         {
-            //new Form1().ShowDialog(); return;
+            Application.ThreadException += UIThreadExceptionHandler;
+            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 
             if (!IsAdmin())
             {
@@ -89,5 +94,49 @@ namespace SKYNET
             {
             }
         }
+
+        #region Log system
+
+        private static object file_lock = new object();
+        private static List<string> buffered = new List<string>();
+
+        public static void UIThreadExceptionHandler(object sender, ThreadExceptionEventArgs t)
+        {
+            WriteException(t.Exception);
+        }
+
+        public static void UnhandledExceptionHandler(object sender, System.UnhandledExceptionEventArgs t)
+        {
+            WriteException(t.ExceptionObject);
+        }
+
+        public static void WriteException(object msg)
+        {
+            if (msg is Exception)
+            {
+                Exception ex = (Exception)msg;
+
+                string filePath = Path.Combine(Common.GetPath(), "Data", "[SKYNET] NetManager.log");
+
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append(msg);
+                string formatted = string.Format(string.Format("{0}:", stringBuilder.ToString()));
+                var taken = false;
+
+                Monitor.TryEnter(file_lock, ref taken);
+
+                if (taken)
+                {
+                    buffered.Add(formatted);
+                    File.AppendAllLines(filePath, buffered);
+                    buffered.Clear();
+
+                    Monitor.Exit(file_lock);
+                }
+            }
+        }
+
+        #endregion
+
     }
 }
