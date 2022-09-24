@@ -33,9 +33,7 @@
             // 
             // webChat
             // 
-            this.webChat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.webChat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.webChat.Location = new System.Drawing.Point(0, 0);
             this.webChat.MinimumSize = new System.Drawing.Size(20, 20);
             this.webChat.Name = "webChat";

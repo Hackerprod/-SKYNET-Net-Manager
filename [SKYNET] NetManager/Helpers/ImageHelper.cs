@@ -10,6 +10,65 @@ namespace SKYNET.Helpers
 {
     public class ImageHelper
     {
+        public static Bitmap ChangeOpacity(Image img, float opacityvalue)
+        {
+            Bitmap bitmap4 = default(Bitmap);
+            try
+            {
+                Bitmap bitmap = new Bitmap(img.Width, img.Height);
+                Graphics graphics = Graphics.FromImage(bitmap);
+                ColorMatrix newColorMatrix = new ColorMatrix
+                {
+                    Matrix33 = opacityvalue
+                };
+                ImageAttributes imageAttributes = new ImageAttributes();
+                imageAttributes.SetColorMatrix(newColorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+                graphics.DrawImage(img, new Rectangle(0, 0, bitmap.Width, bitmap.Height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imageAttributes);
+                graphics.Dispose();
+                bitmap4 = bitmap;
+                return bitmap4;
+            }
+            catch (Exception ex)
+            {
+                Exception ex2 = ex;
+                return bitmap4;
+            }
+        }
+
+        public static Image CropToCircle(Image image)
+        {
+            var Result = (Image)null;
+
+            try
+            {
+                int num = checked(image.Width);
+                Bitmap bitmap = new Bitmap(image.Width, image.Height);
+                using (Graphics graphics = Graphics.FromImage((Image)bitmap))
+                {
+                    graphics.Clear(Color.Transparent);
+                    graphics.SmoothingMode = SmoothingMode.HighQuality;
+                    graphics.CompositingQuality = CompositingQuality.HighQuality;
+                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    using (Brush brush = (Brush)new TextureBrush(image))
+                    {
+                        using (GraphicsPath path = new GraphicsPath())
+                        {
+                            path.AddArc(-1, -1, num, num, 180f, 90f);
+                            path.AddArc(checked(0 + bitmap.Width - num), -1, num, num, 270f, 90f);
+                            path.AddArc(checked(0 + bitmap.Width - num), checked(0 + bitmap.Height - num), num, num, 0.0f, 90f);
+                            path.AddArc(-1, checked(0 + bitmap.Height - num), num, num, 90f, 90f);
+                            graphics.FillPath(brush, path);
+                        }
+                    }
+                    Result = (Image)bitmap;
+                }
+            }
+            catch
+            {
+            }
+            return Result;
+        }
+
         public static Bitmap CreateResizedBitmap(Bitmap image, int width, int height, ImageFormat format)
         {
             return ImageResizer.ResizeBitmap(image, width, height, format);
@@ -206,6 +265,73 @@ namespace SKYNET.Helpers
             return Image.FromStream(stream);
         }
 
+        public static Bitmap CreateLetterImage(string nickName = "")
+        {
+            Bitmap bitmap1 = (Bitmap)default;
+            string Letter = "";
+
+            try
+            {
+                foreach (char _letter in nickName)
+                {
+                    Letter = _letter.ToString();
+                    break;
+                }
+                string letter = Letter.ToUpper();
+
+                int witdh = 1000;
+                int heigth = 1000;
+                Bitmap bitmap2 = new Bitmap(witdh, heigth);
+                Font Font = new Font("Arial", 600);
+
+                StringFormat format = new StringFormat { Alignment = StringAlignment.Center };
+
+                Graphics graphics = Graphics.FromImage((Image)bitmap2);
+
+                Brush brush = (Brush)new SolidBrush(ColorTranslator.FromHtml(GetColorString(letter)));
+
+                graphics.FillRectangle(brush, 0, 0, witdh, heigth);
+
+                graphics.DrawString(letter, Font, new SolidBrush(Color.White), 500, 65, format);
+
+                bitmap1 = bitmap2;
+            }
+            catch (Exception ex)
+            {
+            }
+            return bitmap1;
+        }
+        private static string GetColorString(string letter)
+        {
+            if (letter == "Q" || letter == "D" || letter == "B")
+                return "#5D4037";
+            else if (letter == "W" || letter == "F" || letter == "N")
+                return "#689F38";
+            else if (letter == "E" || letter == "G" || letter == "M")
+                return "#00897B";
+            else if (letter == "R" || letter == "H" || letter == "1")
+                return "#039BE5";
+            else if (letter == "T" || letter == "J" || letter == "2")
+                return "#F4511E";
+            else if (letter == "Y" || letter == "K" || letter == "3")
+                return "#78909C";
+            else if (letter == "U" || letter == "L" || letter == "4")
+                return "#E91E63";
+            else if (letter == "I" || letter == "Ñ" || letter == "5")
+                return "#EF6C00";
+            else if (letter == "O" || letter == "Z" || letter == "6")
+                return "#9C27B0";
+            else if (letter == "P" || letter == "X" || letter == "7")
+                return "#3F51B5";
+            else if (letter == "A" || letter == "C" || letter == "8")
+                return "#0097A7";
+            else if (letter == "S" || letter == "V" || letter == "9" || letter == "0")
+                return "#AB47BC";
+            else
+                return "#AB47BC";
+        }
+
+
         public class ImageResizer
         {
             internal static void AdjustSizes(Bitmap bitmap, ref int xSize, ref int ySize)
@@ -291,7 +417,6 @@ namespace SKYNET.Helpers
                 ms.Seek(0, SeekOrigin.Begin);
                 return new Bitmap(new MemoryStream(ms.ToArray()));
             }
-
 
             private static void DoDrawImage(Graphics g, Bitmap bitmap, Rectangle destRect, Rectangle srcRect)
             {

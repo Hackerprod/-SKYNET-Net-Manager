@@ -11,12 +11,12 @@ namespace SKYNET
     public class ChatManager
     {
         public static ConcurrentDictionary<IPAddress, frmPrivateChat> Chats;
-        public static ConcurrentDictionary<IPAddress, List<ChatMessage>> ChatsHistory;
+        public static ConcurrentDictionary<IPAddress, List<ChatMessageHistory>> ChatsHistory;
 
         public static void Initialize()
         {
             Chats = new ConcurrentDictionary<IPAddress, frmPrivateChat>();
-            ChatsHistory = new ConcurrentDictionary<IPAddress, List<ChatMessage>>();
+            ChatsHistory = new ConcurrentDictionary<IPAddress, List<ChatMessageHistory>>();
 
             MessageProcessor processor = new MessageProcessor();
             processor.OnMessageReceived = OnMessageReceived;
@@ -46,7 +46,7 @@ namespace SKYNET
             }
         }
 
-        public static void RegisterMessage(IPAddress address, ChatMessage message)
+        public static void RegisterMessage(IPAddress address, ChatMessageHistory message)
         {
             if (ChatsHistory.TryGetValue(address, out var chatHistory))
             {
@@ -54,7 +54,7 @@ namespace SKYNET
             }
             else
             {
-                chatHistory = new List<ChatMessage>() { message };
+                chatHistory = new List<ChatMessageHistory>() { message };
                 ChatsHistory.TryAdd(address, chatHistory);
             }
         }
@@ -63,7 +63,7 @@ namespace SKYNET
         {
             if (!ChatsHistory.TryGetValue(address, out var chatHistory))
             {
-                chatHistory = new List<ChatMessage>();
+                chatHistory = new List<ChatMessageHistory>();
                 ChatsHistory.TryAdd(address, chatHistory);
             }
         }
@@ -86,7 +86,7 @@ namespace SKYNET
             }
             if (!ChatsHistory.ContainsKey(address))
             {
-                ChatsHistory.TryAdd(address, new List<ChatMessage>());
+                ChatsHistory.TryAdd(address, new List<ChatMessageHistory>());
             }
         }
 
@@ -95,7 +95,7 @@ namespace SKYNET
             Chats.TryRemove(iPAddress, out _);
         }
 
-        public static bool GetChatHistory(IPAddress Address, out List<ChatMessage> chatHistory)
+        public static bool GetChatHistory(IPAddress Address, out List<ChatMessageHistory> chatHistory)
         {
             return ChatsHistory.TryGetValue(Address, out chatHistory);
         }

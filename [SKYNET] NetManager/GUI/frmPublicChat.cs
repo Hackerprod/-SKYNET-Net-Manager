@@ -35,29 +35,29 @@ namespace SKYNET
 
         internal void PrintMessage(MessageProcessor.MessageReceived e)
         {
-            try
-            {
-                ChatMessage message = new ChatMessage();
-                string sender = "";
+            //try
+            //{
+            //    ChatMessage message = new ChatMessage();
+            //    string sender = "";
 
-                if (e.Device == null)
-                {
-                    message.Sender = e.Address.ToString();
-                }
-                else
-                {
-                    message.Sender = e.Device.Name;
-                }
+            //    if (e.Device == null)
+            //    {
+            //        message.Sender = e.Address.ToString();
+            //    }
+            //    else
+            //    {
+            //        message.Sender = e.Device.Name;
+            //    }
 
-                message.Message = e.Message;
+            //    message.Message = e.Message;
 
-                WriteChat(message);
+            //    WriteChat(message);
 
-                ChatManager.RegisterMessage(e.Address, message);
-            }
-            catch 
-            {
-            }
+            //    ChatManager.RegisterMessage(e.Address, message);
+            //}
+            //catch 
+            //{
+            //}
             TopMost = true;
             Common.MoveToTopMost(base.Handle);
         }

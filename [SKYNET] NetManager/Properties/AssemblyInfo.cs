@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SKYNET")]
 [assembly: AssemblyProduct("[SKYNET] Net Manager")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCopyright("Copyright ©  202")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

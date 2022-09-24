@@ -125,7 +125,7 @@
             this.YearInfo.Name = "YearInfo";
             this.YearInfo.Size = new System.Drawing.Size(107, 16);
             this.YearInfo.TabIndex = 29;
-            this.YearInfo.Text = "Copyright © 2021";
+            this.YearInfo.Text = "Copyright © 2022";
             // 
             // label3
             // 

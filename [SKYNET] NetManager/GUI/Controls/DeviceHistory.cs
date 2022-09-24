@@ -7,7 +7,9 @@ namespace SKYNET.GUI
 {
     public partial class DeviceHistory : UserControl
     {
-        Dictionary<int, int> Values;
+        private Dictionary<int, int> Values;
+        private int count = 0;
+
         public DeviceHistory()
         {
             InitializeComponent();
@@ -22,7 +24,7 @@ namespace SKYNET.GUI
                 Values.Add(i, 0);
             }
         }
-        int count = 0;
+
         internal void Add(int RoundTrip)
         {
             count++;
@@ -44,7 +46,10 @@ namespace SKYNET.GUI
 
             newPanel.Dock = DockStyle.Right;
 
-            UpdatePanels();
+            if (BarContainer.Controls.Count > 31)
+            {
+                Common.InvokeAction(BarContainer, delegate { BarContainer.Controls.RemoveAt(0); });
+            }
         }
 
         private void InvokeAddControl(Control control, Control newPanel)
@@ -61,7 +66,6 @@ namespace SKYNET.GUI
                 control.Controls.Add(newPanel);
             }
         }
-
 
         private Color GetColor(int roundTrip)
         {

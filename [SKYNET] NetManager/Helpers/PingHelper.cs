@@ -13,6 +13,7 @@ namespace SKYNET.Helpers
         public event EventHandler<long> OnPingSuccess;
         public event EventHandler<long> OnPingFailed;
         public Device Device;
+        public DeviceBox DeviceBox;
 
         private System.Timers.Timer _timer;
         private bool Initialized;
@@ -20,26 +21,34 @@ namespace SKYNET.Helpers
         public PingHelper()
         {
             _timer = new System.Timers.Timer();
+            _timer.AutoReset = false;
+
         }
 
-        public void Initialize(Device device)
+        public void Initialize(Device device, DeviceBox box)
         {
             if (Initialized)
             {
                 Device = device;
 
                 _timer.Stop();
+                _timer.AutoReset = false;
                 _timer.Elapsed += _timer_Elapsed;
+                _timer.Interval = 5;
                 _timer.Start();
             }
             else
             {
                 Device = device;
+                DeviceBox = box;
 
-                _timer.Interval = 10;
+                DoPing(false);
+
                 _timer.AutoReset = false;
                 _timer.Elapsed += _timer_Elapsed;
+                _timer.Interval = 5;
                 _timer.Start();
+
                 Initialized = true;
             }
         }
@@ -49,17 +58,23 @@ namespace SKYNET.Helpers
             await DoPing();
         }
 
-        private async Task DoPing()
+        private async Task DoPing(bool awaitResponse = true)
         {
             if (IPAddress.TryParse(Device.IPAddress, out var Address) /* && modCommon.IsCableConnected()*/ )
             {
                 if (Device.TCP && Device.Port != 80)
                 {
-                    await RequestConnectionAsync(Address, Device.Port);
+                    if (awaitResponse)
+                        await RequestConnectionAsync(Address, Device.Port);
+                    else
+                        RequestConnectionAsync(Address, Device.Port);
                 }
                 else
                 {
-                    await RequestPingAsync(Address);
+                    if (awaitResponse)
+                        await RequestPingAsync(Address);
+                    else
+                        RequestPingAsync(Address);
                 }
             }
             else

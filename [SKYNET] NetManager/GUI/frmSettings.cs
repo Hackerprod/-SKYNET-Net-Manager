@@ -1,6 +1,7 @@
 ﻿using SKYNET.GUI;
 using SKYNET.Helpers;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -14,7 +15,6 @@ namespace SKYNET
         public static frmSettings frm;
         public bool Ready = false;
         public DeviceBox menuBOX;
-
 
         public frmSettings()
         {
@@ -86,18 +86,21 @@ namespace SKYNET
 
             Settings.Username = TB_UserName.Text;
             frmMain.ReceiveMessages = CB_ReceiveMessages.Checked;
+			
+			{
+				string fileName = Path.GetFileName(Process.GetCurrentProcess().ProcessName);
+				RegistrySettings Registry = new RegistrySettings("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run");
+				if (CB_LaunchWindowsStart.Checked)	
+				{
+					Registry.Set(fileName, Path.Combine(Common.GetPath(), fileName + ".exe"));
+				}
+				else
+				{
+					Registry.Remove(fileName);
+				}
+			}
 
             Close();
-        }
-
-        private void AceptarBtn_MouseMove(object sender, MouseEventArgs e)
-        {
-            AceptarBtn.ForeColor = Color.FromArgb(255, 255, 255);
-        }
-
-        private void AceptarBtn_MouseLeave(object sender, EventArgs e)
-        {
-            AceptarBtn.ForeColor = Color.FromArgb(147, 157, 160);
         }
 
         private void KeyClick(object sender, EventArgs e)
@@ -131,7 +134,6 @@ namespace SKYNET
             {
                 TB_CustomSoundPath.Text = Sound.FileName;
             }
-
         }
 
         private void CustomSound_MouseClick(object sender, MouseEventArgs e)
@@ -177,7 +179,6 @@ namespace SKYNET
                 }
                 else
                 {
-                    //pctPhoto.Tag = "1";
                     Image image = Common.ImageFromFile(ofdPhoto.FileName);
 
                     if (image.Width < 250)

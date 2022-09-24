@@ -91,7 +91,17 @@ namespace SKYNET.Helpers
                 OnError?.Invoke(this, ex);
             }
         }
+		
+        public void Remove(string name)
+        {
+            try
+            {
+                Key.DeleteValue(name);
+            }
+            catch (Exception ex)
+            {
+                OnError?.Invoke(this, ex);
+            }
+        }
     }
-
-
 }

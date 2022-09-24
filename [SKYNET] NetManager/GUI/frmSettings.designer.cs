@@ -346,8 +346,6 @@ namespace SKYNET
             this.AceptarBtn.TabIndex = 249;
             this.AceptarBtn.Text = "Aceptar";
             this.AceptarBtn.Click += new System.EventHandler(this.AceptarBtn_Click);
-            this.AceptarBtn.MouseLeave += new System.EventHandler(this.AceptarBtn_MouseLeave);
-            this.AceptarBtn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.AceptarBtn_MouseMove);
             // 
             // CB_LaunchWindowsStart
             // 

@@ -160,6 +160,8 @@ namespace SKYNET
             };
 
             DeviceContainer.Controls.Add(deviceBox);
+
+            TEST(deviceBox);
         }
 
         private void GetNextBoxLocation(out int X, out int Y)
@@ -312,14 +314,11 @@ namespace SKYNET
                 {
                     HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create($"http://{box.Device.IPAddress}:28082/onPing");
                     httpWebRequest.Timeout = 500;
-                    httpWebRequest.Method = "POST";
-                    using (Stream newStream = httpWebRequest.GetRequestStream())
-                    {
-                        newStream.Write(new byte[0], 0, 0);
-                    }
+                    httpWebRequest.Method = "GET";
+                    var Response = httpWebRequest.GetResponse();
                     frm.enviarMensajeMenuItem.Visible = true;
                 }
-                catch (Exception ex)
+                catch 
                 {
                     frm.enviarMensajeMenuItem.Visible = false;
                 }
@@ -579,6 +578,17 @@ namespace SKYNET
             }
 
             WelcomeBox.Visible = !ContainsBox;
+        }
+
+        private void TEST(DeviceBox deviceBox)
+        {
+            //if (deviceBox.Device.Name == "Hackerprod")
+            //{
+            //    new frmPrivateChat(deviceBox)
+            //    {
+            //        Location = new Point(0, 0)
+            //    }.ShowDialog();
+            //}
         }
     }
 }

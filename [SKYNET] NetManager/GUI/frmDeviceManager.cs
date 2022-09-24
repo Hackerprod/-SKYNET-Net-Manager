@@ -279,7 +279,7 @@ namespace SKYNET
             DeviceBox.CircularImage = e;
             if (e)
             {
-                PB_Image.Image = Common.CropToCircle(DeviceBox.Image);
+                PB_Image.Image = ImageHelper.CropToCircle(DeviceBox.Image);
             }
             else
                 PB_Image.Image = DeviceBox.Image;

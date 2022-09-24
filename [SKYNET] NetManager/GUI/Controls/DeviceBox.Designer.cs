@@ -86,7 +86,7 @@ namespace SKYNET
             this.status.Name = "status";
             this.status.Size = new System.Drawing.Size(34, 12);
             this.status.TabIndex = 3;
-            this.status.Text = "Online";
+            this.status.Text = "Offline";
             this.status.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Box_MouseClick);
             this.status.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Box_MouseDoubleClick);
             this.status.MouseDown += new System.Windows.Forms.MouseEventHandler(this.StatusICON_MouseDown);
@@ -106,6 +106,7 @@ namespace SKYNET
             // 
             // StatusICON
             // 
+            this.StatusICON.Image = global::SKYNET.Properties.Resources.idlechat;
             this.StatusICON.Location = new System.Drawing.Point(43, 30);
             this.StatusICON.Name = "StatusICON";
             this.StatusICON.Size = new System.Drawing.Size(7, 7);
@@ -160,7 +161,7 @@ namespace SKYNET
         #endregion
         private System.Windows.Forms.Timer timer1;
         public System.Windows.Forms.PictureBox PB_Image;
-        private System.Windows.Forms.Label LB_Name;
+        public System.Windows.Forms.Label LB_Name;
         private System.Windows.Forms.Label status;
         private System.Windows.Forms.PictureBox StatusICON;
         private System.Windows.Forms.Label LB_IPAddress;

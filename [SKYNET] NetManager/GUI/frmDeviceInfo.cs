@@ -19,8 +19,6 @@ namespace SKYNET
 
         private Image BoxImage;
         private AsyncHostNameResolver _nameResolver = new AsyncHostNameResolver();
-        private System.Timers.Timer _timer = new System.Timers.Timer();
-        private int tick = 0;
         private int PingCount = 0;
         private ConnectionStatus LastStatus;
 
@@ -35,17 +33,18 @@ namespace SKYNET
             if (deviceBox != null)
             {
                 DeviceBox = deviceBox;
+                deviceBox.OnInfoUpdated += DeviceBox_OnInfoUpdated;
 
-                for (int i = 1; i < DeviceBox.Values.Count; i++)
+                for (int i = 1; i < DeviceBox.PingHistory.Count; i++)
                 {
-                    AddBarGraphic(DeviceBox.Values[i]);
+                    AddBarGraphic(DeviceBox.PingHistory[i]);
                 }
 
                 BoxImage = DeviceBox.PB_Image.Image;
 
                 if (DeviceBox.CircularImage)
                 {
-                    Avatar.Image = Common.CropToCircle(BoxImage);
+                    Avatar.Image = ImageHelper.CropToCircle(BoxImage);
                 }
                 else
                     Avatar.Image = BoxImage;
@@ -68,11 +67,6 @@ namespace SKYNET
                 D_Status.Image = GetImageFromStatus(DeviceBox.Status);
 
                 StatusDevice.Text = DeviceBox.Status.ToString();
-                CenterDeviceInfo();
-
-                _timer.AutoReset = false;
-                _timer.Elapsed += _timer_Elapsed;
-                _timer.Start();
 
                 _nameResolver.ResolveHostName(DeviceBox.Device.IPAddress.ToIPAddress(), StoreHostName);
             }
@@ -84,68 +78,10 @@ namespace SKYNET
             D_Status.Parent = Avatar;
         }
 
-        private ConnectionStatus _Status
-        {
-            get { return _Status; }
-            set
-            {
-                label23.Text = "Duración del estado actual (            )";
-
-                if (value == ConnectionStatus.Online)
-                {
-                    StatusICON.Image = Resources.D_Online;
-                    StatusLabel.Text = "Online";
-                }
-                else
-                {
-                    StatusICON.Image = Resources.D_Offline;
-                    StatusLabel.Text = "Offline";
-                }
-            }
-        }
-
-        private Image GetImageFromStatus(ConnectionStatus status)
-        {
-            if (status == ConnectionStatus.Online)
-                return Resources.D_Online;
-
-            else
-                return Resources.D_Offline;
-        }
-
-        public void StoreHostName(string name)
-        {
-            if (name.Length > 12)
-            {
-                HostDescription.Font = new System.Drawing.Font("Segoe UI Emoji", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            }
-            HostDescription.Text = name;
-        }
-
-        private void CenterDeviceInfo()
-        {
-            foreach (Control control in DeviceInfo.Controls)
-            {
-                if (control is Label)
-                {
-                    //Width
-                    int W_Pantalla = DeviceInfo.Width / 2; //680
-                    int AnchoTexto = Convert.ToInt32(Common.GetTextSize(control.Text, control.Font).Width) / 2;
-                    int WidthText = W_Pantalla - AnchoTexto;
-
-                    //Heigth
-                    int HeigthText = Height - 300;
-
-                    control.Location = new Point(WidthText, control.Location.Y);
-                }
-            }
-        }
-
-        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void DeviceBox_OnInfoUpdated(object sender, EventArgs e)
         {
             try
             {
-
                 _Status = DeviceBox.Status;
 
                 //Avatar.Image = device.PB_Image.Image;
@@ -200,7 +136,7 @@ namespace SKYNET
                 }
                 if (DeviceBox.Device.Name.Length > 12)
                 {
-                    HostDescription.Font = new System.Drawing.Font("Segoe UI Emoji", 7.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    HostDescription.Font = new Font("Segoe UI Emoji", 7.7F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
                 }
 
                 Status.Text = DeviceBox.Status.ToString();
@@ -234,12 +170,49 @@ namespace SKYNET
             }
             catch
             {
-                
+
             }
 
         Jump:;
-            _timer.Interval = 1000;
-            _timer.Start();
+
+        }
+
+        private ConnectionStatus _Status
+        {
+            get { return _Status; }
+            set
+            {
+                label23.Text = "Duración del estado actual (            )";
+
+                if (value == ConnectionStatus.Online)
+                {
+                    StatusICON.Image = Resources.D_Online;
+                    StatusLabel.Text = "Online";
+                }
+                else
+                {
+                    StatusICON.Image = Resources.D_Offline;
+                    StatusLabel.Text = "Offline";
+                }
+            }
+        }
+
+        private Image GetImageFromStatus(ConnectionStatus status)
+        {
+            if (status == ConnectionStatus.Online)
+                return Resources.D_Online;
+
+            else
+                return Resources.D_Offline;
+        }
+
+        public void StoreHostName(string name)
+        {
+            if (name.Length > 12)
+            {
+                HostDescription.Font = new Font("Segoe UI Emoji", 7F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            }
+            HostDescription.Text = name;
         }
 
         private void AddBarGraphic(int GraphicTime)
@@ -334,7 +307,6 @@ namespace SKYNET
 
         private void CloseBox_BoxClicked(object sender, EventArgs e)
         {
-            _timer.Stop();
             Close();
         }
     }

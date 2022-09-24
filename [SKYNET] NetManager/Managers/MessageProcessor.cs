@@ -1,8 +1,10 @@
 ﻿using SKYNET.Helpers;
+using SKYNET.Types;
 using System;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Web.Script.Serialization;
 using WebSocketSharp.Server;
 
 namespace SKYNET
@@ -34,37 +36,37 @@ namespace SKYNET
                         }
 
                         byte[] body = GetBody(e.Request.InputStream);
-                        var Remote = e.Request.RemoteEndPoint;
+                        var RemoteEndPoint = e.Request.RemoteEndPoint;
 
                         e.Response.StatusCode = (int)WebSocketSharp.Net.HttpStatusCode.OK;
                         e.Response.Close();
 
-                        string Message = Encoding.Default.GetString(body);
-
-                        Device box = DeviceManager.GetDeviceFromIP((Remote).Address);
+                        string JSON = Encoding.Default.GetString(body);
+                        var Message = new JavaScriptSerializer().Deserialize<ChatMessage>(JSON);
+                        Message.Address = RemoteEndPoint.Address.ToString();
 
                         OnMessageReceived?.Invoke(this, new MessageReceived()
                         {
-                            Device = box,
                             Message = Message,
-                            Address = (Remote).Address
+                            Address = (RemoteEndPoint).Address
                         });
                     }
                     break;
                 case "/onPing":
                     {
-                        Common.Show("Ping");
                         if (!frmMain.ReceiveMessages)
                         {
-                            e.Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                            e.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                             return;
                         }
-                        e.Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
-                        e.Response.OutputStream.Flush();
+                        e.Response.StatusCode = (int)HttpStatusCode.OK;
                     }
                     break;
                 case "/Avatar":
-                    ResponseAvatar(e);
+                    ResponseAvatar(e, false);
+                    break;
+                case "/DefaultAvatar":
+                    ResponseAvatar(e, true);
                     break;
                 default:
                     e.Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
@@ -72,9 +74,15 @@ namespace SKYNET
             }
         }
 
-        private void ResponseAvatar(HttpRequestEventArgs e)
+        private void ResponseAvatar(HttpRequestEventArgs e, bool defaultAvatar)
         {
-            string avatarPath = Path.Combine(Common.GetPath(), "Data", "Images", "Avatar.jpg");
+            string avatarPath = "";
+
+            if (defaultAvatar)
+                avatarPath = Path.Combine(Common.GetPath(), "Data", "Images", "Default.jpg");
+            else
+                avatarPath = Path.Combine(Common.GetPath(), "Data", "Images", "Avatar.jpg");
+
             if (!File.Exists(avatarPath))
             {
                 var Avatar = ImageHelper.Resize(ImageHelper.GetDesktopWallpaper(true), 200, 200);
@@ -137,8 +145,7 @@ namespace SKYNET
 
         public class MessageReceived
         {
-            public Device Device { get; set; }
-            public string Message { get; set; }
+            public ChatMessage Message { get; set; }
             public IPAddress Address { get; set; }
         }
     }

@@ -97,7 +97,13 @@ public class Common
 
     public static void InvokeAction(Control control, Action Action)
     {
-        control.Invoke(Action);
+        try
+        {
+            control.Invoke(Action);
+        }
+        catch 
+        {
+        }
     }
 
     public static List<MacIpPair> GetAllMacAddressesAndIppairs()
@@ -279,45 +285,6 @@ public class Common
             return result;
         }
     }
-    public static Image CropToCircle(Image image)
-    {
-        try
-        {
-            if (image == null)
-            {
-                image1 = (Image)null;
-            }
-            else
-            {
-                int num = checked(image.Width);
-                Bitmap bitmap = new Bitmap(image.Width, image.Height);
-                using (Graphics graphics = Graphics.FromImage((Image)bitmap))
-                {
-                    graphics.Clear(Color.Transparent);
-                    graphics.SmoothingMode = SmoothingMode.HighQuality;
-                    graphics.CompositingQuality = CompositingQuality.HighQuality;
-                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    using (Brush brush = (Brush)new TextureBrush(image))
-                    {
-                        using (GraphicsPath path = new GraphicsPath())
-                        {
-                            path.AddArc(-1, -1, num, num, 180f, 90f);
-                            path.AddArc(checked(0 + bitmap.Width - num), -1, num, num, 270f, 90f);
-                            path.AddArc(checked(0 + bitmap.Width - num), checked(0 + bitmap.Height - num), num, num, 0.0f, 90f);
-                            path.AddArc(-1, checked(0 + bitmap.Height - num), num, num, 90f, 90f);
-                            graphics.FillPath(brush, path);
-                        }
-                    }
-                    image1 = (Image)bitmap;
-                }
-            }
-        }
-        catch
-        {
-        }
-        return image1;
-    }
-
     public static void Resize(string sourcePath, int maxWidth, int maxHeight, string destPath)
     {
         try

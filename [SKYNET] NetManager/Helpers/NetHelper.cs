@@ -174,6 +174,21 @@ namespace SKYNET.Helpers
             return Addresses;
         }
 
+        public static IPAddress GetIPAddress()
+        {
+            string hostName = Dns.GetHostName();
+            IPHostEntry hostEntry = Dns.GetHostEntry(hostName);
+            IPAddress[] addressList = hostEntry.AddressList;
+            foreach (IPAddress iPAddress in addressList)
+            {
+                if (iPAddress.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return iPAddress;
+                }
+            }
+            return IPAddress.Loopback;
+        }
+
         public static List<string> GetAddresses()
         {
             var IPAddresses = GetIPAddresses();

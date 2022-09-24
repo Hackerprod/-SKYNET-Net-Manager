@@ -12,19 +12,20 @@ namespace SKYNET
 {
     public partial class DeviceBox : UserControl
     {
+        public event EventHandler OnInfoUpdated;
         public DeviceStats DeviceStats;
         public PingHelper  PingHelper;
+        public List<int> PingHistory;
+        public string MAC;
         public string Ping;
-        public Dictionary<int, int> Values;
-
-        public string OpcionalLocation { get; set; }
-        public bool AlertOnConnect { get; set; }
-        public bool AlertOnDisconnect { get; set; }
-        public string MAC { get; set; }
+        public string OpcionalLocation;
+        public bool AlertOnConnect;
+        public bool AlertOnDisconnect;
 
         private Device _Device;
         private bool _circularAvatar;
         private bool _ExternalImage;
+        private bool _AvatarRequested;
 
 
         public Image Image
@@ -51,11 +52,11 @@ namespace SKYNET
                     return;
                 }
 
-                PingHelper.Initialize(value);
+                PingHelper.Initialize(value, this);
 
                 OpcionalLocation = _Device.OpcionalLocation;
                 CircularImage = _Device.CircularImage;
-                
+
                 LB_Name.Text = _Device.Name;
                 LB_IPAddress.Text = _Device.IPAddress == null ? "" : _Device.IPAddress;
 
@@ -64,20 +65,20 @@ namespace SKYNET
                     SetImage(image);
                     _ExternalImage = true;
                 }
+            }
+        }
 
-                Task.Run(delegate 
-                {
-                    if (_Device.IPAddress == null) return;
+        private async Task RequestAvatar()
+        {
+            if (_Device.IPAddress == null) return;
 
-                    var ImageDownloaded = Common.GetDeviceImage($"http://{_Device.IPAddress}:28082/Avatar");
-                    if (ImageDownloaded.Result != null)
-                    {
-                        _ExternalImage = false;
-                        SetImage(ImageDownloaded.Result);
-                        _ExternalImage = true;
-                        return;
-                    }
-                });
+            var ImageDownloaded = await Common.GetDeviceImage($"http://{_Device.IPAddress}:28082/Avatar");
+            if (ImageDownloaded != null)
+            {
+                _ExternalImage = false;
+                SetImage(ImageDownloaded);
+                _ExternalImage = true;
+                return;
             }
         }
 
@@ -91,16 +92,20 @@ namespace SKYNET
 
             _ExternalImage = false;
 
-            Values = new Dictionary<int, int>();
-            for (int i = 1; i < 31; i++)
-            {
-                Values.Add(i, 0);
-            }
+            PingHistory = new List<int>();
         }
 
         private void PingHelper_OnPingFailed(object sender, long RoundtripTime)
         {
             Status = ConnectionStatus.Offline;
+
+            DeviceStats?.PingLost();
+
+            PingHistory.Add(200);
+            if (PingHistory.Count > 30)
+            {
+                PingHistory.RemoveAt(30);
+            }
 
             if (AlertOnDisconnect)
             {
@@ -112,8 +117,7 @@ namespace SKYNET
                 ).Start();
             }
 
-            DeviceStats?.PingLost();
-            AddValue(200);
+            OnInfoUpdated?.Invoke(null, null);
         }
 
         private void PingHelper_OnPingSuccess(object sender, long RoundtripTime)
@@ -127,7 +131,12 @@ namespace SKYNET
             Status = ConnectionStatus.Online;
 
             DeviceStats?.PingSuccess(RoundtripTime);
-            AddValue((int)RoundtripTime);
+
+            PingHistory.Add((int)RoundtripTime);
+            if (PingHistory.Count > 30)
+            {
+                PingHistory.RemoveAt(30);
+            }
 
             if (AlertOnConnect)
             {
@@ -136,6 +145,13 @@ namespace SKYNET
                     frmAlert alerta = new frmAlert(this);
                     alerta.ShowDialog();
                 }).Start();
+            }
+            OnInfoUpdated?.Invoke(null, null);
+
+            if (!_AvatarRequested)
+            {
+                RequestAvatar();
+                _AvatarRequested = true;
             }
         }
 
@@ -194,55 +210,19 @@ namespace SKYNET
 
                 try
                 {
-                    //PB_Image.Refresh();
-                    //if (_circularAvatar)
-                    //{
-                    //    PB_Image.Image = Common.CropToCircle(Image);
-                    //}
-                    //else
-                    //{
-                    //    PB_Image.Image = Image;
-                    //}
+                    if (_circularAvatar)
+                    {
+                        PB_Image.Image = ImageHelper.CropToCircle(Image);
+                    }
+                    else
+                    {
+                        PB_Image.Image = Image;
+                    }
                 }
                 catch (Exception)
                 {
                 }
             }
-        }
-
-        private void AddValue(int val)
-        {
-            Values[1] = Values[2];
-            Values[2] = Values[3];
-            Values[3] = Values[4];
-            Values[4] = Values[5];
-            Values[5] = Values[6];
-            Values[6] = Values[7];
-            Values[7] = Values[8];
-            Values[8] = Values[9];
-            Values[9] = Values[10];
-            Values[10] = Values[11];
-            Values[11] = Values[12];
-            Values[12] = Values[13];
-            Values[13] = Values[14];
-            Values[14] = Values[15];
-            Values[15] = Values[16];
-            Values[16] = Values[17];
-            Values[17] = Values[18];
-            Values[18] = Values[19];
-            Values[19] = Values[20];
-            Values[20] = Values[21];
-            Values[21] = Values[22];
-            Values[22] = Values[23];
-            Values[23] = Values[24];
-            Values[24] = Values[25];
-            Values[25] = Values[26];
-            Values[26] = Values[27];
-            Values[27] = Values[28];
-            Values[28] = Values[29];
-            Values[29] = Values[30];
-            Values[30] = val;
-
         }
 
         public void SetImage(Image image)
@@ -253,7 +233,7 @@ namespace SKYNET
 
             if (CircularImage)
             {
-                InvokeAction(PB_Image, delegate { PB_Image.Image = Common.CropToCircle(image); });
+                InvokeAction(PB_Image, delegate { PB_Image.Image = ImageHelper.CropToCircle(image); });
             }
             else
             {

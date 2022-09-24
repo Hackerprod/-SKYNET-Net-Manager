@@ -103,6 +103,7 @@ namespace SKYNET
             this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
             this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
             this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.ImageSize = 10;
             this.CloseBox.Location = new System.Drawing.Point(299, 0);
             this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
             this.CloseBox.MenuMode = false;

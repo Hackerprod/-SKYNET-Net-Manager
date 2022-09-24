@@ -279,14 +279,14 @@ namespace SKYNET
             // 
             // DeviceName
             // 
-            this.DeviceName.AutoSize = true;
             this.DeviceName.Font = new System.Drawing.Font("Segoe UI Emoji", 10F, System.Drawing.FontStyle.Bold);
             this.DeviceName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
             this.DeviceName.Location = new System.Drawing.Point(5, 12);
             this.DeviceName.Name = "DeviceName";
             this.DeviceName.Size = new System.Drawing.Size(144, 19);
             this.DeviceName.TabIndex = 257;
-            this.DeviceName.Text = "Nombre del equipo";
+            this.DeviceName.Text = "Device Name";
+            this.DeviceName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // DeviceIp
             // 

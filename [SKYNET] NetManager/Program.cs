@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
@@ -34,6 +35,8 @@ namespace SKYNET
         [STAThread]
         static void Main()
         {
+            //RunTest(); return;
+
             Application.ThreadException += UIThreadExceptionHandler;
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 
@@ -51,6 +54,13 @@ namespace SKYNET
             {
                 Common.InitialiceApplication();
             }
+        }
+
+        private static void RunTest()
+        {
+            ChatManager.Initialize();
+
+            new frmPrivateChat(IPAddress.Parse("10.0.0.1")).ShowDialog();
         }
 
         public static bool IsAdmin()

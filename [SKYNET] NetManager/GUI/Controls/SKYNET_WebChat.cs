@@ -6,6 +6,8 @@ using mshtml;
 using Microsoft.VisualBasic.CompilerServices;
 using System.IO;
 using SKYNET.Types;
+using System.Net;
+using System.Linq;
 
 namespace SKYNET.GUI
 {
@@ -25,74 +27,83 @@ namespace SKYNET.GUI
             StringBuilder HTTP = new StringBuilder();
             HTTP.AppendLine("<html><head></head>");
             HTTP.AppendLine($"<body bgcolor={ColorTranslator.ToHtml(Color.FromArgb(43, 54, 68))}>");
-            HTTP.AppendLine("<main>");
-            HTTP.AppendLine("<ul id='chat'>");
+
+            HTTP.AppendLine($"<div id='chat-messages'>");
 
             webChat.Document.OpenNew(true).Write(HTTP.ToString());
 
             webChat.ScriptErrorsSuppressed = true;
 
             IHTMLStyleSheet2 instance = (IHTMLStyleSheet2)((IHTMLDocument2)webChat.Document.DomDocument).createStyleSheet("", 0);
-            NewLateBinding.LateSet(instance, null, "cssText", new object[1] { GetMyCSS() }, null, null);
+            NewLateBinding.LateSet(instance, null, "cssText", new object[1] { GetCSS() }, null, null);
             HtmlElement htmlElement = webChat.Document.GetElementsByTagName("head")[0];
             HtmlElement htmlElement2 = webChat.Document.CreateElement("script");
+            IHTMLScriptElement iHTMLScriptElement = (IHTMLScriptElement)htmlElement2.DomElement;
+            //iHTMLScriptElement.text = GetJS();
             htmlElement.AppendChild(htmlElement2);
-
         }
 
-        public void WriteChat(ChatMessage ChatMessage)
+        public void WriteChat(ChatMessage ChatMessage, bool Me, bool Done = true)
         {
-            string message = GetMessageBody(ChatMessage);
+            string message = GetMessageBody(ChatMessage, Me, Done);
 
             Common.InvokeAction(webChat, delegate
             {
                 webChat.Document.Write(message);
+            });
+
+            Common.InvokeAction(webChat, delegate
+            {
                 webChat.Document.Window.ScrollTo(0, webChat.Document.Body.ScrollRectangle.Height);
             });
         }
 
-        public static string GetMessageBody(ChatMessage MessageContent)
+        public static string GetMessageBody(ChatMessage MessageContent, bool Me, bool Done = true)
         {
             StringBuilder HTTP = new StringBuilder();
 
-            string imagePath = Path.Combine(Common.GetPath(), "Data", "Images", "Default.jpg");
-
-            var deviceBox = DeviceManager.GetBoxFromIP(MessageContent.Addresses);
-            if (deviceBox != null)
+            if (Me)
             {
-                if (File.Exists(Path.Combine(Common.GetPath(), "Data", "Images", deviceBox.Device.Guid + ".jpg")))
+                string fill = Done ? "#86C6FD" : "#ED827C";
+                HTTP.AppendLine($"<div class='message right'>");
+                HTTP.AppendLine($"<img src='http://127.0.0.1:28082/Avatar' />");
+                HTTP.AppendLine($"<div class='bubble me'>");
+                HTTP.AppendLine($"{MessageContent.Message}");
+                HTTP.AppendLine($"<div class='corner'></div>");
+                HTTP.AppendLine($"<p class='Time-me'>{GetTime(MessageContent.Time)}<p>");
+
+                HTTP.AppendLine($"<svg class='check' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 45 45' width='22' height='17'>");
+                HTTP.AppendLine($"<path d='M14.7 35.9 3.5 24.7l2.15-2.15 9.05 9.05 2.15 2.15Zm8.5 0L12 24.7l2.15-2.15 9.05 9.05 19.2-19.2 2.15 2.15Zm0-8.5-2.15-2.15L33.9 12.4l2.15 2.15Z' fill='{fill}'/>");
+                HTTP.AppendLine($"</svg>");
+
+                HTTP.AppendLine($"</div>");
+                HTTP.AppendLine($"</div>");
+            }
+            else
+            {
+                string url = "";
+                if (MessageContent.Address != null)
                 {
-                    imagePath = Path.Combine(Common.GetPath(), "Data", "Images", deviceBox.Device.Guid + ".jpg");
+                    url = $"http://{MessageContent.Address}:28082/Avatar";
                 }
+                else
+                {
+                    url = $"http://127.0.0.1:28082/DefaultAvatar";
+                }
+
+                HTTP.AppendLine($"<div class='message'>");
+                HTTP.AppendLine($"<img src='{url}'/>");
+                HTTP.AppendLine($"<div class='bubble you'>");
+                HTTP.AppendLine($"<h4 class='Sender'>{MessageContent.Sender}</h4>");
+                HTTP.AppendLine($"{MessageContent.Message}");
+                HTTP.AppendLine($"<h4 class='Time-you'>{GetTime(MessageContent.Time)}<h4>");
+                HTTP.AppendLine($"<div class='corner'></div>");
+                HTTP.AppendLine($"</div>");
+                HTTP.AppendLine($"</div>");
             }
 
-            //if (MessageContent.Sender == Environment.UserName)
-            {
-                HTTP.AppendLine($"<li class='me'>");
-                HTTP.AppendLine($"<div class='entete'>");
-                HTTP.AppendLine($"<h2 class='Time'>{GetTime(MessageContent.Time)}</h2>");
-                HTTP.AppendLine($"<h3 class='Sender'>{MessageContent.Sender}</h3>");
-                HTTP.AppendLine($"</div>");
-                HTTP.AppendLine($"<div class='triangle'></div>");
-                HTTP.AppendLine($"<div class='message'>");
-                HTTP.AppendLine($"{MessageContent.Message}");
-                HTTP.AppendLine($"</div>");
-                HTTP.AppendLine($"</li>");
-            }
-            //else
-            {
-                HTTP.AppendLine($"<li class='you'>");
-                HTTP.AppendLine($"<div class='entete'>");
-                HTTP.AppendLine($"<h3 class='Sender'>{MessageContent.Sender}</h3>");
-                HTTP.AppendLine($"<h2 class='Time'>{GetTime(MessageContent.Time)}</h2>");
-                HTTP.AppendLine($"</div>");
-                HTTP.AppendLine($"<div class='triangle'></div>");
-                HTTP.AppendLine($"<div class='message'>");
-                HTTP.AppendLine($"{MessageContent.Message}");
-                HTTP.AppendLine($"</div>");
-                HTTP.AppendLine($"</li>");
-            }
-            HTTP.AppendLine("</br>");
+
+
             return HTTP.ToString();
         }
 
@@ -110,93 +121,132 @@ namespace SKYNET.GUI
             return time;
         }
 
-        public static string GetMyCSS()
+        public static string GetCSS()
         {
             return @"
 
-*{
-	box-sizing:border-box;
+body {
+    background: #111A25;
+    font:12px 'Open Sans', sans-serif; 
+
+    scrollbar-face-color:#52a1f2;
+    scrollbar-highligh-color:#1d2733;
+    scrollbar-3dligh-color:#1d2733;
+    scrollbar-darkshadow-color:#1d2733;
+    scrollbar-shadow-color:#73b5f8;
+    scrollbar-track-color:#1d2733;
+    scrollbar-arrow-color:#52a1f2;
+}
+#chatview{
+    background:#111A25;
+}
+#chat-messages{
+    width:98%;
+    height:100%; 
+}
+#chat-messages div.message{
+    padding:0 0 40px 55px;
+    clear:both;
+    margin-bottom:40px;
+}
+#chat-messages div.message.right{
+    padding: 0 58px 30px 0;
+    margin-right: -19px;
+    margin-left: 19px;
+}
+.message img{
+    float: left;
+    margin-left: -38px;
+    border-radius: 50%;
+    width: 30px;
+    //margin-top:20px;
+}
+#chat-messages div.message.right img{
+    float: right; 
+    margin-left: 0;
+    margin-right: -38px; 
+}
+.message .bubble{ 
+    font-size:12px;
+    font-weight:300;
+    border-radius:5px 5px 5px 0px;
+    color:#fff;
+    position:relative;
+    float:left;
+    max-width:75%;
+    min-width: 15%;
+    word-wrap: break-word;
 }
 
-body{
-	background-color:#2B3644;
-	font:12px 'Open Sans', sans-serif; 
+.me{ 
+    background:#3E618A;
+    padding:12px 13px;
 }
 
-main{
-	width:100%;
-	height:100%;
-	display:inline-block;
-	vertical-align:top;
+.you{ 
+    background:#232E3B;
+    padding:25px 12px 5px 12px;
 }
 
-.Time{
-	font:10px 'Open Sans', sans-serif;
-    color:#999999;
-	display:inline-block;
-	font-weight:normal;
+#chat-messages div.message.right .bubble{
+    float:right;
+    border-radius:5px 5px 0px 5px ;
+}
+
+.bubble .corner{
+    position:absolute;
+    width:7px;
+    height:7px;
+    left:-5px;
+    bottom:0;
+  
+    border-width: 10px 8px 13px 8px;
+    border-style: solid;
+    border-color: transparent transparent #232E3B transparent;
+}
+div.message.right .corner{
+    border-color: transparent transparent #3E618A transparent;
+    left:auto;
+    right:-5px;
+}
+.bubble span{
+    color: ;
+    font-size: 11px;
+    position: absolute;
+    right: 0;
+    bottom: -22px;
 }
 
 .Sender{
-	font:12px 'Open Sans', sans-serif;
-    color:#fff;
-	display:inline-block;
-	font-weight:normal;
+    color:#85DE6B;
+    position: absolute;
+    top:-10px;
 }
 
-#chat{
-	padding-left:0;
-	margin:0;
-	list-style-type:none;
-	overflow-y:scroll;
-	height:100%;
-}
-#chat li{
-	padding:0px 100px 0px 0px;
+.Time-you{
+    color:#6D7F8F;
+    position: absolute;
+    bottom:-6px;
+    right: 10px;
+    font-size:10px;
 }
 
-#chat .message{
-	padding:10px;
-	color:#fff;
-	line-height:25px;
-	max-width:90%;
-	display:inline-block;
-	text-align:left;
-	border-radius:5px;
-    font:13px 'Open Sans', sans-serif; 
-}
-#chat .me{
-	text-align:right;
-}
-#chat .you .message{
-	background-color:#58b666;
-}
-#chat .me .message{
-	background-color:#6fbced;
-}
-#chat .triangle{
-	width: 0;
-	height: 0;
-	border-style: solid;
-	border-width: 10px 8px 10px 8px;
+.Time-me{
+    color:#8FBCDF;
+    position: absolute;
+    bottom:-6px;
+    right: 30px;
+    font-size:10px;
 }
 
-#chat .you .triangle{
-		border-color: transparent transparent #58b666 transparent;
-		margin-left:15px;
-        margin-top:-5px;
+.check{
+    color: red;
+    position: absolute;
+    bottom:3px;
+    right: 5px;
 }
-#chat .me .triangle{
-		border-color: transparent transparent #6fbced transparent;
-		margin-left:95%;
-        margin-top:-5px;
-}
-
-
-
 
             ";
         }
-
     }
 }

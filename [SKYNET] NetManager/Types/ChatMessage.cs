@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net;
 
 namespace SKYNET.Types
 {
@@ -9,11 +7,12 @@ namespace SKYNET.Types
         public string Sender { get; set; }
         public string Message { get; set; }
         public DateTime Time { get; set; }
-        public List<string> Addresses { get; set; }
+        public string Address { get; set; }
+    }
 
-        public ChatMessage()
-        {
-            Addresses = new List<string>();
-        }
+    public class ChatMessageHistory
+    {
+        public ChatMessage Message;
+        public bool Me;
     }
 }

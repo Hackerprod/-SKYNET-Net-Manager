@@ -51,11 +51,11 @@ namespace SKYNET.Network
                    
                 }
                 string message = Encoding.Default.GetString(receiveResult.Buffer);
-                OnMessageReceived?.Invoke(this, new MessageProcessor.MessageReceived()
-                {
-                    Address = receiveResult.RemoteEndPoint.Address,
-                    Message = message
-                });
+                //OnMessageReceived?.Invoke(this, new MessageProcessor.MessageReceived()
+                //{
+                //    Address = receiveResult.RemoteEndPoint.Address,
+                //    Message = message
+                //});
 
             }
         }

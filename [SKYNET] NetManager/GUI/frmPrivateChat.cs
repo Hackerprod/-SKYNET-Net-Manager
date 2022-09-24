@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 namespace SKYNET
@@ -19,8 +20,10 @@ namespace SKYNET
         public frmPrivateChat(DeviceBox box)
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
+
             base.SetMouseMove(PN_Top);
-            CheckForIllegalCrossThreadCalls = false;  
+            base.EnableShadows = true;
 
             this.box = box;
 
@@ -31,7 +34,7 @@ namespace SKYNET
 
             this.IPAddress = box.Device.IPAddress.ToIPAddress();
 
-            label2.Text = "Message to " + box.Device.Name;
+
             TB_Message.TextBox.Focus();
         }
 
@@ -42,114 +45,108 @@ namespace SKYNET
             CheckForIllegalCrossThreadCalls = false;  
 
             this.IPAddress = iPAddress;
-            label2.Text = "Message to " + iPAddress.ToString();
 
             TopMost = true;
             Common.MoveToTopMost(base.Handle);
             TB_Message.Focus();
+
+            WriteChat(new ChatMessage() { Sender = "Hackerprod", Message = "Este es un mensaje de prueba para el diseño de los bundles del chat", Time = DateTime.Now, Address = "10.0.0.1" }, true);
+            WriteChat(new ChatMessage() { Sender = "Hackerprod", Message = "Este es un mensaje de prueba para el diseño de los bundles del chat", Time = DateTime.Now, Address = "10.0.0.1" }, true);
+            WriteChat(new ChatMessage() { Sender = "Hackerprod", Message = "Este es un mensaje", Time = DateTime.Now, Address = "10.0.0.1" }, true);
+            WriteChat(new ChatMessage() { Sender = "Dairon", Message = "Este es un mensaje de prueba para el diseño de los bundles del chat", Time = DateTime.Now, Address = "10.0.0.12" }, false);
+            WriteChat(new ChatMessage() { Sender = "Dairon", Message = "Este es un mensaje de prueba para el diseño de los bundles del chat", Time = DateTime.Now, Address = "10.0.0.12" }, false);
+            WriteChat(new ChatMessage() { Sender = "Dairon", Message = "Este es un mensaje", Time = DateTime.Now, Address = "10.0.0.12" }, false);
+
         }
 
         internal void PrintMessage(MessageProcessor.MessageReceived e)
         {
             try
             {
-                ChatMessage message = new ChatMessage();
-                string sender = "";
-
-                if (e.Device == null)
+                ChatMessageHistory message = new ChatMessageHistory()
                 {
-                    message.Sender = e.Address.ToString();
-                }
-                else
-                {
-                    message.Sender = e.Device.Name;
-                }
+                    Message = e.Message,
+                    Me = false
+                };
 
-                message.Message = e.Message;
-
-                WriteChat(message);
+                WriteChat(message.Message, false);
 
                 ChatManager.RegisterMessage(e.Address, message);
             }
             catch 
             {
             }
+
             TopMost = true;
             Common.MoveToTopMost(base.Handle);
         }
 
-        private void WriteChat(ChatMessage message)
+        private void WriteChat(ChatMessage message, bool Me, bool Done = true)
         {
-            WebChat.WriteChat(message);
+            WebChat.WriteChat(message, Me, Done);
         }
 
-        public void FillHistory(List<ChatMessage> messages)
+        public void FillHistory(List<ChatMessageHistory> messages)
         {
             foreach (var message in messages)
             {
-                WriteChat(message);
+                WriteChat(message.Message, message.Me);
             }
-        }
-
-        protected override void OnActivated(EventArgs e)
-        {
-            base.OnActivated(e);
-            int attrValue = 2;
-            DwmApi.DwmSetWindowAttribute(base.Handle, 2, ref attrValue, 4);
-            DwmApi.MARGINS mARGINS = default(DwmApi.MARGINS);
-            mARGINS.cyBottomHeight = 1;
-            mARGINS.cxLeftWidth = 0;
-            mARGINS.cxRightWidth = 0;
-            mARGINS.cyTopHeight = 0;
-            DwmApi.MARGINS marInset = mARGINS;
-            DwmApi.DwmExtendFrameIntoClientArea(base.Handle, ref marInset);
         }
 
         private void TB_Message_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Return)
             {
-                SendMessage(TB_Message.TextBox.Lines[0]);
-                TB_Message.Clear();
-                TB_Message.Text = "";
+                if (TB_Message.TextBox.Lines.Length > 0)
+                {
+                    SendMessage(TB_Message.TextBox.Lines[0]);
+                    TB_Message.Clear();
+                    TB_Message.Text = "";
+                }
             }
         }
 
-        private void SendMessage(string msg)
+        private async Task SendMessage(string msg)
         {
-            Task.Run(() =>
+            var message = new ChatMessage()
             {
-                try
+                Sender = Settings.Username,
+                Message = msg,
+                Time = DateTime.Now
+            };
+
+            try
+            {
+
+                string JSON = new JavaScriptSerializer().Serialize(message);
+                byte[] bytes = Encoding.Default.GetBytes(JSON);
+
+                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create($"http://{IPAddress}:28082/onMessage");
+                httpWebRequest.Method = "POST";
+
+                using (Stream newStream = httpWebRequest.GetRequestStream())
                 {
-                    byte[] bytes = Encoding.Default.GetBytes(msg);
-                    string IP = box != null ? box.Device.IPAddress.ToString() : IPAddress.ToString();
-                    HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create($"http://{IP}:28082/onMessage");
-                    httpWebRequest.Method = "POST";
-                    using (Stream newStream = httpWebRequest.GetRequestStream())
-                    {
-                        newStream.Write(bytes, 0, bytes.Length);
-                    }
-                    var sd = httpWebRequest.GetResponse().GetResponseStream();
-
-                    ChatMessage message = new ChatMessage()
-                    {
-                        Sender = Environment.UserName,
-                        Message = msg,
-                        Time = DateTime.Now,
-                        Addresses = NetHelper.GetAddresses()
-                    };
-
-                    WriteChat(message);
-
-                    ChatManager.RegisterMessage(IPAddress, message);
+                    newStream.Write(bytes, 0, bytes.Length);
                 }
-                catch (Exception ex)
-                {
-                    Common.Show(ex);
 
-                    //TB_Chat.Text += "Error sending: " + msg + Environment.NewLine;
-                }
-            });
+
+                var sd = httpWebRequest.GetResponse().GetResponseStream();
+
+                //var RequestStream = await httpWebRequest.GetRequestStreamAsync();
+                //RequestStream.Write(bytes, 0, bytes.Length);
+
+                //var Response = await httpWebRequest.GetResponseAsync();
+                //Response.GetResponseStream();
+
+                WriteChat(message, true, true);
+
+                ChatManager.RegisterMessage(IPAddress, new ChatMessageHistory() { Message = message, Me = true });
+            }
+            catch 
+            {
+                WriteChat(message, true, false);
+            }
 
         }
 
@@ -162,6 +159,16 @@ namespace SKYNET
         {
             ChatManager.RemoveChat(IPAddress);
             Close();
+        }
+
+        private void TB_Message_OnLogoClicked(object sender, EventArgs e)
+        {
+            if (TB_Message.TextBox.Lines.Length > 0)
+            {
+                SendMessage(TB_Message.TextBox.Lines[0]);
+                TB_Message.Clear();
+                TB_Message.Text = "";
+            }
         }
     }
 }

@@ -53,7 +53,7 @@ namespace SKYNET
         public static DeviceBox GetBoxFromIP(List<string> addresses)
         {
             DeviceBox device = null;
-            foreach (Control item in frmMain.frm.DeviceContainer.Controls)
+            foreach (Control item in frmMain.frm?.DeviceContainer.Controls)
             {
                 if (item is DeviceBox)
                 {
