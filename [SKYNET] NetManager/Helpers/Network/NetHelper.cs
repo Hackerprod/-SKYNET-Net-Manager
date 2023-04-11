@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SKYNET.Models.Network;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -42,19 +43,23 @@ namespace SKYNET.Helpers
             }
         }
 
-        public static string GetMACAddress(IPAddress address)
+        public static Task<string> GetMACAddress(IPAddress address)
         {
-            var destAddr = BitConverter.ToInt32(address.GetAddressBytes(), 0);
-            var srcAddr = BitConverter.ToInt32(System.Net.IPAddress.Any.GetAddressBytes(), 0);
-            var macAddress = new byte[6];
-            var macAddrLen = macAddress.Length;
-            var ret = SendArp(destAddr, srcAddr, macAddress, ref macAddrLen);
-            if (ret != 0)
+            return Task.Run(() =>
             {
-                return "";
-            }
-            var mac = new PhysicalAddress(macAddress);
-            return BitConverter.ToString(macAddress).Replace('-', ':');
+                var destAddr = BitConverter.ToInt32(address.GetAddressBytes(), 0);
+                var srcAddr = BitConverter.ToInt32(System.Net.IPAddress.Any.GetAddressBytes(), 0);
+                var macAddress = new byte[6];
+                var macAddrLen = macAddress.Length;
+
+                var ret = SendArp(destAddr, srcAddr, macAddress, ref macAddrLen);
+                if (ret != 0)
+                {
+                    return "";
+                }
+                var mac = new PhysicalAddress(macAddress);
+                return BitConverter.ToString(macAddress).Replace('-', ':');
+            });
         }
 
         public static void GetMACAddress(IPAddress address, Action<PhysicalAddress> callback)

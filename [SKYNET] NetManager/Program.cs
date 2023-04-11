@@ -37,6 +37,9 @@ namespace SKYNET
         {
             //RunTest(); return;
 
+            //var addr = Dns.GetHostAddresses("https://www.portal.nauta.cu/user/login/es-es");
+            //Common.Show(addr[0]);
+
             Application.ThreadException += UIThreadExceptionHandler;
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 
@@ -56,11 +59,32 @@ namespace SKYNET
             }
         }
 
-        private static void RunTest()
+        public static string RunExeCommand(string commandText)
         {
-            ChatManager.Initialize();
+            Process p = new Process();                      //Create and instantiate a class that operates a process: Process
+            p.StartInfo.FileName = "cmd.exe";               //Set the application to start
+            p.StartInfo.UseShellExecute = false;            //Set whether to use the operating system shell to start the process
+            p.StartInfo.RedirectStandardInput = true;       //Indicates whether the application reads from the StandardInput stream
+            p.StartInfo.RedirectStandardOutput = true;      //Write the application's input to the StandardOutput stream
+            p.StartInfo.RedirectStandardError = true;       //Write the error output of the application to the StandardError stream
+            //p.StartInfo.CreateNoWindow = true;              //Whether to start the process in a new window
+            string strOutput;
+            try
+            {
+                p.Start();
+                p.StandardInput.WriteLine(commandText);     //Write the CMD command into the StandardInput stream
+                p.StandardInput.WriteLine("");              //Write the CMD command into the StandardInput stream
+                p.StandardInput.WriteLine("exit");          //Write the exit command into the StandardInput stream
+                strOutput = p.StandardOutput.ReadToEnd();   //Read all characters of all output streams
+                p.WaitForExit();                            //Wait indefinitely until the process exits
+                //p.Close();                                  //Release the process, close the process
+            }
+            catch (Exception e)
+            {
+                strOutput = e.Message;
+            }
 
-            new frmPrivateChat(IPAddress.Parse("10.0.0.1")).ShowDialog();
+            return strOutput;
         }
 
         public static bool IsAdmin()

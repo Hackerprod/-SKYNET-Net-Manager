@@ -40,6 +40,7 @@ namespace SKYNET
             CheckForIllegalCrossThreadCalls = false;  
             frm = this;
             ReceiveMessages = true;
+
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -161,7 +162,6 @@ namespace SKYNET
 
             DeviceContainer.Controls.Add(deviceBox);
 
-            TEST(deviceBox);
         }
 
         private void GetNextBoxLocation(out int X, out int Y)
@@ -270,7 +270,7 @@ namespace SKYNET
                 frm.OnlineAlertMenuItem.Visible = false;
                 frm.OfflineAlertMenuItem.Visible = true;
                 frm.PuertosMenuItem.Visible = true;
-                frm.enviarMensajeMenuItem.Visible = false;
+                frm.chatMessageMenuItem.Visible = false;
 
                 Rectangle cellDisplayRectangle = box.DisplayRectangle;
                 frm.HerramientasMenuItem.Text = "Tools (" + box.Device.Name + ")";
@@ -293,7 +293,7 @@ namespace SKYNET
                 frm.OnlineAlertMenuItem.Visible = true;
                 frm.OfflineAlertMenuItem.Visible = false;
                 frm.PuertosMenuItem.Visible = false;
-                frm.enviarMensajeMenuItem.Visible = false;
+                frm.chatMessageMenuItem.Visible = false;
 
                 Rectangle cellDisplayRectangle = box.DisplayRectangle;
                 frm.HerramientasMenuItem.Text = "Tools (" + box.Device.Name + ")";
@@ -316,11 +316,11 @@ namespace SKYNET
                     httpWebRequest.Timeout = 500;
                     httpWebRequest.Method = "GET";
                     var Response = httpWebRequest.GetResponse();
-                    frm.enviarMensajeMenuItem.Visible = true;
+                    frm.chatMessageMenuItem.Visible = true;
                 }
                 catch 
                 {
-                    frm.enviarMensajeMenuItem.Visible = false;
+                    frm.chatMessageMenuItem.Visible = false;
                 }
             });
         }
@@ -578,17 +578,6 @@ namespace SKYNET
             }
 
             WelcomeBox.Visible = !ContainsBox;
-        }
-
-        private void TEST(DeviceBox deviceBox)
-        {
-            //if (deviceBox.Device.Name == "Hackerprod")
-            //{
-            //    new frmPrivateChat(deviceBox)
-            //    {
-            //        Location = new Point(0, 0)
-            //    }.ShowDialog();
-            //}
         }
     }
 }

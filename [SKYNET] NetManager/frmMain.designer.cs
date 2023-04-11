@@ -83,7 +83,8 @@ namespace SKYNET
             this.OnlineAlertMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OfflineAlertMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cloneDevice = new System.Windows.Forms.ToolStripMenuItem();
-            this.enviarMensajeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.systemMessageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chatMessageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CloseBoxMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.TryMenu = new SKYNET.SKYNET_ContextMenuStrip();
@@ -98,8 +99,10 @@ namespace SKYNET
             this.menu_AddDevice = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_Profiles = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_SearchDevice = new System.Windows.Forms.ToolStripMenuItem();
-            this.menu_Settings = new System.Windows.Forms.ToolStripMenuItem();
+            this.NetworkTableMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.globalChatMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ActiveConnectionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menu_Settings = new System.Windows.Forms.ToolStripMenuItem();
             this.TopPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.PanelBottom.SuspendLayout();
@@ -440,36 +443,36 @@ namespace SKYNET
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(177)))), ((int)(((byte)(187)))), ((int)(((byte)(190)))));
-            this.label4.Location = new System.Drawing.Point(45, 180);
+            this.label4.Location = new System.Drawing.Point(35, 180);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(109, 16);
+            this.label4.Size = new System.Drawing.Size(132, 16);
             this.label4.TabIndex = 15;
-            this.label4.Text = "PARA CONTINUAR";
+            this.label4.Text = "TO CONTINUE";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(177)))), ((int)(((byte)(187)))), ((int)(((byte)(190)))));
             this.label3.Location = new System.Drawing.Point(32, 153);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(136, 16);
             this.label3.TabIndex = 14;
-            this.label3.Text = "O AGREGUE UN EQUIPO";
+            this.label3.Text = "OR ADD A DEVICE";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(177)))), ((int)(((byte)(187)))), ((int)(((byte)(190)))));
             this.label2.Location = new System.Drawing.Point(34, 127);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(133, 16);
             this.label2.TabIndex = 13;
-            this.label2.Text = "SELECCIONE UN PERFIL";
+            this.label2.Text = "SELECT A PROFILE";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox2
             // 
@@ -503,94 +506,102 @@ namespace SKYNET
             this.OnlineAlertMenuItem,
             this.OfflineAlertMenuItem,
             this.cloneDevice,
-            this.enviarMensajeMenuItem,
+            this.systemMessageMenuItem,
+            this.chatMessageMenuItem,
             this.CloseBoxMenuItem});
             this.BoxMenu.Name = "SKYNET_ContextMenuStrip1";
             this.BoxMenu.ShowImageMargin = false;
-            this.BoxMenu.Size = new System.Drawing.Size(209, 268);
+            this.BoxMenu.Size = new System.Drawing.Size(217, 290);
             // 
             // HerramientasMenuItem
             // 
             this.HerramientasMenuItem.Enabled = false;
             this.HerramientasMenuItem.Name = "HerramientasMenuItem";
-            this.HerramientasMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.HerramientasMenuItem.Size = new System.Drawing.Size(216, 22);
             this.HerramientasMenuItem.Text = "Herramientas";
             // 
             // DevicePingInfoMenuItem
             // 
             this.DevicePingInfoMenuItem.Name = "DevicePingInfoMenuItem";
-            this.DevicePingInfoMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.DevicePingInfoMenuItem.Text = "Información de ping";
+            this.DevicePingInfoMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.DevicePingInfoMenuItem.Text = "Ping Information";
             this.DevicePingInfoMenuItem.Click += new System.EventHandler(this.DevicePingInfoMenuItem_Click);
             // 
             // EditarMenuItem
             // 
             this.EditarMenuItem.Name = "EditarMenuItem";
-            this.EditarMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.EditarMenuItem.Size = new System.Drawing.Size(216, 22);
             this.EditarMenuItem.Text = "Edit Device Info";
             this.EditarMenuItem.Click += new System.EventHandler(this.EditarMenuItem_Click);
             // 
             // PuertosMenuItem
             // 
             this.PuertosMenuItem.Name = "PuertosMenuItem";
-            this.PuertosMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.PuertosMenuItem.Size = new System.Drawing.Size(216, 22);
             this.PuertosMenuItem.Text = "Search opened ports";
             this.PuertosMenuItem.Click += new System.EventHandler(this.PuertosMenuItem_Click);
             // 
             // explorarPCMenuItem
             // 
             this.explorarPCMenuItem.Name = "explorarPCMenuItem";
-            this.explorarPCMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.explorarPCMenuItem.Size = new System.Drawing.Size(216, 22);
             this.explorarPCMenuItem.Text = "Open PC in explorer";
             this.explorarPCMenuItem.Click += new System.EventHandler(this.explorarPCToolStripMenuItem_Click);
             // 
             // hacerPingPorCMDMenuItem
             // 
             this.hacerPingPorCMDMenuItem.Name = "hacerPingPorCMDMenuItem";
-            this.hacerPingPorCMDMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.hacerPingPorCMDMenuItem.Text = "Hacer ping por CMD";
+            this.hacerPingPorCMDMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.hacerPingPorCMDMenuItem.Text = "Ping through CMD";
             this.hacerPingPorCMDMenuItem.Click += new System.EventHandler(this.hacerPingPorCMDToolStripMenuItem_Click);
             // 
             // PingConstante
             // 
             this.PingConstante.Name = "PingConstante";
-            this.PingConstante.Size = new System.Drawing.Size(208, 22);
-            this.PingConstante.Text = "Hacer ping constante por CMD";
+            this.PingConstante.Size = new System.Drawing.Size(216, 22);
+            this.PingConstante.Text = "Ping through CMD (Continuous)";
             this.PingConstante.Click += new System.EventHandler(this.PingConstante_Click);
             // 
             // OnlineAlertMenuItem
             // 
             this.OnlineAlertMenuItem.Name = "OnlineAlertMenuItem";
-            this.OnlineAlertMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.OnlineAlertMenuItem.Text = "Avisar cuando este Online";
+            this.OnlineAlertMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.OnlineAlertMenuItem.Text = "Notify when online";
             this.OnlineAlertMenuItem.Click += new System.EventHandler(this.OnlineAlertMenuItem_Click);
             // 
             // OfflineAlertMenuItem
             // 
             this.OfflineAlertMenuItem.Name = "OfflineAlertMenuItem";
-            this.OfflineAlertMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.OfflineAlertMenuItem.Text = "Avisar cuando este Offline";
+            this.OfflineAlertMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.OfflineAlertMenuItem.Text = "Notify when offline";
             this.OfflineAlertMenuItem.Click += new System.EventHandler(this.OfflineAlertMenuItem_Click);
             // 
             // cloneDevice
             // 
             this.cloneDevice.Name = "cloneDevice";
-            this.cloneDevice.Size = new System.Drawing.Size(208, 22);
+            this.cloneDevice.Size = new System.Drawing.Size(216, 22);
             this.cloneDevice.Text = "Clone Device";
             this.cloneDevice.Click += new System.EventHandler(this.cloneDevice_Click);
             // 
-            // enviarMensajeMenuItem
+            // systemMessageMenuItem
             // 
-            this.enviarMensajeMenuItem.Name = "enviarMensajeMenuItem";
-            this.enviarMensajeMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.enviarMensajeMenuItem.Text = "Send message";
-            this.enviarMensajeMenuItem.Click += new System.EventHandler(this.EnviarMensajeMenuItem_Click);
+            this.systemMessageMenuItem.Name = "systemMessageMenuItem";
+            this.systemMessageMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.systemMessageMenuItem.Text = "Send System Message";
+            this.systemMessageMenuItem.Click += new System.EventHandler(this.SystemMessageMenuItem_Click);
+            // 
+            // chatMessageMenuItem
+            // 
+            this.chatMessageMenuItem.Name = "chatMessageMenuItem";
+            this.chatMessageMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.chatMessageMenuItem.Text = "Send Chat message";
+            this.chatMessageMenuItem.Click += new System.EventHandler(this.EnviarMensajeMenuItem_Click);
             // 
             // CloseBoxMenuItem
             // 
             this.CloseBoxMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.CloseBoxMenuItem.Name = "CloseBoxMenuItem";
-            this.CloseBoxMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.CloseBoxMenuItem.Size = new System.Drawing.Size(216, 22);
             this.CloseBoxMenuItem.Text = "Remove Device";
             this.CloseBoxMenuItem.Click += new System.EventHandler(this.RemoveDeviceMenuItem_Click);
             // 
@@ -617,55 +628,55 @@ namespace SKYNET
             this.CloseMenuItem});
             this.TryMenu.Name = "SKYNET_ContextMenuStrip1";
             this.TryMenu.ShowImageMargin = false;
-            this.TryMenu.Size = new System.Drawing.Size(243, 158);
+            this.TryMenu.Size = new System.Drawing.Size(197, 158);
             // 
             // MostrarMenuItem
             // 
             this.MostrarMenuItem.Name = "MostrarMenuItem";
-            this.MostrarMenuItem.Size = new System.Drawing.Size(242, 22);
-            this.MostrarMenuItem.Text = "Mostrar";
+            this.MostrarMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.MostrarMenuItem.Text = "Show";
             this.MostrarMenuItem.Click += new System.EventHandler(this.MostrarMenuItem_Click);
             // 
             // agregarEquipoMenuItem
             // 
             this.agregarEquipoMenuItem.Name = "agregarEquipoMenuItem";
-            this.agregarEquipoMenuItem.Size = new System.Drawing.Size(242, 22);
-            this.agregarEquipoMenuItem.Text = "Agregar equipo para monitorear";
+            this.agregarEquipoMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.agregarEquipoMenuItem.Text = "Add Device to monitor";
             this.agregarEquipoMenuItem.Click += new System.EventHandler(this.AgregarEquipoMenuItem_Click);
             // 
             // buscarEquiposMenuItem
             // 
             this.buscarEquiposMenuItem.Name = "buscarEquiposMenuItem";
-            this.buscarEquiposMenuItem.Size = new System.Drawing.Size(242, 22);
-            this.buscarEquiposMenuItem.Text = "Buscar equipos en un segmento de IP";
+            this.buscarEquiposMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.buscarEquiposMenuItem.Text = "Find Device in an IP segment";
             this.buscarEquiposMenuItem.Click += new System.EventHandler(this.BuscarEquiposMenuItem_Click);
             // 
             // administrarPerfilesMenuItem
             // 
             this.administrarPerfilesMenuItem.Name = "administrarPerfilesMenuItem";
-            this.administrarPerfilesMenuItem.Size = new System.Drawing.Size(242, 22);
-            this.administrarPerfilesMenuItem.Text = "Administrar perfiles";
+            this.administrarPerfilesMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.administrarPerfilesMenuItem.Text = "Manage Profiles";
             this.administrarPerfilesMenuItem.Click += new System.EventHandler(this.AdministrarPerfilesMenuItem_Click);
             // 
             // PingMenuItem
             // 
             this.PingMenuItem.Name = "PingMenuItem";
-            this.PingMenuItem.Size = new System.Drawing.Size(242, 22);
-            this.PingMenuItem.Text = "Configuración";
+            this.PingMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.PingMenuItem.Text = "Settings";
             this.PingMenuItem.Click += new System.EventHandler(this.Settings_Click);
             // 
             // MinimizeMenuItem
             // 
             this.MinimizeMenuItem.Name = "MinimizeMenuItem";
-            this.MinimizeMenuItem.Size = new System.Drawing.Size(242, 22);
-            this.MinimizeMenuItem.Text = "Minimizar";
+            this.MinimizeMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.MinimizeMenuItem.Text = "Minimize";
             this.MinimizeMenuItem.Click += new System.EventHandler(this.MinimizeMenuItem_Click);
             // 
             // CloseMenuItem
             // 
             this.CloseMenuItem.Name = "CloseMenuItem";
-            this.CloseMenuItem.Size = new System.Drawing.Size(242, 22);
-            this.CloseMenuItem.Text = "Cerrar";
+            this.CloseMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.CloseMenuItem.Text = "Close";
             this.CloseMenuItem.Click += new System.EventHandler(this.CloseMenuItem_Click);
             // 
             // MainMenu
@@ -677,47 +688,63 @@ namespace SKYNET
             this.menu_AddDevice,
             this.menu_Profiles,
             this.menu_SearchDevice,
-            this.menu_Settings,
-            this.globalChatMenuItem});
+            this.NetworkTableMenuItem,
+            this.globalChatMenuItem,
+            this.ActiveConnectionsMenuItem,
+            this.menu_Settings});
             this.MainMenu.Name = "SKYNET_ContextMenuStrip1";
             this.MainMenu.ShowImageMargin = false;
-            this.MainMenu.Size = new System.Drawing.Size(176, 114);
+            this.MainMenu.Size = new System.Drawing.Size(197, 158);
             this.MainMenu.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.MainMenu_Closing);
             // 
             // menu_AddDevice
             // 
             this.menu_AddDevice.Name = "menu_AddDevice";
-            this.menu_AddDevice.Size = new System.Drawing.Size(175, 22);
-            this.menu_AddDevice.Text = "Añadir dispositivo";
+            this.menu_AddDevice.Size = new System.Drawing.Size(196, 22);
+            this.menu_AddDevice.Text = "Add Device";
             this.menu_AddDevice.Click += new System.EventHandler(this.menu_AddDevice_Click);
             // 
             // menu_Profiles
             // 
             this.menu_Profiles.Name = "menu_Profiles";
-            this.menu_Profiles.Size = new System.Drawing.Size(175, 22);
-            this.menu_Profiles.Text = "Perfiles";
+            this.menu_Profiles.Size = new System.Drawing.Size(196, 22);
+            this.menu_Profiles.Text = "Profiles";
             this.menu_Profiles.Click += new System.EventHandler(this.menu_Profiles_Click);
             // 
             // menu_SearchDevice
             // 
             this.menu_SearchDevice.Name = "menu_SearchDevice";
-            this.menu_SearchDevice.Size = new System.Drawing.Size(175, 22);
-            this.menu_SearchDevice.Text = "Buscar equipos en la red";
+            this.menu_SearchDevice.Size = new System.Drawing.Size(196, 22);
+            this.menu_SearchDevice.Text = "Find Devices on the network";
             this.menu_SearchDevice.Click += new System.EventHandler(this.menu_SearchDevice_Click);
             // 
-            // menu_Settings
+            // NetworkTableMenuItem
             // 
-            this.menu_Settings.Name = "menu_Settings";
-            this.menu_Settings.Size = new System.Drawing.Size(175, 22);
-            this.menu_Settings.Text = "Configuración";
-            this.menu_Settings.Click += new System.EventHandler(this.menu_Settings_Click);
+            this.NetworkTableMenuItem.Name = "NetworkTableMenuItem";
+            this.NetworkTableMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.NetworkTableMenuItem.Text = "Get Network Table";
+            this.NetworkTableMenuItem.Click += new System.EventHandler(this.NetworkTableMenuItem_Click);
             // 
             // globalChatMenuItem
             // 
             this.globalChatMenuItem.Name = "globalChatMenuItem";
-            this.globalChatMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.globalChatMenuItem.Size = new System.Drawing.Size(196, 22);
             this.globalChatMenuItem.Text = "Global Chat";
             this.globalChatMenuItem.Click += new System.EventHandler(this.GlobalChatMenuItem_Click);
+            // 
+            // ActiveConnectionsMenuItem
+            // 
+            this.ActiveConnectionsMenuItem.Name = "ActiveConnectionsMenuItem";
+            this.ActiveConnectionsMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.ActiveConnectionsMenuItem.Text = "Get active connections";
+            this.ActiveConnectionsMenuItem.Click += new System.EventHandler(this.ActiveConnectionsMenuItem_Click);
+            // 
+            // menu_Settings
+            // 
+            this.menu_Settings.Name = "menu_Settings";
+            this.menu_Settings.Size = new System.Drawing.Size(196, 22);
+            this.menu_Settings.Text = "Settings";
+            this.menu_Settings.Click += new System.EventHandler(this.menu_Settings_Click);
             // 
             // frmMain
             // 
@@ -754,7 +781,6 @@ namespace SKYNET
             this.panel2.ResumeLayout(false);
             this.DeviceContainer.ResumeLayout(false);
             this.WelcomeBox.ResumeLayout(false);
-            this.WelcomeBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.BoxMenu.ResumeLayout(false);
             this.TryMenu.ResumeLayout(false);
@@ -820,10 +846,13 @@ namespace SKYNET
         private SKYNET_ShadowBox shadow;
         private System.Windows.Forms.ToolStripMenuItem cloneDevice;
         public System.Windows.Forms.Label LB_Tittle;
-        private System.Windows.Forms.ToolStripMenuItem enviarMensajeMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem chatMessageMenuItem;
         private System.Windows.Forms.ToolStripMenuItem globalChatMenuItem;
         private SKYNET_Box SettingsBox;
         private SKYNET_Box MinimizeBox;
         private SKYNET_Box CloseBox;
+        private System.Windows.Forms.ToolStripMenuItem systemMessageMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem NetworkTableMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ActiveConnectionsMenuItem;
     }
 }

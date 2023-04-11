@@ -135,7 +135,7 @@ namespace SKYNET
             }
         }
 
-        private void _scanner_OnAliveHostFound(IPScanner scanner, IPScanHostState host)
+        private async void _scanner_OnAliveHostFound(IPScanner scanner, IPScanHostState host)
         {
             if (base.InvokeRequired)
             {
@@ -161,7 +161,7 @@ namespace SKYNET
                     listViewItem.SubItems[2].Text = host.AvgResponseTime.ToString("F02") + " ms";
                     listViewItem.SubItems[3].Text = ((float)host.LossCount / (float)host.PingsCount).ToString("P");
                     listViewItem.SubItems[4].Text = host.HostName;
-                    listViewItem.SubItems[5].Text = NetHelper.GetMACAddress(host.RemoteAddress);
+                    listViewItem.SubItems[5].Text = await NetHelper.GetMACAddress(host.RemoteAddress);
                 }
                 Timer timer = new Timer();
                 timer.Tag = listViewItem;

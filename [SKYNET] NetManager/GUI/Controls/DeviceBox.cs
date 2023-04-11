@@ -120,13 +120,8 @@ namespace SKYNET
             OnInfoUpdated?.Invoke(null, null);
         }
 
-        private void PingHelper_OnPingSuccess(object sender, long RoundtripTime)
+        private async void PingHelper_OnPingSuccess(object sender, long RoundtripTime)
         {
-            if (string.IsNullOrEmpty(MAC))
-            {
-                MAC = NetHelper.GetMACAddress(Device.IPAddress.ToIPAddress());
-            }
-
             Ping = RoundtripTime + " ms";
             Status = ConnectionStatus.Online;
 
@@ -146,12 +141,18 @@ namespace SKYNET
                     alerta.ShowDialog();
                 }).Start();
             }
+
             OnInfoUpdated?.Invoke(null, null);
 
             if (!_AvatarRequested)
             {
-                RequestAvatar();
+                await RequestAvatar();
                 _AvatarRequested = true;
+            }
+
+            if (string.IsNullOrEmpty(MAC))
+            {
+                MAC = await NetHelper.GetMACAddress(Device.IPAddress.ToIPAddress());
             }
         }
 

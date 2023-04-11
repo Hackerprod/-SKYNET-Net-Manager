@@ -33,16 +33,14 @@ namespace SKYNET
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMessage));
             this.ok = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btn_Accept = new SKYNET_Button();
-            this.btn_Cancel = new SKYNET_Button();
+            this.btn_Accept = new SKYNET.SKYNET_Button();
+            this.btn_Cancel = new SKYNET.SKYNET_Button();
             this.panel15 = new System.Windows.Forms.Panel();
             this.txtMessage = new System.Windows.Forms.TextBox();
             this._Cancel = new System.Windows.Forms.Button();
             this.PN_Top = new System.Windows.Forms.Panel();
-            this.Header = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel15.SuspendLayout();
-            this.PN_Top.SuspendLayout();
             this.SuspendLayout();
             // 
             // ok
@@ -76,17 +74,17 @@ namespace SKYNET
             this.btn_Accept.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btn_Accept.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btn_Accept.ForeColorMouseOver = System.Drawing.Color.Empty;
-            this.btn_Accept.ImageAlignment = SKYNET_Button._ImgAlign.Left;
+            this.btn_Accept.ImageAlignment = SKYNET.SKYNET_Button._ImgAlign.Left;
             this.btn_Accept.ImageIcon = null;
             this.btn_Accept.Location = new System.Drawing.Point(273, 152);
             this.btn_Accept.MenuMode = false;
             this.btn_Accept.Name = "btn_Accept";
             this.btn_Accept.Rounded = false;
             this.btn_Accept.Size = new System.Drawing.Size(93, 29);
-            this.btn_Accept.Style = SKYNET_Button._Style.TextOnly;
+            this.btn_Accept.Style = SKYNET.SKYNET_Button._Style.TextOnly;
             this.btn_Accept.TabIndex = 27;
             this.btn_Accept.Text = "Aceptar";
-            this.btn_Accept.Click += new System.EventHandler(this.acepctBtn_Click);
+            this.btn_Accept.Click += new System.EventHandler(this.OkBtn_Click);
             // 
             // btn_Cancel
             // 
@@ -96,14 +94,14 @@ namespace SKYNET
             this.btn_Cancel.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btn_Cancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btn_Cancel.ForeColorMouseOver = System.Drawing.Color.Empty;
-            this.btn_Cancel.ImageAlignment = SKYNET_Button._ImgAlign.Left;
+            this.btn_Cancel.ImageAlignment = SKYNET.SKYNET_Button._ImgAlign.Left;
             this.btn_Cancel.ImageIcon = null;
             this.btn_Cancel.Location = new System.Drawing.Point(372, 152);
             this.btn_Cancel.MenuMode = false;
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Rounded = false;
             this.btn_Cancel.Size = new System.Drawing.Size(93, 29);
-            this.btn_Cancel.Style = SKYNET_Button._Style.TextOnly;
+            this.btn_Cancel.Style = SKYNET.SKYNET_Button._Style.TextOnly;
             this.btn_Cancel.TabIndex = 26;
             this.btn_Cancel.Text = "Cancelar";
             this.btn_Cancel.Click += new System.EventHandler(this.cancelBtn_Click);
@@ -148,23 +146,12 @@ namespace SKYNET
             // PN_Top
             // 
             this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.PN_Top.Controls.Add(this.Header);
             this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
             this.PN_Top.ForeColor = System.Drawing.Color.White;
             this.PN_Top.Location = new System.Drawing.Point(0, 0);
             this.PN_Top.Name = "PN_Top";
             this.PN_Top.Size = new System.Drawing.Size(477, 26);
             this.PN_Top.TabIndex = 24;
-            // 
-            // Header
-            // 
-            this.Header.AutoSize = true;
-            this.Header.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.Header.Location = new System.Drawing.Point(9, 4);
-            this.Header.Name = "Header";
-            this.Header.Size = new System.Drawing.Size(52, 16);
-            this.Header.TabIndex = 0;
-            this.Header.Text = "Mensaje";
             // 
             // frmMessage
             // 
@@ -185,8 +172,6 @@ namespace SKYNET
             this.panel1.ResumeLayout(false);
             this.panel15.ResumeLayout(false);
             this.panel15.PerformLayout();
-            this.PN_Top.ResumeLayout(false);
-            this.PN_Top.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -199,7 +184,6 @@ namespace SKYNET
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Button _Cancel;
         private System.Windows.Forms.Panel PN_Top;
-        private System.Windows.Forms.Label Header;
         private System.Windows.Forms.TextBox txtMessage;
     }
 }

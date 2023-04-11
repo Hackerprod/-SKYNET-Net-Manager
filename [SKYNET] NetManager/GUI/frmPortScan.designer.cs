@@ -31,6 +31,7 @@ namespace SKYNET
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPortScan));
             this.PN_Top = new System.Windows.Forms.Panel();
+            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -50,7 +51,6 @@ namespace SKYNET
             this.Info = new System.Windows.Forms.Label();
             this.PortWorker = new System.ComponentModel.BackgroundWorker();
             this.progressBarCheck = new SKYNET.Controls.SKYNET_ProgressBar();
-            this.CloseBox = new SKYNET.Controls.SKYNET_Box();
             this.PN_Top.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -69,6 +69,24 @@ namespace SKYNET
             this.PN_Top.Size = new System.Drawing.Size(616, 26);
             this.PN_Top.TabIndex = 5;
             // 
+            // CloseBox
+            // 
+            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
+            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
+            this.CloseBox.ImageSize = 10;
+            this.CloseBox.Location = new System.Drawing.Point(582, 0);
+            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.MenuMode = false;
+            this.CloseBox.MenuSeparation = 8;
+            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
+            this.CloseBox.Name = "CloseBox";
+            this.CloseBox.Size = new System.Drawing.Size(34, 26);
+            this.CloseBox.TabIndex = 8;
+            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -77,20 +95,20 @@ namespace SKYNET
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(9, 4);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(281, 16);
+            this.label3.Size = new System.Drawing.Size(225, 16);
             this.label3.TabIndex = 7;
-            this.label3.Text = "Detectar puertos abiertos en el Host remoto";
+            this.label3.Text = "Detectopened ports in remote host";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(161, 4);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(119, 16);
+            this.label4.Size = new System.Drawing.Size(85, 16);
             this.label4.TabIndex = 0;
-            this.label4.Text = "Puerto de inicio [1 - ]";
+            this.label4.Text = "Start port [1 - ]";
             // 
             // panel3
             // 
@@ -116,6 +134,7 @@ namespace SKYNET
             this.timeOut.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.timeOut.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.timeOut.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.timeOut.ForeColor = System.Drawing.Color.White;
             this.timeOut.IsPassword = false;
             this.timeOut.Location = new System.Drawing.Point(410, 23);
             this.timeOut.Logo = null;
@@ -132,18 +151,19 @@ namespace SKYNET
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(407, 4);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(102, 16);
+            this.label7.Size = new System.Drawing.Size(133, 16);
             this.label7.TabIndex = 263;
-            this.label7.Text = "Tiempo de espera";
+            this.label7.Text = "Time out (Milliseconds)";
             // 
             // RemoteHost
             // 
             this.RemoteHost.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.RemoteHost.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.RemoteHost.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.RemoteHost.ForeColor = System.Drawing.Color.White;
             this.RemoteHost.IsPassword = false;
             this.RemoteHost.Location = new System.Drawing.Point(12, 23);
             this.RemoteHost.Logo = null;
@@ -160,12 +180,12 @@ namespace SKYNET
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(9, 4);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(75, 16);
+            this.label6.Size = new System.Drawing.Size(77, 16);
             this.label6.TabIndex = 261;
-            this.label6.Text = "Host remoto";
+            this.label6.Text = "Remote Host";
             // 
             // launchBtn
             // 
@@ -173,7 +193,7 @@ namespace SKYNET
             this.launchBtn.BackColorMouseOver = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(62)))), ((int)(((byte)(63)))));
             this.launchBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.launchBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.launchBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.launchBtn.ForeColor = System.Drawing.Color.White;
             this.launchBtn.ForeColorMouseOver = System.Drawing.Color.Empty;
             this.launchBtn.ImageAlignment = SKYNET.SKYNET_Button._ImgAlign.Left;
             this.launchBtn.ImageIcon = null;
@@ -184,7 +204,7 @@ namespace SKYNET
             this.launchBtn.Size = new System.Drawing.Size(93, 29);
             this.launchBtn.Style = SKYNET.SKYNET_Button._Style.TextOnly;
             this.launchBtn.TabIndex = 21;
-            this.launchBtn.Text = "Buscar";
+            this.launchBtn.Text = "Search";
             this.launchBtn.Click += new System.EventHandler(this.LaunchBtn_Click);
             // 
             // FBox
@@ -192,6 +212,7 @@ namespace SKYNET
             this.FBox.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.FBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.FBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.FBox.ForeColor = System.Drawing.Color.White;
             this.FBox.IsPassword = false;
             this.FBox.Location = new System.Drawing.Point(286, 23);
             this.FBox.Logo = null;
@@ -208,18 +229,19 @@ namespace SKYNET
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(283, 4);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(121, 16);
+            this.label1.Size = new System.Drawing.Size(105, 16);
             this.label1.TabIndex = 259;
-            this.label1.Text = "Puerto final [ - 65535]";
+            this.label1.Text = "End Port [ - 65535]";
             // 
             // SBox
             // 
             this.SBox.ActivatedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.SBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
             this.SBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(61)))), ((int)(((byte)(75)))));
+            this.SBox.ForeColor = System.Drawing.Color.White;
             this.SBox.IsPassword = false;
             this.SBox.Location = new System.Drawing.Point(164, 23);
             this.SBox.Logo = null;
@@ -275,23 +297,23 @@ namespace SKYNET
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(61, 1);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(70, 16);
+            this.label5.Size = new System.Drawing.Size(68, 16);
             this.label5.TabIndex = 2;
-            this.label5.Text = "Descripción";
+            this.label5.Text = "Descriptión";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI Emoji", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(3, 1);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(43, 16);
+            this.label2.Size = new System.Drawing.Size(30, 16);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Puerto";
+            this.label2.Text = "Port";
             // 
             // Info
             // 
@@ -326,23 +348,6 @@ namespace SKYNET
             this.progressBarCheck.Value = 0;
             this.progressBarCheck.ValueAlignment = SKYNET.Controls.SKYNET_ProgressBar.Alignment.Right;
             this.progressBarCheck.Visible = false;
-            // 
-            // CloseBox
-            // 
-            this.CloseBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.CloseBox.Color = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.CloseBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CloseBox.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(64)))), ((int)(((byte)(78)))));
-            this.CloseBox.Image = global::SKYNET.Properties.Resources.close;
-            this.CloseBox.Location = new System.Drawing.Point(582, 0);
-            this.CloseBox.MaximumSize = new System.Drawing.Size(34, 26);
-            this.CloseBox.MenuMode = false;
-            this.CloseBox.MenuSeparation = 8;
-            this.CloseBox.MinimumSize = new System.Drawing.Size(34, 26);
-            this.CloseBox.Name = "CloseBox";
-            this.CloseBox.Size = new System.Drawing.Size(34, 26);
-            this.CloseBox.TabIndex = 8;
-            this.CloseBox.BoxClicked += new System.EventHandler(this.CloseBox_BoxClicked);
             // 
             // frmPortScan
             // 

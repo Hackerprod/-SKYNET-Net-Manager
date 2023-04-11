@@ -10,6 +10,7 @@ namespace SKYNET
     {
         public TypeMessage typeMessage;
         private IPAddress IPAddress;
+
         public frmMessage(string message, TypeMessage type, string header = "", IPAddress ipaddress = null)
         {
             InitializeComponent();
@@ -42,11 +43,12 @@ namespace SKYNET
                     txtMessage.MouseClick += new MouseEventHandler(this.TxtMessage_MouseClick);
                     break;
             }
+
             txtMessage.Text = message;
-            if (!string.IsNullOrEmpty(header))
-            {
-                Header.Text = header;
-            }
+            //if (!string.IsNullOrEmpty(header))
+            //{
+            //    Header.Text = header;
+            //}
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)
@@ -55,7 +57,7 @@ namespace SKYNET
             Close();
         }
 
-        private void acepctBtn_Click(object sender, EventArgs e)
+        private void OkBtn_Click(object sender, EventArgs e)
         {
             if (typeMessage == TypeMessage.UserMessage)
             {
@@ -81,6 +83,7 @@ namespace SKYNET
             YesNo,
             UserMessage
         }
+
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
@@ -94,6 +97,7 @@ namespace SKYNET
             DwmApi.MARGINS marInset = mARGINS;
             DwmApi.DwmExtendFrameIntoClientArea(base.Handle, ref marInset);
         }
+
         private void TxtMessage_KeyDown(object sender, KeyEventArgs e)
         {
             e.SuppressKeyPress = true;

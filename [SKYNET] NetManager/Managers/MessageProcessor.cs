@@ -42,7 +42,22 @@ namespace SKYNET
                         e.Response.Close();
 
                         string JSON = Encoding.Default.GetString(body);
-                        var Message = new JavaScriptSerializer().Deserialize<ChatMessage>(JSON);
+
+                        ChatMessage Message = null;
+
+                        try
+                        {
+                            Message = new JavaScriptSerializer().Deserialize<ChatMessage>(JSON);
+                        }
+                        catch 
+                        {
+                            Message = new ChatMessage()
+                            {
+                                Message = JSON,
+                                Sender = RemoteEndPoint.Address.ToString()
+                            };
+                        }
+
                         Message.Address = RemoteEndPoint.Address.ToString();
 
                         OnMessageReceived?.Invoke(this, new MessageReceived()

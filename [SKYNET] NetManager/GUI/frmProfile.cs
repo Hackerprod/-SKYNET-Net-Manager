@@ -16,17 +16,18 @@ namespace SKYNET
         {
             InitializeComponent();
             base.SetMouseMove(PN_Top);
-            CheckForIllegalCrossThreadCalls = false;  
+            CheckForIllegalCrossThreadCalls = false;
 
-            if (!Directory.Exists(Path.Combine(Common.GetPath(), "Data")))
-                Directory.CreateDirectory(Path.Combine(Common.GetPath(), "Data"));
+            string DataPath = Path.Combine(Common.GetPath(), "Data");
+            Common.EnsureDirectoryExists(DataPath);
 
-            string[] files = Directory.GetFiles(Path.Combine(Common.GetPath(), "Data", "*.json"));
+            string[] files = Directory.GetFiles(DataPath, "*.json");
 
             foreach (var item in files)
             {
                 profileBox.Items.Add(Path.GetFileNameWithoutExtension(item));
             }
+
             SelectIndex(Settings.CurrentSection);
         }
 

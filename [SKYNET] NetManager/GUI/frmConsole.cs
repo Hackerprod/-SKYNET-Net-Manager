@@ -16,10 +16,6 @@ namespace SKYNET
         public DeviceBox BOXmenu;
         string Command;
 
-        public frmConsole(string command)
-        {
-
-        }
         public frmConsole(DeviceBox menuBOX, bool constante = false)
         {
             InitializeComponent();

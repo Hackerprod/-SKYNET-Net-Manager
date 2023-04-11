@@ -1,4 +1,5 @@
 ﻿
+using MsgUI;
 using SKYNET.Controls;
 using SKYNET.Helpers;
 using System;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SKYNET
@@ -57,7 +59,7 @@ namespace SKYNET
 
         private void RemoveDeviceMenuItem_Click(object sender, EventArgs e)
         {
-            frmMessage message = new frmMessage("Estas seguro que deseas eliminar al dispositivo " + menuBOX.Device.Name + "?", frmMessage.TypeMessage.YesNo);
+            frmMessage message = new frmMessage("Are you sure you want to delete the device " + menuBOX.Device.Name + "?", frmMessage.TypeMessage.YesNo);
             DialogResult result = message.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -153,6 +155,21 @@ namespace SKYNET
 
             chat.TopMost = true;
             chat.Show();
+        }
+
+        private void SystemMessageMenuItem_Click(object sender, EventArgs e)
+        {
+            new frmSystemMessage(menuBOX).ShowDialog();
+        }
+
+        private void NetworkTableMenuItem_Click(object sender, EventArgs e)
+        {
+            new frmARPTable().ShowDialog();
+        }
+
+        private void ActiveConnectionsMenuItem_Click(object sender, EventArgs e)
+        {
+            new frmConnectionInfo().ShowDialog();
         }
     }
 }

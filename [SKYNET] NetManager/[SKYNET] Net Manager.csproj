@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -66,6 +67,33 @@
     <Compile Include="frmMain.Events.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GUI\frmConnectionInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmConnectionInfo.designer.cs">
+      <DependentUpon>frmConnectionInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmARPTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmARPTable.designer.cs">
+      <DependentUpon>frmARPTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmSystemMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmSystemMessage.designer.cs">
+      <DependentUpon>frmSystemMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\MainForm.designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\Network\ARP.cs" />
+    <Compile Include="Helpers\Network\ARPInfo.cs" />
+    <Compile Include="Helpers\CMDHelper.cs" />
     <Compile Include="Helpers\InternetExplorerBrowserEmulation.cs" />
     <Compile Include="GUI\Controls\SKYNET_WebChat.cs">
       <SubType>UserControl</SubType>
@@ -88,9 +116,11 @@
     <Compile Include="GUI\frmPublicChat.designer.cs">
       <DependentUpon>frmPublicChat.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\IPv4Address.cs" />
     <Compile Include="Helpers\MutexHelper.cs" />
-    <Compile Include="Helpers\NetHelper.cs" />
-    <Compile Include="Helpers\PingHelper.cs" />
+    <Compile Include="Helpers\Network\NetHelper.cs" />
+    <Compile Include="Helpers\Network\PingHelper.cs" />
+    <Compile Include="Helpers\PowerShellHelper.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Types\ConnectionStatus.cs" />
     <Compile Include="Helpers\DwmApi.cs" />
@@ -392,6 +422,9 @@
     <EmbeddedResource Include="GUI\frmAlert.resx">
       <DependentUpon>frmAlert.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmConnectionInfo.resx">
+      <DependentUpon>frmConnectionInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmBase.resx">
       <DependentUpon>frmBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -409,6 +442,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmDeviceManager.resx">
       <DependentUpon>frmDeviceManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmARPTable.resx">
+      <DependentUpon>frmARPTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmSystemMessage.resx">
+      <DependentUpon>frmSystemMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmMessage.resx">
       <DependentUpon>frmMessage.cs</DependentUpon>
@@ -433,6 +472,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmSplashScreen.resx">
       <DependentUpon>frmSplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

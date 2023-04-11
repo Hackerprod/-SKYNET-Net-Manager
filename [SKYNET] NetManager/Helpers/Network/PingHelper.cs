@@ -25,7 +25,7 @@ namespace SKYNET.Helpers
 
         }
 
-        public void Initialize(Device device, DeviceBox box)
+        public async void Initialize(Device device, DeviceBox box)
         {
             if (Initialized)
             {
@@ -42,7 +42,7 @@ namespace SKYNET.Helpers
                 Device = device;
                 DeviceBox = box;
 
-                DoPing(false);
+                await DoPing();
 
                 _timer.AutoReset = false;
                 _timer.Elapsed += _timer_Elapsed;
@@ -58,23 +58,17 @@ namespace SKYNET.Helpers
             await DoPing();
         }
 
-        private async Task DoPing(bool awaitResponse = true)
+        private async Task DoPing()
         {
             if (IPAddress.TryParse(Device.IPAddress, out var Address) /* && modCommon.IsCableConnected()*/ )
             {
-                if (Device.TCP && Device.Port != 80)
+                if (Device.TCP)
                 {
-                    if (awaitResponse)
-                        await RequestConnectionAsync(Address, Device.Port);
-                    else
-                        RequestConnectionAsync(Address, Device.Port);
+                    await RequestConnectionAsync(Address, Device.Port);
                 }
                 else
                 {
-                    if (awaitResponse)
-                        await RequestPingAsync(Address);
-                    else
-                        RequestPingAsync(Address);
+                    await RequestPingAsync(Address);
                 }
             }
             else
@@ -117,20 +111,14 @@ namespace SKYNET.Helpers
             {
                 TcpClient TcpClient = new TcpClient();
 
-
                 DateTime SentDateTime = DateTime.Now;
 
-                if (TcpClient.ConnectAsync(Address, Port).Wait(TimeSpan.FromMilliseconds(900)))
-                {
-                    TimeSpan span = DateTime.Now - SentDateTime;
-                    long RoundtripTime = span.Milliseconds;
-                    OnPingSuccess?.Invoke(null, RoundtripTime);
-                    TcpClient.Close();
-                }
-                else
-                {
-                    OnPingFailed?.Invoke(null, 0);
-                }
+                await TcpClient.ConnectAsync(Address, Port);
+
+                TimeSpan span = DateTime.Now - SentDateTime;
+                long RoundtripTime = span.Milliseconds;
+                OnPingSuccess?.Invoke(null, RoundtripTime);
+                TcpClient.Close();
             }
             catch
             {

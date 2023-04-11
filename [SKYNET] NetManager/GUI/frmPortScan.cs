@@ -33,12 +33,12 @@ namespace SKYNET
 
             if (!portS || !portF)
             {
-                Common.Show("Asegúrace de que los puertos tienen formato correcto.");
+                Common.Show("Make sure the ports are formatted correctly.");
                 return;
             }
             if (PortS <= IPEndPoint.MinPort || PortS > 65534 || PortF > IPEndPoint.MaxPort || PortF < 2)
             {
-                Common.Show("Los puertos a buscar deben encontrarse en el rango de 1 hasta 65535");
+                Common.Show("The ports to search must be in the range of 1 to 65535");
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace SKYNET
                 return;
             }
             txtInfo.Text = "";
-            Info.Text = "Chequeando puertos... por favor espere.";
+            Info.Text = "Checking ports... please wait.";
             progressBarCheck.Visible = true;
 
             PortWorker.RunWorkerAsync();
@@ -901,7 +901,7 @@ namespace SKYNET
         private void PortWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             Cancel = false;
-            launchBtn.Text = "Cancelar";
+            launchBtn.Text = "Cancel";
             launchBtn.Refresh();
 
             try
@@ -958,8 +958,8 @@ namespace SKYNET
         {
             progressBarCheck.Visible = false;
             progressBarCheck.Value = 0;
-            Info.Text = "Listo.";
-            launchBtn.Text = "Buscar";
+            Info.Text = "Finished.";
+            launchBtn.Text = "Search";
         }
 
         protected override void OnActivated(EventArgs e)
