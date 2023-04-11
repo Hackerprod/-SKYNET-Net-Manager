@@ -116,11 +116,10 @@
     <Compile Include="GUI\frmPublicChat.designer.cs">
       <DependentUpon>frmPublicChat.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\IPv4Address.cs" />
+    <Compile Include="Helpers\Network\IPv4Address.cs" />
     <Compile Include="Helpers\MutexHelper.cs" />
     <Compile Include="Helpers\Network\NetHelper.cs" />
     <Compile Include="Helpers\Network\PingHelper.cs" />
-    <Compile Include="Helpers\PowerShellHelper.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Types\ConnectionStatus.cs" />
     <Compile Include="Helpers\DwmApi.cs" />
